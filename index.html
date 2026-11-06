@@ -1,3 +1,11 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<meta name="theme-color" content="#06110e">
+<style>html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Дикий кейс</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -284,6 +292,10 @@ nav .dot{top:4px;right:calc(50% - 18px);width:8px;height:8px}
 @keyframes drop{from{transform:translate(-50%,-12px);opacity:0}}
 .flycoin{position:absolute;z-index:90;width:22px;height:22px;pointer-events:none;animation:flyc .9s cubic-bezier(.5,0,.6,1) forwards}
 @keyframes flyc{to{transform:translate(var(--dx),var(--dy)) scale(.6);opacity:.2}}
+/* compact phones: iPhone SE / mini, short screens */
+@media (max-width:350px){.case .lab b:first-child,.case .lab h3,.case .lab .nm{font-size:16px}.case .lab{padding:10px 12px}.tierleg{grid-template-columns:1fr;gap:5px}.tierleg span{font-size:11px}}
+@media (max-height:700px){.screen{gap:10px}.case{min-height:176px}}
+@media (max-height:600px){.case{min-height:150px}.screen{gap:8px}}
 @media (prefers-reduced-motion:reduce){.rays,.halo,.fly,.sweep,.tw,.walk .p,.walk .p svg,.stage .big,.cta::after,.acard.t5{animation:none}}
 </style>
 
