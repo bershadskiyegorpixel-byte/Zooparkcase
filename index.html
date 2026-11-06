@@ -1945,7 +1945,19 @@ function buy(id){
 }
 var claiming=false;
 function claimBuys(){ if (!apiOn()||claiming) return; claiming=true;
-  api('/api/claim').then(function(d){ claiming=false; var got=(d.items||[]).map(function(x){ return grant(x.item); }).filter(Boolean); if (got.length){ save(true); sCoin(); hap('ok'); render(); info('Покупка начислена','Спасибо! Ты получил: '+got.join(', ')+'.'); } }).catch(function(){ claiming=false; }); }
+  api('/api/claim').then(function(d){ claiming=false; var got=[], gifts=[], notes=[];
+    (d.items||[]).forEach(function(x){ if (x.item==='gift'){ var t=grantGift(x.data||{}); if (t) gifts.push(t); if (x.note) notes.push(x.note); } else { var g=grant(x.item); if (g) got.push(g); } });
+    if (got.length||gifts.length){ save(true); sCoin(); hap('ok'); render();
+      if (got.length) queue.push({title:'Покупка начислена',text:'Спасибо! Ты получил: '+got.join(', ')+'.'});
+      if (gifts.length) queue.push({title:'🎁 Подарок от создателя',text:(notes.length?'«'+notes.join(' ')+'» ':'')+'Ты получил: '+gifts.join('; ')+'.'});
+      flush(); } }).catch(function(){ claiming=false; }); }
+function grantGift(d){ var t=[];
+  if (+d.coins>0){ S.coins+=+d.coins; t.push(rub(+d.coins)+' монет'); }
+  if (d.tix) Object.keys(d.tix).forEach(function(k){ if (CASES[k]&&+d.tix[k]>0){ addTix(k,+d.tix[k]); t.push(d.tix[k]+' × кейс «'+caseName(k)+'»'); } });
+  if (+d.vip>0){ settle(); S.vipUntil=Math.max(Date.now(),S.vipUntil||0)+(+d.vip)*24*3600e3; t.push('VIP на '+d.vip+' дн.'); }
+  if (+d.spins>0){ S.wheelX=(S.wheelX||0)+(+d.spins); t.push(d.spins+' прокрутки колеса'); }
+  if (d.hat&&HATS[d.hat]){ S.hats=S.hats||{}; S.hats[d.hat]=1; t.push('скин «'+HATS[d.hat].n+'»'); }
+  return t.join(', '); }
 // VIP: бесплатный кейс каждый день
 function vipDaily(){ if (!isVip()) return; var d=new Date().toDateString(); if (S.vipDay===d) return; S.vipDay=d; var k=bestCase(); addTix(k,1); queue.push({title:'👑 VIP-подарок',text:'Бесплатный кейс «'+caseName(k)+'» уже ждёт во вкладке «Кейсы».'}); save(); }
 
@@ -1954,7 +1966,7 @@ function worth(){ return S.inv.reduce(function(s,a){ return s+val(a); },0); }
 function bestA(){ return S.inv.slice().sort(function(a,b){ return val(b)-val(a); })[0]; }
 var lastScore=0, topData=null;
 function pushScore(force){ if (!apiOn()) return; var w=Math.round(worth()); if (!force && Math.abs(w-lastScore)<Math.max(1,lastScore*0.01)) return; lastScore=w; var b=bestA();
-  api('/api/score',{score:w, lvl:S.lvl, best:b?{s:SPECIES[b.s].id,t:b.t,mu:b.mu||''}:null}).catch(function(){}); }
+  api('/api/score',{score:w, lvl:S.lvl, coins:Math.round(S.coins), opened:S.st.opened||0, animals:S.inv.length, best:b?{s:SPECIES[b.s].id,t:b.t,mu:b.mu||''}:null}).catch(function(){}); }
 function loadTop(){ if (!apiOn()){ topData={off:1}; render(); return; } topData=null; api('/api/top').then(function(d){ topData=d; if (ui.view==='top') render(); }).catch(function(){ topData={err:1}; if (ui.view==='top') render(); }); }
 function sid(id){ for (var i=0;i<SPECIES.length;i++) if (SPECIES[i].id===id) return i; return 0; }
 
@@ -2103,7 +2115,7 @@ function start(data){
   var loc=loadLocal(), hadLocal=!!loc;
   if (data&&data.S){ apply(data.S); hadLocal=true; } else apply(loc);
   if (!S.uid){ var t=tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user&&tg.initDataUnsafe.user.id; S.uid=t?String(t):nid(); }
-  var sp=tg&&tg.initDataUnsafe&&tg.initDataUnsafe.start_param;
+  var sp=tg&&tg.initDataUnsafe&&tg.initDataUnsafe.start_param; if (!sp){ try{ sp=new URLSearchParams(location.search).get('ref')||''; }catch(e){} }
   if (sp&&/^ref_/.test(sp)&&!S.refUsed&&sp!=='ref_'+S.uid){ S.refUsed=true; S.coins+=5000; queue.push({title:'Тебя позвал друг',text:'Добро пожаловать в зоопарк! Держи 5 000 монет на старт.'}); }
   if (S.savedAt) sickRoll(Math.min(Date.now()-S.savedAt, 12*3600e3));
   vipDaily(); render(); flush();
