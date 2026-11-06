@@ -370,6 +370,13 @@ svg.neon{filter:drop-shadow(0 0 6px rgba(57,255,176,.55))}
 .toprow .sc{font-weight:800;color:var(--coin);font-size:13px}
 .lineok{border-color:rgba(125,255,106,.4)!important}
 #coinNum{white-space:nowrap}
+.giftb{position:relative;font-size:17px;animation:giftw 2.4s ease-in-out infinite}
+.giftb i{position:absolute;top:-4px;right:-4px;min-width:17px;height:17px;border-radius:9px;background:#ff4f7a;color:#fff;font:800 10px/17px var(--f-body);font-style:normal;text-align:center;padding:0 4px}
+@keyframes giftw{0%,80%,100%{transform:rotate(0)}85%{transform:rotate(-12deg)}90%{transform:rotate(10deg)}95%{transform:rotate(-6deg)}}
+.gifts{display:flex;flex-direction:column;gap:8px}
+.giftc{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:10px;align-items:center;padding:12px;border-radius:18px;background:linear-gradient(135deg,rgba(255,95,138,.16),rgba(255,200,61,.08));border:1px solid rgba(255,140,170,.35)}
+.giftc .gi{font-size:28px;width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:rgba(0,0,0,.25)}
+.giftc b{font-size:13.5px;font-weight:800;display:block}.giftc small{display:block;font-size:11px;color:var(--muted);margin-top:2px}.giftc .gn{color:#ffd0dc;font-style:italic}
 .tgts{display:grid;grid-template-columns:repeat(auto-fit,minmax(78px,1fr));gap:6px;margin-bottom:12px}
 .tgt{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border-radius:14px;border:1px solid color-mix(in srgb,var(--tc) 40%,transparent);background:rgba(0,0,0,.22);color:var(--fg);font:inherit}
 .tgt i{width:12px;height:12px;border-radius:50%;background:var(--tc);box-shadow:0 0 8px var(--tc)}
@@ -1419,7 +1426,7 @@ function sClick(){ tone(900,0.04,'sine',0.04); }
 /* ---------- state ---------- */
 function fresh(){ return {coins:10000, xp:0, lvl:1, cs:'farm', n:1, fast:false, sound:true, inv:[], slots:3, pend:0, incAt:Date.now(),
   album:{}, st:{opened:0, upOk:0, upFail:0, sold:0, earned:0, tMax:0, golds:0, placed:0}, claimed:{}, giftAt:0, giftDay:0, uid:'', refUsed:false, filt:-1, sel:null, upMode:'one', ctier:0, csel:[],
-  ver:2, tix:{}, wheelAt:0, wheelX:0, hats:{}, vipUntil:0, vipDay:'', starter:false, savedAt:0}; }
+  ver:2, giftLog:[], tix:{}, wheelAt:0, wheelX:0, hats:{}, vipUntil:0, vipDay:'', starter:false, savedAt:0}; }
 var S=fresh(), ui={tab:'cases', view:'', busy:false, modal:false, press:false};
 var $=function(id){return document.getElementById(id);};
 function rub(n){ n=Math.round(n); return n.toLocaleString('ru-RU').replace(/[ ,]/g,' '); }
@@ -1476,11 +1483,11 @@ var ICON={
   more:'<svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>'
 };
 var TABS=[['cases','Кейсы'],['bag','Сумка'],['up','Апгрейд'],['zoo','Зоопарк'],['more','Ещё']];
-function badge(t){ if (t==='zoo') return pending()>=Math.max(500,rate()*10)||expA().some(function(a){return a.expEnd<=Date.now();})||zooA().some(function(a){return a.sick;}); if (t==='more') return giftReady()||wheelReady()||TASKS.some(function(x){return !S.claimed[x.id]&&x.val()>=x.goal;}); return false; }
+function badge(t){ if (t==='more'&&ui.gifts&&ui.gifts.length) return true; if (t==='zoo') return pending()>=Math.max(500,rate()*10)||expA().some(function(a){return a.expEnd<=Date.now();})||zooA().some(function(a){return a.sick;}); if (t==='more') return giftReady()||wheelReady()||TASKS.some(function(x){return !S.claimed[x.id]&&x.val()>=x.goal;}); return false; }
 function renderTop(){
   var p=Math.min(100,S.xp/xpNeed(S.lvl)*100);
   $('top').innerHTML='<div class="lvl"><span class="badge" style="--p:'+p+'%"><span>'+S.lvl+'</span></span><small>уровень</small></div>'+
-    '<button class="iconbtn" data-act="sound" aria-label="'+(S.sound?'Выключить звук':'Включить звук')+'" aria-pressed="'+S.sound+'">'+(S.sound?'<svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 9a4 4 0 010 6M18.5 6.5a8 8 0 010 11"/></svg>':'<svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9l5 6M22 9l-5 6"/></svg>')+'</button>'+
+    '<button class="iconbtn" data-act="sound" aria-label="'+(S.sound?'Выключить звук':'Включить звук')+'" aria-pressed="'+S.sound+'">'+(S.sound?'<svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 9a4 4 0 010 6M18.5 6.5a8 8 0 010 11"/></svg>':'<svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9l5 6M22 9l-5 6"/></svg>')+'</button>'+(ui.gifts&&ui.gifts.length?'<button class="iconbtn giftb" data-view-go="gifts" aria-label="Подарки">🎁<i>'+ui.gifts.length+'</i></button>':'')+
     '<div class="coins"><span class="coin">₽</span><b class="num" id="coinNum">'+(S.coins>=1e7?short(S.coins):rub(S.coins))+'</b></div>';
   $('nav').innerHTML=TABS.map(function(t){ return '<button role="tab" data-tab="'+t[0]+'" aria-selected="'+(ui.tab===t[0])+'">'+(badge(t[0])?'<span class="dot"></span>':'')+ICON[t[0]]+t[1]+'</button>'; }).join('');
 }
@@ -1951,6 +1958,23 @@ function claimBuys(){ if (!apiOn()||claiming) return; claiming=true;
       if (got.length) queue.push({title:'Покупка начислена',text:'Спасибо! Ты получил: '+got.join(', ')+'.'});
       if (gifts.length) queue.push({title:'🎁 Подарок от создателя',text:(notes.length?'«'+notes.join(' ')+'» ':'')+'Ты получил: '+gifts.join('; ')+'.'});
       flush(); } }).catch(function(){ claiming=false; }); }
+// ящик подарков: подарки от создателя ждут, пока игрок их заберёт
+ui.gifts=[]; var giftsSeen=0;
+function loadGifts(){ if (!apiOn()) return; api('/api/gifts').then(function(d){ ui.gifts=d.gifts||[];
+  if (ui.gifts.length>giftsSeen && !ui.busy){ toast('🎁 Тебе подарок! Загляни в «Подарки»'); hap('ok'); }
+  giftsSeen=ui.gifts.length; if (!ui.busy&&!ui.modal) render(); else renderTop(); }).catch(function(){}); }
+function takeGift(id, quiet){ return api('/api/gift_take',{id:id}).then(function(d){
+    ui.gifts=ui.gifts.filter(function(g){ return g.id!==id; }); giftsSeen=ui.gifts.length;
+    if (!d.ok){ return ''; }
+    var t=grantGift(d.data||{}); S.giftLog=S.giftLog||[]; S.giftLog.unshift({t:Date.now(), x:t, n:d.note||''}); S.giftLog=S.giftLog.slice(0,60);
+    S.st.gifts=(S.st.gifts||0)+1; save(true); return t; }); }
+function takeGiftUI(id){ if (ui.busy) return; ui.busy=true; takeGift(id).then(function(t){ ui.busy=false; render(); if (t){ sWin(3); flyCoins(); info('🎁 Подарок получен!','Ты получил: '+t+'.'); } else toast('Этот подарок уже забран'); }).catch(function(){ ui.busy=false; toast('Сервер не ответил, попробуй ещё раз'); }); }
+function takeAllUI(){ if (ui.busy||!ui.gifts.length) return; ui.busy=true; var ids=ui.gifts.map(function(g){return g.id;}), got=[];
+  (function next(){ if (!ids.length){ ui.busy=false; render(); if (got.length){ sWin(4); flyCoins(); info('🎁 Все подарки получены!','Ты получил: '+got.join('; ')+'.'); } return; }
+    takeGift(ids.shift()).then(function(t){ if (t) got.push(t); next(); }).catch(function(){ ui.busy=false; render(); toast('Сервер не ответил, попробуй ещё раз'); }); })(); }
+function giftIcon(d){ return d.vip?'👑':d.hat?'🎩':d.tix&&d.tix.myth?'🦄':d.tix&&d.tix.elite?'⭐':d.tix?'🎟':d.spins?'🎡':'💰'; }
+function giftDesc(d){ var t=[]; if (+d.coins>0) t.push(rub(+d.coins)+' монет'); if (d.tix) Object.keys(d.tix).forEach(function(k){ if (CASES[k]) t.push(d.tix[k]+' × «'+caseName(k)+'»'); }); if (+d.vip>0) t.push('VIP '+d.vip+' дн.'); if (+d.spins>0) t.push(d.spins+' прокрутки колеса'); if (d.hat&&HATS[d.hat]) t.push('скин «'+HATS[d.hat].n+'»'); return t.join(', '); }
+function dateRu(t){ try{ return new Date(t).toLocaleDateString('ru-RU',{day:'numeric',month:'long'}); }catch(e){ return ''; } }
 function grantGift(d){ var t=[];
   if (+d.coins>0){ S.coins+=+d.coins; t.push(rub(+d.coins)+' монет'); }
   if (d.tix) Object.keys(d.tix).forEach(function(k){ if (CASES[k]&&+d.tix[k]>0){ addTix(k,+d.tix[k]); t.push(d.tix[k]+' × кейс «'+caseName(k)+'»'); } });
@@ -1990,6 +2014,12 @@ function renderMore(){
     return back+'<div class="glass pad" style="text-align:center"><h2>Колесо Палыча</h2><p class="sub" style="margin:6px 0 12px">Смотритель Палыч разрешает крутить колесо раз в сутки бесплатно. Джекпот — Мифический кейс 🦄</p>'+wheelSVG()+
       '<div style="height:12px"></div><button class="cta gold" data-act="spin"'+(rd?'':' disabled')+'>'+(rd?(Date.now()-(S.wheelAt||0)<WHEEL_CD?'Крутить · осталось '+S.wheelX:'Крутить бесплатно'):'Через '+hm(WHEEL_CD-(Date.now()-(S.wheelAt||0))))+'</button>'+
       '<button class="btn" data-act="buy" data-id="spin3" style="margin-top:10px">Ещё 3 прокрутки · ⭐ 30</button></div>'; }
+  if (v==='gifts'){ var G=ui.gifts||[], L=S.giftLog||[];
+    return back+'<div class="glass pad"><div class="between"><h2>🎁 Подарки</h2>'+(G.length>1?'<button class="btn lime" data-act="giftAll">Забрать всё</button>':'')+'</div><p class="sub" style="margin-top:6px">Здесь появляются подарки от создателя ZooPark: монеты, кейсы, VIP и скины. Подарки для всех игроков ждут 7 дней.</p></div>'+
+      (!apiOn()?'<div class="glass pad"><p class="sub">Подарки появятся, когда игра подключена к серверу.</p></div>':
+      G.length?'<div class="gifts">'+G.map(function(g){ return '<div class="giftc"><span class="gi">'+giftIcon(g.data)+'</span><div><b>'+esc(giftDesc(g.data))+'</b>'+(g.note?'<small class="gn">«'+esc(g.note)+'»</small>':'')+'<small>'+(g.all?'Для всех игроков · до '+dateRu(g.until):'Лично тебе · '+dateRu(g.created))+'</small></div><button class="btn lime" data-act="giftTake" data-id="'+g.id+'">Забрать</button></div>'; }).join('')+'</div>'
+        :'<div class="glass pad" style="text-align:center"><div style="font-size:42px">📭</div><p class="sub">Новых подарков пока нет. Загляни позже: создатель любит радовать игроков.</p></div>')+
+      (L.length?'<div class="glass pad"><h3>Полученные</h3><div style="height:6px"></div>'+L.map(function(x){ return '<div class="between" style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);gap:10px"><span style="min-width:0">'+esc(x.x)+(x.n?'<br><small class="sub">«'+esc(x.n)+'»</small>':'')+'</span><small class="sub" style="flex:none">'+dateRu(x.t)+'</small></div>'; }).join('')+'</div>':''); }
   if (v==='shop'){ var off=!apiOn();
     return back+'<div class="glass pad"><h2>Магазин</h2><p class="sub" style="margin-top:6px">Оплата звёздами Telegram ⭐. '+(off?'<b style="color:var(--coin)">Скоро откроется</b>: покупки заработают, когда к игре подключат сервер.':'Покупка приходит сразу после оплаты.')+'</p>'+(isVip()?'<p class="sub" style="margin-top:6px;color:var(--coin)">👑 VIP активен ещё '+hm(S.vipUntil-Date.now())+'</p>':'')+'</div>'+
       '<div class="shop">'+SHOP.filter(function(x){ return !(x.once&&S.starter); }).map(function(x){ var own=x.hat&&S.hats&&S.hats[x.hat];
@@ -2003,6 +2033,7 @@ function renderMore(){
     ['gift','Смотритель', giftReady()?'Подарок ждёт!':'через '+hm(GIFT_CD-(Date.now()-S.giftAt)), 'linear-gradient(180deg,#ffe98a,#ffb52e)', giftReady(),'★'],
     ['tasks','Задания', TASKS.filter(function(t){return S.claimed[t.id];}).length+' из '+TASKS.length, 'linear-gradient(180deg,#b8ff7a,#3fd58a)', TASKS.some(function(x){return !S.claimed[x.id]&&x.val()>=x.goal;}),'✓'],
     ['album','Альбом', albumCount()+' из '+albumTotal()+' · линеек '+lines(), 'linear-gradient(180deg,#c9a6ff,#8a4dff)', false,'❖'],
+    ['gifts','Подарки', (ui.gifts&&ui.gifts.length)?'Ждут: '+ui.gifts.length:'Подарки от создателя', 'linear-gradient(180deg,#ffb3c8,#ff5f8a)', !!(ui.gifts&&ui.gifts.length),'🎁'],
     ['shop','Магазин', isVip()?'👑 VIP активен':'Звёзды, VIP, скины', 'linear-gradient(180deg,#9ff0ff,#2fb4ff)', false,'⭐'],
     ['top','Топ игроков','Чей зоопарк дороже','linear-gradient(180deg,#ffd0a0,#ff6a3d)', false,'🏆'],
     ['friends','Друзья','Позови и получи бонус','linear-gradient(180deg,#9fd8ff,#4c7dff)', false,'+'],
@@ -2040,6 +2071,7 @@ document.addEventListener('click',function(e){
   if (ui.modal && !inSheet && !inRev) return;
   if (ui.busy && !inRev) return;
   if (d.tab){ ui.tab=d.tab; ui.view=''; hap('light'); sClick(); render(); $('screen').scrollTop=0; return; }
+  if (el.hasAttribute('data-view-go')){ ui.tab='more'; ui.view=d.viewGo; hap('light'); render(); $('screen').scrollTop=0; return; }
   if (el.hasAttribute('data-view')){ ui.view=d.view; if (d.view==='top') loadTop(); hap('light'); render(); $('screen').scrollTop=0; return; }
   if (d.case){ S.cs=d.case; hap('light'); sClick(); render(); el=document.querySelector('[data-case="'+d.case+'"]'); if (el&&el.scrollIntoView) el.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'}); return; }
   if (d.n){ S.n=+d.n; hap('light'); render(); return; }
@@ -2097,6 +2129,8 @@ document.addEventListener('click',function(e){
     case 'hatOff': var hb=find(id); if (hb) delete hb.hat; return after();
     case 'buy': if (inSheet){ var m4=document.querySelector('.modal'); if (m4) m4.remove(); ui.modal=false; render(); } buy(id); return;
     case 'spin': spinWheel(); return;
+    case 'giftTake': takeGiftUI(+id); return;
+    case 'giftAll': takeAllUI(); return;
     case 'resetYes': var u=S.uid; S=fresh(); S.uid=u; S.refUsed=true; ui.tab='cases'; ui.view=''; save(); closeSheet(); return;
   }
 });
@@ -2119,10 +2153,10 @@ function start(data){
   if (sp&&/^ref_/.test(sp)&&!S.refUsed&&sp!=='ref_'+S.uid){ S.refUsed=true; S.coins+=5000; queue.push({title:'Тебя позвал друг',text:'Добро пожаловать в зоопарк! Держи 5 000 монет на старт.'}); }
   if (S.savedAt) sickRoll(Math.min(Date.now()-S.savedAt, 12*3600e3));
   vipDaily(); render(); flush();
-  cloudLoad(hadLocal, function(ok){ if (ok){ vipDaily(); render(); toast('Прогресс загружен из облака'); } save(true); claimBuys(); });
-  setInterval(tick,1000); setInterval(save,8000); setInterval(moodTick,1500); setInterval(function(){ sickRoll(60e3); vipDaily(); },60e3);
+  cloudLoad(hadLocal, function(ok){ if (ok){ vipDaily(); render(); toast('Прогресс загружен из облака'); } save(true); claimBuys(); loadGifts(); });
+  setInterval(tick,1000); setInterval(save,8000); setInterval(moodTick,1500); setInterval(function(){ sickRoll(60e3); vipDaily(); },60e3); setInterval(loadGifts,120e3);
   setTimeout(function(){ pushScore(true); },6000); setInterval(function(){ pushScore(false); },300e3);
-  document.addEventListener('visibilitychange',function(){ if (document.hidden) save(true); else { render(); claimBuys(); } });
+  document.addEventListener('visibilitychange',function(){ if (document.hidden) save(true); else { render(); claimBuys(); loadGifts(); } });
   window.addEventListener('pagehide',function(){ save(true); });
 }
 var hot=window.claude&&window.claude.hot;
