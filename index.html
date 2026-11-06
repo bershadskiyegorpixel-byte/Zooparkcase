@@ -6,7 +6,7 @@
 <meta name="format-detection" content="telephone=no">
 <meta name="theme-color" content="#06110e">
 <style>html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>Дикий кейс</title>
+<title>ZooPark</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1402,9 +1402,9 @@ function wpick(ws){ var t=0,i; for(i=0;i<ws.length;i++) t+=ws[i]; var r=Math.ran
 var tg=(window.Telegram&&window.Telegram.WebApp&&window.Telegram.WebApp.initData!==undefined)?window.Telegram.WebApp:null;
 if (tg){ try{ tg.ready(); tg.expand(); tg.setHeaderColor&&tg.setHeaderColor('#0c1f1a'); tg.setBackgroundColor&&tg.setBackgroundColor('#06110e'); tg.disableVerticalSwipes&&tg.disableVerticalSwipes(); }catch(e){} }
 function hap(k){ try{ if (!tg||!tg.HapticFeedback) return; if (k==='ok'||k==='error'||k==='warning') tg.HapticFeedback.notificationOccurred(k); else tg.HapticFeedback.impactOccurred(k||'light'); }catch(e){} }
-var BOT_USERNAME='YOUR_BOT', APP_NAME='play', SAVE_KEY='zoo_v1';
+var BOT_USERNAME='zooparkcase_bot', APP_NAME='play', SAVE_KEY='zoo_v1';
 // адрес сервера (Cloudflare Worker). Пусто — магазин и таблица лидеров показывают «скоро»
-var API_URL='';
+var API_URL='https://zoo-server.bershadskiyegorpixel.workers.dev';
 
 /* ---------- sound (WebAudio, включается после первого касания) ---------- */
 var AC=null;
@@ -2069,9 +2069,9 @@ document.addEventListener('click',function(e){
     case 'buySlot': var c=slotCost(); if (S.coins>=c){ S.coins-=c; S.slots++; sCoin(); hap('ok'); toast('Построен новый вольер'); } return after();
     case 'gift': claimGift(); save(); return;
     case 'claim': claimTask(id); return after();
-    case 'share': var x=find(id); if (x) share('В моём зоопарке живёт '+TIERS[x.t].n.toLowerCase()+' '+SPECIES[x.s].n.toLowerCase()+' за '+rub(val(x))+' монет! А у тебя?'); return;
+    case 'share': var x=find(id); if (x) share('В моём зоопарке живёт '+TIERS[x.t].n.toLowerCase()+' '+SPECIES[x.s].n.toLowerCase()+' за '+rub(val(x))+' монет! А у тебя? 🐾 ZooPark'); return;
     case 'copyRef': copy($('refLink').value,'Ссылка скопирована'); return;
-    case 'shareRef': share('Открываю кейсы с животными и строю свой зоопарк. Залетай, 5 000 монет на старт!'); return;
+    case 'shareRef': share('Играю в ZooPark: открываю кейсы с животными и строю свой зоопарк. Залетай, 5 000 монет на старт!'); return;
     case 'reset': sheet('<h3>Начать заново?</h3><p>Все животные, вольеры и прогресс удалятся без возврата.</p><div class="list"><button class="opt red" data-act="resetYes">Да, стереть всё<span></span></button><button class="opt lime" data-act="close">Отмена<span></span></button></div>'); return;
     case 'pet': petAnimal(el,id); return;
     case 'heal': heal([id]); return after();
