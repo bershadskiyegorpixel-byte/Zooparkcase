@@ -1447,17 +1447,31 @@ function addXp(x){ S.xp+=x; while (S.xp>=xpNeed(S.lvl)){ S.xp-=xpNeed(S.lvl); S.
 function seen(a){ S.album[a.s]=S.album[a.s]||{}; S.album[a.s][a.t]=1; if (a.t>S.st.tMax) S.st.tMax=a.t; if (a.t===5) S.st.golds++; }
 // сохранение: локально + облако Telegram (CloudStorage), разбитое на куски по 3900 символов — прогресс переносится между телефонами
 var cloudReady=false, cloudAt=0, cloudTimer=0, CHUNK=3900;
-function save(force){ S.savedAt=Date.now(); var s=JSON.stringify(S); try{ localStorage.setItem(SAVE_KEY,s); }catch(e){} cloudSave(s,force); }
+// Сохраняем только когда что-то реально изменилось: иначе открытая в фоне игра
+// ставила бы свежую метку времени на старый прогресс и затирала облако с другого устройства.
+var lastBody='';
+function bodyOf(){ var t=S.savedAt; S.savedAt=0; var b=JSON.stringify(S); S.savedAt=t; return b; }
+function save(force){ var b=bodyOf(); if (b===lastBody && !(force&&cloudDirty)) return; if (b!==lastBody){ lastBody=b; S.savedAt=Date.now(); cloudDirty=true; }
+  var s=JSON.stringify(S); try{ localStorage.setItem(SAVE_KEY,s); }catch(e){} cloudSave(s,force); }
+var cloudDirty=false;
+// Подтянуть прогресс, если на другом устройстве сыграли позже (проверяем при возврате в игру и раз в 30 секунд)
+var pulling=false;
+function cloudPull(){ var C=cs(); if (!C||!cloudReady||pulling||ui.busy||ui.modal) return; save(); if (cloudDirty) return; pulling=true;
+  try{ C.getItem('zs_m', function(err,v){ var m=null; try{ m=v?JSON.parse(v):null; }catch(e){}
+    if (!m||!m.n||m.t<=(S.savedAt||0)+1000||ui.busy){ pulling=false; return; }
+    var keys=[]; for (var i=0;i<m.n;i++) keys.push('zs_'+i);
+    C.getItems(keys, function(e2,vals){ pulling=false; if (ui.busy||cloudDirty) return; try{ var d=JSON.parse(keys.map(function(k){ return vals[k]||''; }).join('')); if (d&&d.inv&&d.savedAt===m.t){ apply(d); lastBody=bodyOf(); render(); toast('Прогресс подтянут с другого устройства'); } }catch(e){} });
+  }); }catch(e){ pulling=false; } }
 function cs(){ return tg&&tg.CloudStorage&&tg.isVersionAtLeast&&tg.isVersionAtLeast('6.9')?tg.CloudStorage:null; }
-function cloudSave(s,force){ var C=cs(); if (!C||!cloudReady) return; var now=Date.now();
+function cloudSave(s,force){ var C=cs(); if (!C||!cloudReady||!cloudDirty) return; var now=Date.now();
   if (!force && now-cloudAt<20000){ clearTimeout(cloudTimer); cloudTimer=setTimeout(function(){ cloudSave(JSON.stringify(S),true); }, 20000-(now-cloudAt)); return; }
   cloudAt=now; var n=Math.ceil(s.length/CHUNK), left=n, t=S.savedAt;
-  try{ for (var i=0;i<n;i++) C.setItem('zs_'+i, s.slice(i*CHUNK,(i+1)*CHUNK), function(err){ if (--left===0 && !err) C.setItem('zs_m', JSON.stringify({n:n,t:t,v:2}), function(){}); }); }catch(e){} }
-function cloudLoad(hadLocal, done){ var C=cs(); if (!C){ cloudReady=true; done(false); return; }
+  try{ for (var i=0;i<n;i++) C.setItem('zs_'+i, s.slice(i*CHUNK,(i+1)*CHUNK), function(err){ if (--left===0 && !err) C.setItem('zs_m', JSON.stringify({n:n,t:t,v:2}), function(e4){ if (!e4 && S.savedAt===t) cloudDirty=false; }); }); }catch(e){} }
+function cloudLoad(hadLocal, done, base){ var C=cs(); if (!C){ cloudReady=true; done(false); return; }
   var fin=false, to=setTimeout(function(){ if (!fin){ fin=true; cloudReady=true; done(false); } }, 12000);
   function end(ok){ if (fin) return; fin=true; clearTimeout(to); cloudReady=true; done(ok); }
   try{ C.getItem('zs_m', function(err,v){ var m=null; try{ m=v?JSON.parse(v):null; }catch(e){}
-    if (m&&m.n>0){ if (hadLocal && m.t<=(S.savedAt||0)+1000){ end(false); return; }
+    if (m&&m.n>0){ if (hadLocal && m.t<=(base||0)+1000){ end(false); return; }
       var keys=[]; for (var i=0;i<m.n;i++) keys.push('zs_'+i);
       C.getItems(keys, function(e2,vals){ try{ var str=keys.map(function(k){ return vals[k]||''; }).join(''), d=JSON.parse(str); if (d&&d.inv){ apply(d); end(true); return; } }catch(e){} end(false); });
       return; }
@@ -2148,15 +2162,16 @@ function tick(){
 function start(data){
   var loc=loadLocal(), hadLocal=!!loc;
   if (data&&data.S){ apply(data.S); hadLocal=true; } else apply(loc);
+  var base0=S.savedAt||0; lastBody=bodyOf();
   if (!S.uid){ var t=tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user&&tg.initDataUnsafe.user.id; S.uid=t?String(t):nid(); }
   var sp=tg&&tg.initDataUnsafe&&tg.initDataUnsafe.start_param; if (!sp){ try{ sp=new URLSearchParams(location.search).get('ref')||''; }catch(e){} }
   if (sp&&/^ref_/.test(sp)&&!S.refUsed&&sp!=='ref_'+S.uid){ S.refUsed=true; S.coins+=5000; queue.push({title:'Тебя позвал друг',text:'Добро пожаловать в зоопарк! Держи 5 000 монет на старт.'}); }
   if (S.savedAt) sickRoll(Math.min(Date.now()-S.savedAt, 12*3600e3));
   vipDaily(); render(); flush();
-  cloudLoad(hadLocal, function(ok){ if (ok){ vipDaily(); render(); toast('Прогресс загружен из облака'); } save(true); claimBuys(); loadGifts(); });
-  setInterval(tick,1000); setInterval(save,8000); setInterval(moodTick,1500); setInterval(function(){ sickRoll(60e3); vipDaily(); },60e3); setInterval(loadGifts,120e3);
+  cloudLoad(hadLocal, function(ok){ if (ok){ lastBody=bodyOf(); vipDaily(); render(); toast('Прогресс загружен из облака'); } else { lastBody=''; } save(true); claimBuys(); loadGifts(); }, base0);
+  setInterval(tick,1000); setInterval(save,8000); setInterval(moodTick,1500); setInterval(function(){ sickRoll(60e3); vipDaily(); },60e3); setInterval(loadGifts,120e3); setInterval(function(){ if (!document.hidden) cloudPull(); },30e3);
   setTimeout(function(){ pushScore(true); },6000); setInterval(function(){ pushScore(false); },300e3);
-  document.addEventListener('visibilitychange',function(){ if (document.hidden) save(true); else { render(); claimBuys(); loadGifts(); } });
+  document.addEventListener('visibilitychange',function(){ if (document.hidden) save(true); else { cloudPull(); render(); claimBuys(); loadGifts(); } });
   window.addEventListener('pagehide',function(){ save(true); });
 }
 var hot=window.claude&&window.claude.hot;
