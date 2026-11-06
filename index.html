@@ -370,6 +370,15 @@ svg.neon{filter:drop-shadow(0 0 6px rgba(57,255,176,.55))}
 .toprow .sc{font-weight:800;color:var(--coin);font-size:13px}
 .lineok{border-color:rgba(125,255,106,.4)!important}
 #coinNum{white-space:nowrap}
+.tgts{display:grid;grid-template-columns:repeat(auto-fit,minmax(78px,1fr));gap:6px;margin-bottom:12px}
+.tgt{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border-radius:14px;border:1px solid color-mix(in srgb,var(--tc) 40%,transparent);background:rgba(0,0,0,.22);color:var(--fg);font:inherit}
+.tgt i{width:12px;height:12px;border-radius:50%;background:var(--tc);box-shadow:0 0 8px var(--tc)}
+.tgt b{font-size:10.5px;font-weight:800;color:var(--tc);text-align:center;line-height:1.15}
+.tgt small{font-size:12px;font-weight:800}
+.tgt.on{background:color-mix(in srgb,var(--tc) 22%,rgba(0,0,0,.3));border-color:var(--tc);box-shadow:inset 0 0 0 1px var(--tc)}
+.addc{padding:12px;border-radius:16px;background:rgba(0,0,0,.22);border:1px solid rgba(255,200,61,.25)}
+.addc input[type=range]{width:100%;margin:10px 0 8px;accent-color:#ffc83d;height:28px}
+.addc .qc{gap:6px;flex-wrap:wrap}.addc .qc .btn{flex:1;min-width:0;padding:8px 4px;font-size:12px}
 /* compact phones: iPhone SE / mini, short screens */
 @media (max-width:350px){.lvl small{display:none}.coins b{font-size:15px}.case .lab b:first-child,.case .lab h3,.case .lab .nm{font-size:16px}.case .lab{padding:10px 12px}.tierleg{grid-template-columns:1fr;gap:5px}.tierleg span{font-size:11px}}
 @media (max-height:700px){.screen{gap:10px}.case{min-height:176px}}
@@ -1613,7 +1622,12 @@ function contractOut(five){
 }
 function csel(){ return (S.csel||[]).map(find).filter(function(a){ return a && a.place!=='zoo' && a.place!=='exp' && a.t===S.ctier; }); }
 // Бонусная ⚡-зона: первые 5% зелёной зоны. Попал в неё — цепной апгрейд.
-var BONUS=0.05, CHAIN_P=0.5;
+var BONUS=0.05;
+// Цепной апгрейд: каждый следующий шаг идёт с обычным шансом этой редкости (75/50/25/10/5%).
+// Ожидаемая стоимость цепочки E[t] считается заранее, и размер ⚡ зоны подбирается так,
+// чтобы апгрейд в среднем возвращал ~100% вложенного, а не печатал деньги.
+var CHAIN_E=[]; (function(){ CHAIN_E[5]=TM[5]; for (var t=4;t>=0;t--) CHAIN_E[t]=UP_CHANCE[t]*CHAIN_E[t+1]+(1-UP_CHANCE[t])*TM[t]; })();
+function boltB(V, Vt, T, p){ if (T>=MAX_UP) return 0; var r=CHAIN_E[T]/TM[T]-1; return Math.max(0,Math.min(p, BONUS, 0.08*V/(Vt*r))); }
 function bonOf(t, contract){ return t===MAX_UP ? (contract?0:GOLD_WH) : BONUS; }
 function gaugeHTML(center, p, cur, nxt, chain, bonP){
   var R=96, C=2*Math.PI*R, bon=chain?0:Math.min(bonP===undefined?BONUS:bonP,p), white=cur===MAX_UP&&!chain, gid='gg'+(++aUID);
@@ -1624,7 +1638,7 @@ function gaugeHTML(center, p, cur, nxt, chain, bonP){
     '<circle cx="110" cy="110" r="'+R+'" fill="none" stroke="'+okC+'" stroke-width="16" stroke-dasharray="'+(C*p).toFixed(1)+' '+C.toFixed(1)+'" style="filter:drop-shadow(0 0 8px '+(chain?'#2fbf6a':nxt===6?'#c09bff':tc(nxt))+')"/>'+
     (bon?'<circle cx="110" cy="110" r="'+R+'" fill="none" stroke="'+bonC+'" stroke-width="24" stroke-dasharray="'+(C*bon).toFixed(1)+' '+C.toFixed(1)+'" style="filter:drop-shadow(0 0 10px '+bonC+')"/>':'')+'</svg>'+
     (bon?'<span class="bolt'+(white?' wb':'')+'" style="left:'+ix.toFixed(1)+'%;top:'+iy.toFixed(1)+'%" title="'+(white?'Белая редкость':'Цепной апгрейд')+'">⚡</span>':'')+
-    '<div class="gcenter" id="gc">'+center+'</div><div class="needle" id="needle" style="transform:rotate('+(needleAng%360)+'deg)"><i></i></div><div class="pct">'+(chain?'≤50% — дальше':Math.round(p*100)+'%')+'</div></div>';
+    '<div class="gcenter" id="gc">'+center+'</div><div class="needle" id="needle" style="transform:rotate('+(needleAng%360)+'deg)"><i></i></div><div class="pct">'+(chain?Math.round(p*100)+'% — дальше':pctTxt(p))+'</div></div>';
 }
 function modeSeg(){ return '<div class="seg"><button data-act="mode" data-id="one" aria-pressed="'+(S.upMode!=='five')+'">Одно животное</button><button data-act="mode" data-id="five" aria-pressed="'+(S.upMode==='five')+'">Контракт ×5</button></div>'; }
 function renderUp(){ return S.upMode==='five'?renderContract():renderSingle(); }
@@ -1632,20 +1646,44 @@ function renderSingle(){
   var a=S.sel&&find(S.sel);
   if (!a||a.t>MAX_UP||a.place==='exp'){
     S.sel=null; var list=S.inv.filter(function(x){return x.t<=MAX_UP&&x.place!=='exp';}).sort(function(x,y){ return y.t-x.t||val(y)-val(x); });
-    var h=modeSeg()+'<div class="glass pad"><h2>Апгрейд</h2><p class="sub" style="margin-top:6px">Повышай редкость одного животного. Цена растёт в несколько раз, но если стрелка попадёт в красную зону, животное сбежит.</p><div style="height:10px"></div>'+
+    var h=modeSeg()+'<div class="glass pad"><h2>Апгрейд</h2><p class="sub" style="margin-top:6px">Повышай редкость одного животного. Можно прыгнуть сразу через несколько редкостей или докинуть монет, чтобы поднять шанс. Цена растёт в несколько раз, но если стрелка попадёт в красную зону, животное сбежит.</p><div style="height:10px"></div>'+
       UP_CHANCE.map(function(p,i){ return '<div class="oddsrow"><span class="tierpill" style="--tc:'+tc(i)+';font-size:10px">'+TIERS[i].n+'</span><span class="arrow">→ '+Math.round(p*100)+'% →</span><span class="tierpill" style="--tc:'+tc(i+1)+';font-size:10px">'+TIERS[i+1].n+'</span></div>'; }).join('')+'</div>';
     h+='<h3>Выбери животное</h3>';
     if (!list.length) return h+'<div class="empty">Нет животных для апгрейда. Открой кейс</div>';
     return h+'<div class="grid">'+list.map(function(x){ return acard(x,'pickUp'); }).join('')+'</div>';
   }
-  var gold=a.t===MAX_UP, p=gold?GOLD_RB+GOLD_WH:UP_CHANCE[a.t], nx={s:a.s,t:a.t+1,k:a.k,mu:a.mu};
+  if (ui.upFor!==a.id){ ui.upFor=a.id; ui.upT=a.t===MAX_UP?6:a.t+1; ui.upC=0; }
+  var gold=a.t===MAX_UP, T=upTarget(a), mc=upMaxC(a,T); if (ui.upC>mc) ui.upC=mc;
+  var U=upP(a,T,ui.upC), p=U.p, nx={s:a.s,t:T,k:a.k,mu:a.mu};
   var h=modeSeg()+'<div class="glass pad"><div class="between"><h2>Апгрейд</h2><button class="btn" data-act="unsel">Другое</button></div><div style="height:12px"></div>'+
-    gaugeHTML(aSVG(a), p, a.t, a.t+1, false, bonOf(a.t))+'<div style="height:14px"></div>'+
-    '<div class="flow"><span class="tierpill" style="--tc:'+tc(a.t)+'">'+TIERS[a.t].n+'</span><span class="arrow">→</span><span class="tierpill" style="--tc:'+tc(a.t+1)+'">'+TIERS[a.t+1].n+'</span>'+(gold?'<span class="arrow">или</span><span class="tierpill" style="--tc:'+tc(7)+'">⚪ '+TIERS[7].n+'</span>':'')+'</div>'+
-    '<p class="sub" style="text-align:center;margin-top:10px">'+esc(aname(a))+': цена <b style="color:var(--fg)">'+short(val(a))+'</b> → <b style="color:var(--coin)">'+short(val(nx))+'</b> (×'+(TM[a.t+1]/TM[a.t]).toFixed(1).replace('.',',')+')'+(gold?' · ⚪ Белый: <b style="color:#fff">'+short(val({s:a.s,t:7,k:a.k,mu:a.mu}))+'</b>':'')+'</p>'+
-    '<p class="sub" id="uinfo" style="text-align:center">'+(gold?'Радужная зона — 🌈 Радужный ('+Math.round(GOLD_RB*100)+'%). <b style="color:#fff">⚡ Белая полоска ('+Math.round(GOLD_WH*100)+'%)</b> — ⚪ Белый, самая редкая редкость в игре. Красная — животное сбежит.':'Цветная зона — успех. <b style="color:#7dff6a">⚡ Яркая зелёная полоска (5%)</b> — цепной апгрейд: колесо крутится дальше с шансом 50%, пока не выпадет стоп. Красная — животное сбежит.')+'</p></div>';
-  return h+'<button class="cta gold" data-act="doUp">Улучшить · '+Math.round(p*100)+'%</button>';
+    '<div id="gwrap">'+gaugeHTML(aSVG(a), p, a.t, T, false, U.bon)+'</div><div style="height:14px"></div>';
+  if (!gold){
+    h+='<div class="lab2" style="margin-bottom:6px">Во что улучшаем</div><div class="tgts">';
+    for (var t=a.t+1;t<=MAX_UP;t++){ var q=upP(a,t,0).p; h+='<button class="tgt'+(t===T?' on':'')+'" style="--tc:'+tc(t)+'" data-act="upT" data-id="'+t+'"><i></i><b>'+TIERS[t].n+'</b><small>'+pctTxt(q)+'</small></button>'; }
+    h+='</div>';
+  } else h+='<div class="flow"><span class="tierpill" style="--tc:'+tc(5)+'">'+TIERS[5].n+'</span><span class="arrow">→</span><span class="tierpill" style="--tc:'+tc(6)+'">'+TIERS[6].n+'</span><span class="arrow">или</span><span class="tierpill" style="--tc:'+tc(7)+'">⚪ '+TIERS[7].n+'</span></div>';
+  h+='<div class="addc"><div class="between"><span class="lab2">Докинуть монет</span><b id="upCv" class="num" style="color:var(--coin)">'+short(ui.upC)+' ₽</b></div>'+
+    '<input type="range" id="upC" min="0" max="'+Math.max(0,Math.floor(mc))+'" step="'+Math.max(1,Math.round(mc/200))+'" value="'+ui.upC+'"'+(mc<1?' disabled':'')+' aria-label="Сколько монет докинуть">'+
+    '<div class="row qc">'+[[0,'0'],[0.1,'+10%'],[0.25,'+25%'],[0.5,'+50%'],[1,'Макс']].map(function(x){ return '<button class="btn" data-act="upCq" data-id="'+x[0]+'">'+x[1]+'</button>'; }).join('')+'</div>'+
+    '<p class="sub" style="margin-top:6px">Монеты сгорают при любом исходе, но поднимают шанс. Максимум '+Math.round(UP_CAP*100)+'%.'+(mc<upMaxC(a,T,1)?' Не хватает монет на большее.':'')+'</p></div>';
+  h+='<p class="sub" id="uinfo" style="text-align:center;margin-top:10px">'+esc(aname(a))+': <b style="color:var(--fg)">'+short(val(a))+'</b> → <b style="color:var(--coin)">'+short(val(nx))+'</b>'+(gold?' · ⚪ Белый: <b style="color:#fff">'+short(val({s:a.s,t:7,k:a.k,mu:a.mu}))+'</b>':'')+'<br>'+
+    (gold?'Радужная зона — 🌈 Радужный. <b style="color:#fff">⚡ Белая полоска ('+Math.round(GOLD_WH*100)+'%)</b> — ⚪ Белый. Красная — сбежит.':(U.bon?'Цветная зона — успех. <b style="color:#7dff6a">⚡ Зелёная полоска ('+pctTxt(U.bon)+')</b> — успех и бесплатные прокрутки дальше. ':'Цветная зона — успех. ')+'Красная — сбежит.')+'</p></div>';
+  return h+'<button class="cta gold" data-act="doUp" id="upGo"'+(S.coins<ui.upC?' disabled':'')+'>Улучшить · <span id="upPct">'+pctTxt(p)+'</span>'+(ui.upC?' · '+short(ui.upC)+' ₽':'')+'</button>';
 }
+// Апгрейд с выбором цели и докидыванием монет: шанс = 0,92 × (цена животного + монеты) / цена цели
+var UP_CAP=0.9;
+function upTarget(a){ if (a.t===MAX_UP) return 6; var T=ui.upT; if (!T||T<=a.t||T>MAX_UP) T=a.t+1; return T; }
+function upP(a,T,c){ var V=val(a)+(c||0);
+  if (a.t===MAX_UP){ var V6=val({s:a.s,t:6,k:a.k,mu:a.mu}), V7=val({s:a.s,t:7,k:a.k,mu:a.mu}); return {p:Math.min(UP_CAP,(0.92*V-GOLD_WH*V7)/V6+GOLD_WH), bon:GOLD_WH}; }
+  var Vt=val({s:a.s,t:T,k:a.k,mu:a.mu}), p=Math.min(UP_CAP,0.92*V/Vt); return {p:p, bon:boltB(V,Vt,T,p)}; }
+function upMaxC(a,T,noLimit){ var V=val(a), need;
+  if (a.t===MAX_UP){ var V6=val({s:a.s,t:6,k:a.k,mu:a.mu}), V7=val({s:a.s,t:7,k:a.k,mu:a.mu}); need=((UP_CAP-GOLD_WH)*V6+GOLD_WH*V7)/0.92-V; }
+  else need=UP_CAP*val({s:a.s,t:T,k:a.k,mu:a.mu})/0.92-V;
+  need=Math.max(0,Math.ceil(need)); return noLimit?need:Math.min(need,Math.floor(S.coins)); }
+function pctTxt(p){ var x=p*100; return (x>=10?Math.round(x):x>=1?x.toFixed(1):x>=0.1?x.toFixed(2):x.toFixed(3)).toString().replace('.',',')+'%'; }
+function upLive(){ var a=S.sel&&find(S.sel); if (!a) return; var T=upTarget(a), U=upP(a,T,ui.upC);
+  var g=$('gwrap'); if (g) g.innerHTML=gaugeHTML(aSVG(a), U.p, a.t, T, false, U.bon);
+  var v=$('upCv'); if (v) v.textContent=short(ui.upC)+' ₽'; var b=$('upGo'); if (b) b.innerHTML='Улучшить · <span id="upPct">'+pctTxt(U.p)+'</span>'+(ui.upC?' · '+short(ui.upC)+' ₽':''); }
 function renderContract(){
   var tier=S.ctier==null?0:S.ctier; S.ctier=tier;
   var pool=bag().filter(function(a){ return a.t===tier; }).sort(function(a,b){ return val(a)-val(b); }), chosen=csel(); S.csel=chosen.map(function(a){return a.id;});
@@ -1656,10 +1694,10 @@ function renderContract(){
     '<div class="five">'+[0,1,2,3,4].map(function(i){ var a=chosen[i]; return a?'<button class="acard" style="--tc:'+tc(a.t)+'" data-act="cdel" data-id="'+a.id+'">'+aSVG(a,'',1)+'</button>':'<div class="slot5">+</div>'; }).join('')+'</div>';
   if (chosen.length===5){
     var o=contractOut(chosen);
-    h+='<div style="height:12px"></div>'+gaugeHTML(animalSVG(o.odds[0].s,tier+1), o.p, tier, tier+1, false, bonOf(tier,1))+'<div style="height:12px"></div>'+
+    h+='<div style="height:12px"></div>'+gaugeHTML(animalSVG(o.odds[0].s,tier+1), o.p, tier, tier+1, false, cBolt(o))+'<div style="height:12px"></div>'+
       '<div class="flow"><span class="tierpill" style="--tc:'+tc(tier)+'">5 × '+TIERS[tier].n+'</span><span class="arrow">→</span><span class="tierpill" style="--tc:'+tc(tier+1)+'">★ '+TIERS[tier+1].n+'</span></div>'+
       '<div class="glass pad" style="margin-top:12px;padding:10px"><h3 style="margin-bottom:6px">Кто может выпасть</h3>'+o.odds.map(function(x){ return '<div class="between" style="padding:3px 0"><span class="row" style="gap:6px"><span style="width:34px;display:inline-block">'+animalSVG(x.s,tier+1,'',1)+'</span><b style="font-size:13px">★ '+esc(SPECIES[x.s].n)+'</b></span><span class="sub"><b style="color:var(--fg)">'+Math.round(x.p*100)+'%</b> · '+short(x.v)+' ₽</span></div>'; }).join('')+'</div>'+
-      '<p class="sub" id="uinfo" style="text-align:center;margin-top:10px">Отдаёшь на '+short(o.inSum)+'. '+(tier===MAX_UP?'Контракт из золотых даёт только 🌈 Радужного: ⚪ Белый бывает лишь с апгрейда.':'<b style="color:#7dff6a">⚡ Полоска 5%</b> — цепной апгрейд после контракта.')+' Красная зона — сбегут все пятеро.</p>';
+      '<p class="sub" id="uinfo" style="text-align:center;margin-top:10px">Отдаёшь на '+short(o.inSum)+'. '+(tier===MAX_UP?'Контракт из золотых даёт только 🌈 Радужного: ⚪ Белый бывает лишь с апгрейда.':'<b style="color:#7dff6a">⚡ Зелёная полоска</b> — цепной апгрейд после контракта.')+' Красная зона — сбегут все пятеро.</p>';
   }
   h+='</div>';
   if (chosen.length===5) h+='<button class="cta gold" data-act="doContract">Подписать контракт · '+Math.round(CONTRACT_P[tier]*100)+'%</button>';
@@ -1690,14 +1728,16 @@ function spinNeedle(p, ok, done, land){
 }
 function rollUp(p, bonP){ var r=Math.random(), b=Math.min(bonP===undefined?BONUS:bonP,p); return r<b ? 'bonus' : r<p ? 'ok' : 'fail'; }
 // цепной апгрейд: после ⚡ колесо само крутится с шансом 50%, пока не выпадет больше 50% или не дойдём до золота
+function cBolt(o){ return boltB(o.inSum, 0.92*o.inSum/o.p, o.t, o.p); }
 function runChain(a, steps, done){
   if (a.t>=5){ done(steps); return; }
   var g=$('gauge'), info=$('uinfo');
-  if (g) g.outerHTML=gaugeHTML(aSVG(a), CHAIN_P, a.t, a.t+1, true);
-  if (info) info.innerHTML='<b style="color:#7dff6a">⚡ Цепной апгрейд!</b> Стрелка на зелёном (50% и меньше) — ещё +1 редкость. На красном — стоп, животное остаётся '+TIERS[a.t].n.toLowerCase()+'м.'+chainLog(steps);
-  var ok=Math.random()<CHAIN_P;
+  var CP=UP_CHANCE[a.t];
+  if (g) g.outerHTML=gaugeHTML(aSVG(a), CP, a.t, a.t+1, true);
+  if (info) info.innerHTML='<b style="color:#7dff6a">⚡ Цепной апгрейд!</b> Бесплатная прокрутка: зелёное ('+Math.round(CP*100)+'%) — ещё +1 редкость. На красном — стоп, животное остаётся '+TIERS[a.t].n.toLowerCase()+'м.'+chainLog(steps);
+  var ok=Math.random()<CP;
   setTimeout(function(){
-    spinNeedle(CHAIN_P, ok, function(){
+    spinNeedle(CP, ok, function(){
       if (ok){ a.t++; seen(a); steps.push(a.t); sWin(Math.min(5,a.t)); hap('ok'); save(); var gc=$('gc'); if (gc){ gc.innerHTML=aSVG(a); gc.firstChild.classList.add('uok'); } setTimeout(function(){ runChain(a, steps, done); }, 500); }
       else { hap('warning'); done(steps); }
     }, ok? 180*(0.08+Math.random()*0.84) : 180+180*(0.06+Math.random()*0.88));
@@ -1707,13 +1747,14 @@ function chainLog(steps){ return steps.length?'<span class="chain">'+steps.map(f
 var RUN_TO={farm:'лес',savanna:'саванну',jungle:'джунгли',arctic:'льды',siberia:'тайгу',australia:'буш',ocean:'океан',myth:'облака'};
 function doUpgrade(){
   var a=S.sel&&find(S.sel); if (!a||a.t>MAX_UP||ui.busy) return;
-  var gold=a.t===MAX_UP, p=gold?GOLD_RB+GOLD_WH:UP_CHANCE[a.t], bp=bonOf(a.t), res=rollUp(p,bp);
+  var gold=a.t===MAX_UP, T=upTarget(a), c=Math.min(ui.upC||0, upMaxC(a,T)), U=upP(a,T,c), p=U.p, bp=U.bon, res=rollUp(p,bp);
+  if (c>S.coins) return; S.coins-=c; ui.upC=0; S.st.upCoins=(S.st.upCoins||0)+c;
   if (a.place==='zoo') settle();
-  ui.busy=true; hap('medium');
+  ui.busy=true; hap('medium'); renderTop();
   spinNeedle(p, res!=='fail', function(){
     if (res!=='fail'){
       if (gold){ a.t=res==='bonus'?7:6; S.st.upOk++; seen(a); if (a.t===7) S.st.whites=(S.st.whites||0)+1; else S.st.rainbows=(S.st.rainbows||0)+1; addXp(40+a.t*10); save(); ui.busy=false; showReveal([a], a.t===7?'white':'up'); return; }
-      a.t++; S.st.upOk++; seen(a); addXp(4+a.t*3); save();
+      var jump=T-a.t; a.t=T; S.st.upOk++; if (jump>1) S.st.jumps=(S.st.jumps||0)+1; seen(a); addXp(4+a.t*3*jump); save();
       if (res==='bonus' && a.t<5){ S.st.chains=(S.st.chains||0)+1; sWin(a.t); var gc=$('gc'); if (gc){ gc.innerHTML=aSVG(a); gc.firstChild.classList.add('uok'); }
         runChain(a, [a.t], function(steps){ addXp(steps.length*5); save(); ui.busy=false; showReveal([a], steps.length>1?'chain':'up', steps.length); }); }
       else { ui.busy=false; showReveal([a],'up'); } }
@@ -1724,7 +1765,7 @@ function doUpgrade(){
 }
 function doContract(){
   if (ui.busy) return; var five=csel(); if (five.length!==5) return;
-  var o=contractOut(five), t=o.t, p=o.p, res=rollUp(p,bonOf(t,1)), pickS=five[Math.floor(Math.random()*5)].s;
+  var o=contractOut(five), t=o.t, p=o.p, res=rollUp(p,cBolt(o)), pickS=five[Math.floor(Math.random()*5)].s;
   ui.busy=true; hap('medium');
   spinNeedle(p, res!=='fail', function(){
     var ids=five.map(function(a){return a.id;}), wasZoo=five.some(function(a){return a.place==='zoo';}); S.inv=S.inv.filter(function(x){ return ids.indexOf(x.id)<0; }); S.csel=[];
@@ -1736,7 +1777,7 @@ function doContract(){
       else { ui.busy=false; showReveal([r],'contract'); } }
     else { S.st.upFail++; var gc2=$('gc'); if (gc2&&gc2.firstChild) gc2.firstChild.classList.add('ufail'); sFail(); hap('error');
       setTimeout(function(){ save(); ui.busy=false; info('Контракт сорвался', 'Пятеро животных разбежались кто куда. Собери новую пятёрку и попробуй снова.'); render(); }, 900); }
-  }, landAngle(p,res,bonOf(t,1)));
+  }, landAngle(p,res,cBolt(o)));
 }
 
 /* ---------- zoo ---------- */
@@ -1828,7 +1869,7 @@ var TASKS=[
   T('o10','Открой 10 кейсов',10,function(){return S.st.opened;},3000), T('o50','Открой 50 кейсов',50,function(){return S.st.opened;},15000), T('o200','Открой 200 кейсов',200,function(){return S.st.opened;},60000), T('o1k','Открой 1 000 кейсов',1000,function(){return S.st.opened;},400000),
   T('t1','Получи Редкое животное',1,function(){return S.st.tMax>=1?1:0;},2000), T('t2','Получи Эпическое животное',1,function(){return S.st.tMax>=2?1:0;},6000), T('t3','Получи Магическое животное',1,function(){return S.st.tMax>=3?1:0;},25000), T('t4','Получи Ультраэпическое животное',1,function(){return S.st.tMax>=4?1:0;},120000), T('t5','Получи Легендарное животное',1,function(){return S.st.tMax>=5?1:0;},800000),
   T('rb1','Получи 🌈 Радужное животное',1,stv('rainbows'),5000000), T('wt1','Получи ⚪ Белое животное',1,stv('whites'),50000000),
-  T('u1','Удачный апгрейд',1,function(){return S.st.upOk;},3000), T('u10','10 удачных апгрейдов',10,function(){return S.st.upOk;},25000), T('u50','50 удачных апгрейдов',50,function(){return S.st.upOk;},150000), T('uf','Потеряй животное на апгрейде',1,function(){return S.st.upFail;},2000), T('ch1','Поймай цепной апгрейд ⚡',1,function(){return S.st.chains||0;},10000), T('c1','Выполни контракт ×5',1,function(){return S.st.contractOk||0;},8000), T('c10','Выполни 10 контрактов',10,function(){return S.st.contractOk||0;},80000),
+  T('u1','Удачный апгрейд',1,function(){return S.st.upOk;},3000), T('u10','10 удачных апгрейдов',10,function(){return S.st.upOk;},25000), T('u50','50 удачных апгрейдов',50,function(){return S.st.upOk;},150000), T('uf','Потеряй животное на апгрейде',1,function(){return S.st.upFail;},2000), T('j1','Улучши животное сразу через несколько редкостей',1,stv('jumps'),20000), T('ch1','Поймай цепной апгрейд ⚡',1,function(){return S.st.chains||0;},10000), T('c1','Выполни контракт ×5',1,function(){return S.st.contractOk||0;},8000), T('c10','Выполни 10 контрактов',10,function(){return S.st.contractOk||0;},80000),
   T('mu1','Получи животное с мутацией',1,stv('muts'),5000), T('mu10','Собери 10 мутантов',10,stv('muts'),60000), T('cry','Найди кристальное животное',1,stv('cry'),250000),
   T('z3','Поставь 3 животных в зоопарк',3,function(){return S.st.placed;},4000), T('z10','Поставь 10 животных в зоопарк',10,function(){return S.st.placed;},20000), T('s5','Построй 5 вольеров',5,function(){return S.slots;},30000), T('s10','Построй 10 вольеров',10,function(){return S.slots;},250000), T('s15','Построй 15 вольеров',15,function(){return S.slots;},3000000),
   T('pet50','Погладь животных 50 раз',50,stv('pets'),5000), T('vet1','Вылечи животное у ветеринара',1,stv('healed'),3000), T('ex1','Отправь животное в экспедицию',1,stv('exps'),3000), T('ex20','Отправь 20 экспедиций',20,stv('exps'),80000),
@@ -1978,6 +2019,8 @@ function copy(t,msg){ try{ navigator.clipboard.writeText(t).then(function(){toas
 /* ---------- events ---------- */
 document.addEventListener('pointerdown',function(){ ui.press=true; ac(); });
 ['pointerup','pointercancel'].forEach(function(ev){ document.addEventListener(ev,function(){ setTimeout(function(){ ui.press=false; },80); }); });
+document.addEventListener('input',function(e){ if (e.target&&e.target.id==='upC'){ ui.upC=+e.target.value; upLive(); } });
+document.addEventListener('change',function(e){ if (e.target&&e.target.id==='upC'){ hap('light'); } });
 document.addEventListener('click',function(e){
   var el=e.target.closest('button'); if (!el) return;
   var d=el.dataset, act=d.act, id=d.id, inSheet=!!el.closest('.sheet'), inRev=!!el.closest('#rev');
@@ -2011,6 +2054,8 @@ document.addEventListener('click',function(e){
     case 'pickUp': S.sel=id; hap('light'); render(); return;
     case 'unsel': S.sel=null; render(); return;
     case 'doUp': doUpgrade(); return;
+    case 'upT': ui.upT=+id; hap('light'); render(); return;
+    case 'upCq': var ua=S.sel&&find(S.sel); if (ua){ var mx=upMaxC(ua,upTarget(ua)), f=+id; ui.upC=f>=1?mx:f===0?0:Math.min(mx,Math.round(val(ua)*f)); hap('light'); render(); } return;
     case 'mode': S.upMode=id; hap('light'); render(); return;
     case 'ctier': S.ctier=+id; S.csel=[]; hap('light'); render(); return;
     case 'cadd': S.csel=(S.csel||[]); if (S.csel.length<5){ S.csel.push(id); sClick(); hap('light'); } else toast('Все 5 слотов заняты'); render(); return;
