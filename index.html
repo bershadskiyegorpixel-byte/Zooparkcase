@@ -15,7 +15,7 @@
 /* Layout: one-screen phone game. Night safari: deep emerald-to-midnight ground, fireflies, glass panels; every animal card glows in its tier colour; reveal = rotating rays + burst */
 :root{
   --bg0:#06110e; --bg1:#0c1f1a; --bg2:#132a33;
-  --glass:rgba(255,255,255,.065); --glass2:rgba(255,255,255,.11); --edge:rgba(255,255,255,.12);
+  --glass:rgba(22,44,36,.72); --glass2:rgba(34,62,51,.78); --edge:rgba(255,255,255,.12);
   --fg:#f2f7f4; --muted:#93a8a0;
   --lime:#9bf06b; --lime2:#3fd58a; --coin:#ffcf4a; --coin2:#ff9f1c; --danger:#ff5468;
   --t0:#9aa6b4; --t1:#4c7dff; --t2:#9a5cff; --t3:#ff4fd8; --t4:#ff3b46; --t5:#ffc83d;
@@ -39,7 +39,7 @@ button:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
 
 /* top bar */
 .top{display:flex;align-items:center;gap:8px;padding-block:10px 8px}
-.lvl{display:flex;align-items:center;gap:8px;background:var(--glass);border:1px solid var(--edge);border-radius:999px;padding:4px 10px 4px 4px;backdrop-filter:blur(10px)}
+.lvl{display:flex;align-items:center;gap:8px;background:var(--glass);border:1px solid var(--edge);border-radius:999px;padding:4px 10px 4px 4px;}
 .lvl .badge{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-disp);font-size:13px;background:conic-gradient(var(--lime) var(--p,0%),rgba(255,255,255,.1) 0);position:relative}
 .lvl .badge::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--bg1)}
 .lvl .badge span{position:relative;z-index:1}
@@ -56,7 +56,7 @@ button:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
 h2{font-family:var(--f-disp);font-weight:400;font-size:20px;margin:0;letter-spacing:.01em}
 h3{font-family:var(--f-disp);font-weight:400;font-size:15px;margin:0;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
 .sub{color:var(--muted);font-size:12.5px;margin:0;line-height:1.5}
-.glass{background:linear-gradient(180deg,var(--glass2),var(--glass));border:1px solid var(--edge);border-radius:20px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.glass{background:linear-gradient(180deg,var(--glass2),var(--glass));border:1px solid var(--edge);border-radius:20px;}
 .pad{padding:14px}
 .row{display:flex;align-items:center;gap:10px}
 .between{display:flex;align-items:center;justify-content:space-between;gap:10px}
@@ -71,7 +71,7 @@ h3{font-family:var(--f-disp);font-weight:400;font-size:15px;margin:0;color:var(-
 .case .art .sun{position:absolute;right:-30px;top:-30px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.55),transparent 65%)}
 .case .art .hill{position:absolute;left:-10%;right:-10%;bottom:-40px;height:120px;border-radius:50%}
 .case .art .pets{position:absolute;left:0;right:0;bottom:46px;display:flex;justify-content:center;align-items:flex-end}
-.case .art .pets svg{width:44%;height:auto;margin:0 -9%;filter:drop-shadow(0 8px 10px rgba(0,0,0,.35))}
+.case .art .pets svg,.case .art .pets img{width:44%;height:auto;margin:0 -9%;filter:drop-shadow(0 8px 10px rgba(0,0,0,.35))}
 .case .art .pets svg:nth-child(2){width:56%;z-index:1}
 .case .lab{position:absolute;left:0;right:0;bottom:0;padding:12px 14px;background:linear-gradient(180deg,transparent,rgba(4,10,8,.88) 40%);display:flex;justify-content:space-between;align-items:flex-end;gap:8px}
 .case .lab b{font-family:var(--f-disp);font-weight:400;font-size:19px;line-height:1.1}
@@ -88,7 +88,7 @@ h3{font-family:var(--f-disp);font-weight:400;font-size:15px;margin:0;color:var(-
 .tierleg span b{color:var(--fg);font-weight:700;margin-left:auto}
 .inside{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:10px}
 .inside div{background:rgba(255,255,255,.05);border-radius:12px;padding:4px 2px 6px;text-align:center;font-size:10px;color:var(--muted);line-height:1.2}
-.inside svg{width:100%;height:auto}
+.inside svg,.inside img{width:100%;height:auto}
 
 .seg{display:flex;background:rgba(0,0,0,.25);border:1px solid var(--edge);border-radius:14px;padding:3px;gap:3px;flex:1}
 .seg button{flex:1;border:0;background:none;border-radius:11px;padding:9px 2px;font-weight:800;font-size:14px;color:var(--muted)}
@@ -115,7 +115,7 @@ h3{font-family:var(--f-disp);font-weight:400;font-size:15px;margin:0;color:var(-
 /* animal cards */
 .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .acard{position:relative;border-radius:18px;padding:6px 6px 8px;text-align:center;border:1px solid color-mix(in srgb,var(--tc) 55%,transparent);background:radial-gradient(90% 70% at 50% 35%,color-mix(in srgb,var(--tc) 35%,transparent),rgba(255,255,255,.03) 70%),linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02));box-shadow:0 10px 24px -14px var(--tc);overflow:hidden;display:flex;flex-direction:column;gap:2px;min-width:0}
-.acard svg{width:100%;height:auto}
+.acard svg,.acard img.aimg{display:block;width:100%;height:auto}
 .acard b{font-size:12px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .acard small{font-size:10.5px;font-weight:700;color:var(--tc)}
 .acard .val{font-size:11px;color:var(--fg);opacity:.85;font-weight:700}
@@ -130,7 +130,7 @@ h3{font-family:var(--f-disp);font-weight:400;font-size:15px;margin:0;color:var(-
 .acard.dim{opacity:.5}
 .acard:disabled{cursor:default}
 .acard::before{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--tc)}
-.acard.t5{animation:goldpulse 2.4s ease-in-out infinite}
+.acard.t5{box-shadow:0 8px 26px -10px var(--tc)}
 @keyframes goldpulse{50%{box-shadow:0 10px 34px -8px var(--tc)}}
 .acard .pin{position:absolute;top:6px;right:6px;font-size:9.5px;font-weight:800;padding:2px 6px;border-radius:999px;background:rgba(0,0,0,.45)}
 .sweep{animation:sweep 3s ease-in-out infinite}
@@ -156,7 +156,7 @@ h3{font-family:var(--f-disp);font-weight:400;font-size:15px;margin:0;color:var(-
 .reel{position:relative;overflow:hidden;border-radius:18px;background:rgba(0,0,0,.35);border:1px solid var(--edge);padding:10px 0}
 .strip{display:flex;gap:8px;will-change:transform}
 .rc{flex:0 0 104px;height:120px;border-radius:14px;position:relative;overflow:hidden;background:radial-gradient(90% 80% at 50% 40%,color-mix(in srgb,var(--tc) 45%,#0b1512),#0b1512 75%);border-bottom:4px solid var(--tc);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;transition:transform .3s,box-shadow .3s}
-.rc svg{width:94%;height:auto;margin-bottom:-4px}
+.rc svg,.rc img{width:94%;height:auto;margin-bottom:-4px}
 .rc span{width:100%;font-size:10px;font-weight:800;padding:3px 2px 4px;background:rgba(0,0,0,.45);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .reel.compact{padding:7px 0}
 .reel.compact .rc{flex-basis:72px;height:72px}
@@ -243,8 +243,8 @@ h3{font-family:var(--f-disp);font-weight:400;font-size:15px;margin:0;color:var(-
 .encl .gr{position:absolute;left:-10%;right:-10%;bottom:-28%;height:62%;border-radius:50%}
 .encl .bush{position:absolute;border-radius:50%}
 .encl .pet{position:absolute;left:6%;right:6%;bottom:10%;width:88%;aspect-ratio:1;padding:0;background:none;border:0;transform-origin:50% 92%}
-.encl .pet svg.an{width:100%;height:100%;display:block;filter:drop-shadow(0 6px 8px rgba(0,0,0,.35))}
-.encl .tag{position:absolute;left:8px;right:8px;bottom:8px;border:0;color:var(--fg);font:inherit;text-align:left;z-index:3;display:flex;justify-content:space-between;gap:6px;align-items:center;background:rgba(4,10,8,.72);border-radius:12px;padding:6px 8px;backdrop-filter:blur(6px)}
+.encl .pet svg.an,.encl .pet img.an{width:100%;height:100%;display:block;will-change:transform}
+.encl .tag{position:absolute;left:8px;right:8px;bottom:8px;border:0;color:var(--fg);font:inherit;text-align:left;z-index:3;display:flex;justify-content:space-between;gap:6px;align-items:center;background:rgba(4,10,8,.72);border-radius:12px;padding:6px 8px;}
 .encl .tag b{font-size:12px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .encl .tag small{font-size:10.5px;color:var(--coin);font-weight:800;white-space:nowrap}
 .encl .ring{position:absolute;inset:0;border-radius:20px;box-shadow:inset 0 0 0 2px var(--tc),inset 0 0 30px -6px var(--tc);pointer-events:none}
@@ -255,8 +255,8 @@ h3{font-family:var(--f-disp);font-weight:400;font-size:15px;margin:0;color:var(-
 .alb{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:3px}
 .alb div{aspect-ratio:1;border-radius:10px;background:rgba(255,255,255,.04);display:grid;place-items:center;overflow:hidden;border:1px solid rgba(255,255,255,.06)}
 .alb div.on{background:radial-gradient(circle,color-mix(in srgb,var(--tc) 40%,transparent),transparent 70%);border-color:color-mix(in srgb,var(--tc) 60%,transparent)}
-.alb svg{width:110%;height:auto}
-.alb .sil svg{filter:brightness(0);opacity:.22}
+.alb svg,.alb img{width:110%;height:auto}
+.alb .sil svg,.alb .sil img{filter:brightness(0);opacity:.22}
 .task{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 10px;align-items:center}
 .prog{height:6px;border-radius:4px;background:rgba(255,255,255,.08);overflow:hidden;grid-column:1/-1}
 .prog i{display:block;height:100%;background:linear-gradient(90deg,var(--lime2),var(--lime))}
@@ -268,7 +268,7 @@ h3{font-family:var(--f-disp);font-weight:400;font-size:15px;margin:0;color:var(-
 .dot{position:absolute;top:10px;right:10px;width:9px;height:9px;border-radius:50%;background:var(--danger);box-shadow:0 0 10px var(--danger)}
 
 /* nav */
-nav{display:grid;grid-template-columns:repeat(5,1fr);margin:0 max(10px,env(safe-area-inset-left,0px)) calc(8px + env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-right,0px));border-radius:22px;padding:6px;background:rgba(8,20,16,.78);border:1px solid var(--edge);backdrop-filter:blur(14px)}
+nav{display:grid;grid-template-columns:repeat(5,1fr);margin:0 max(10px,env(safe-area-inset-left,0px)) calc(8px + env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-right,0px));border-radius:22px;padding:6px;background:rgba(8,20,16,.78);border:1px solid var(--edge);}
 nav button{position:relative;border:0;background:none;border-radius:16px;padding:7px 2px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;font-weight:800;color:var(--muted)}
 nav button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 nav button[aria-selected="true"]{color:#06210f;background:linear-gradient(180deg,#b8ff7a,#3fd58a);box-shadow:0 6px 16px -6px rgba(63,213,138,.8)}
@@ -297,11 +297,11 @@ nav .dot{top:4px;right:calc(50% - 18px);width:8px;height:8px}
 @property --tc{syntax:'<color>';inherits:true;initial-value:#9aa6b4}
 @keyframes rbw{0%{--tc:#ff6b8a}17%{--tc:#ffb84a}34%{--tc:#fff06a}50%{--tc:#6dffa0}67%{--tc:#5fd7ff}84%{--tc:#a98cff}100%{--tc:#ff6b8a}}
 @keyframes rbwbg{0%{background-color:#ff6b8a}17%{background-color:#ffb84a}34%{background-color:#fff06a}50%{background-color:#6dffa0}67%{background-color:#5fd7ff}84%{background-color:#a98cff}100%{background-color:#ff6b8a}}
-[style*="--tc:#7af0ff"]{animation:rbw 3s linear infinite}
-i[style*="background:#7af0ff"],span i[style*="background:#7af0ff"]{animation:rbwbg 3s linear infinite}
+
+
 [style*="--tc:#f4f7ff"]{box-shadow:0 0 22px -4px rgba(255,255,255,.7)}
-.acard[style*="--tc:#7af0ff"],.acard[style*="--tc:#f4f7ff"]{animation:rbw 3s linear infinite,goldpulse 2.4s ease-in-out infinite}
-.acard[style*="--tc:#f4f7ff"]{animation:goldpulse 2.4s ease-in-out infinite}
+
+.acard[style*="--tc:#f4f7ff"]{box-shadow:0 0 24px -6px rgba(255,255,255,.7)}
 svg.neon{filter:drop-shadow(0 0 6px rgba(57,255,176,.55))}
 .acard .mut{position:absolute;top:6px;left:6px;z-index:2;font-size:9px;font-weight:800;padding:2px 6px;border-radius:999px;background:color-mix(in srgb,var(--mc) 30%,rgba(0,0,0,.55));color:var(--mc);border:1px solid color-mix(in srgb,var(--mc) 60%,transparent)}
 .acard .pin{z-index:2}
@@ -310,21 +310,21 @@ svg.neon{filter:drop-shadow(0 0 6px rgba(57,255,176,.55))}
 /* живые вольеры */
 .encl .pet.m-walk{animation:pwalk 7s ease-in-out infinite}
 @keyframes pwalk{0%{transform:translateX(-9%) scaleX(1)}45%{transform:translateX(9%) scaleX(1)}50%{transform:translateX(9%) scaleX(-1)}95%{transform:translateX(-9%) scaleX(-1)}100%{transform:translateX(-9%) scaleX(1)}}
-.encl .pet.m-walk svg{animation:hopwalk .5s ease-in-out infinite}
+.encl .pet.m-walk .an{animation:hopwalk .5s ease-in-out infinite}
 @keyframes hopwalk{50%{transform:translateY(-3%)}}
-.encl .pet.m-eat svg{animation:munch 1s ease-in-out infinite;transform-origin:30% 90%}
+.encl .pet.m-eat .an{animation:munch 1s ease-in-out infinite;transform-origin:30% 90%}
 @keyframes munch{0%,100%{transform:rotate(0)}40%{transform:rotate(7deg) translateY(3%)}60%{transform:rotate(5deg) translateY(2%)}}
 .encl .bowl{position:absolute;left:14%;bottom:12%;width:22%;height:7%;border-radius:0 0 40% 40%/0 0 100% 100%;background:linear-gradient(#c77a3a,#8a4a1e);opacity:0;transition:opacity .4s;z-index:1}
 .encl .bowl::before{content:"";position:absolute;left:8%;right:8%;top:-40%;height:70%;border-radius:50%;background:radial-gradient(#9fe36a,#4f9a2a)}
 .encl:has(.m-eat) .bowl{opacity:1}
-.encl .pet.m-sleep svg{animation:sleepy 3.4s ease-in-out infinite;filter:brightness(.86) drop-shadow(0 6px 8px rgba(0,0,0,.35))}
+.encl .pet.m-sleep .an{animation:sleepy 3.4s ease-in-out infinite;opacity:.88}
 @keyframes sleepy{50%{transform:scale(1.03,.95) translateY(3%)}}
 .encl .zz{position:absolute;right:16%;top:12%;font-style:normal;font-weight:800;color:#fff;font-size:15px;opacity:0;pointer-events:none;text-shadow:0 2px 6px rgba(0,0,0,.4)}
 .encl .zz b{position:absolute;font-size:11px;left:10px;top:-10px}
 .encl .zz b+b{font-size:8px;left:18px;top:-18px}
 .encl .m-sleep .zz{animation:zz 2.6s ease-in-out infinite}
 @keyframes zz{0%{opacity:0;transform:translateY(6px)}30%,70%{opacity:.9}100%{opacity:0;transform:translateY(-14px)}}
-.encl .pet.m-idle svg{animation:breath 3s ease-in-out infinite;transform-origin:50% 92%}
+.encl .pet.m-idle .an{animation:breath 3s ease-in-out infinite;transform-origin:50% 92%}
 @keyframes breath{50%{transform:scale(1.02,.985)}}
 .encl .pet.hop{animation:phop .65s cubic-bezier(.3,1.6,.5,1)!important}
 @keyframes phop{0%{transform:translateY(0) scale(1)}25%{transform:translateY(0) scale(1.08,.88)}55%{transform:translateY(-16%) scale(.95,1.06)}80%{transform:translateY(0) scale(1.05,.95)}100%{transform:translateY(0) scale(1)}}
@@ -338,7 +338,7 @@ svg.neon{filter:drop-shadow(0 0 6px rgba(57,255,176,.55))}
 .vet{border-color:rgba(255,138,92,.45)!important}
 .exps{display:flex;flex-direction:column;gap:8px}
 .expc{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px;border-radius:16px;background:rgba(0,0,0,.22);border:1px solid color-mix(in srgb,var(--tc,#3a5a50) 45%,transparent);color:var(--fg);font:inherit;text-align:left}
-.expc svg{width:52px;height:52px}
+.expc svg,.expc img{width:52px;height:52px}
 .expc b{font-size:13px;font-weight:800}.expc small{display:block;font-size:11px;color:var(--muted);margin:2px 0 5px}
 .expc .prog{height:5px;border-radius:9px;background:rgba(255,255,255,.08);overflow:hidden}.expc .prog i{display:block;height:100%;background:var(--lime)}
 .expc.add{display:flex;justify-content:center;border-style:dashed;color:var(--lime);font-weight:800;padding:14px}
@@ -365,11 +365,40 @@ svg.neon{filter:drop-shadow(0 0 6px rgba(57,255,176,.55))}
 .toprow .rk{font-family:var(--f-disp);text-align:center;color:var(--muted)}
 .toprow.t0 .rk{color:#ffd36a}.toprow.t1 .rk{color:#d9e2ee}.toprow.t2 .rk{color:#e0a070}
 .toprow .tav{width:42px;height:42px;border-radius:10px;background:radial-gradient(circle,color-mix(in srgb,var(--tc,#555) 35%,transparent),transparent 70%)}
-.toprow .tav svg{width:100%;height:100%}
+.toprow .tav svg,.toprow .tav img{width:100%;height:100%}
 .toprow b{font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.toprow small{font-size:11px;color:var(--muted)}
 .toprow .sc{font-weight:800;color:var(--coin);font-size:13px}
 .lineok{border-color:rgba(125,255,106,.4)!important}
 #coinNum{white-space:nowrap}
+/* радуга: живое переливание только на экране выпадения, в списках — статичный радужный отлив (так телефону легче) */
+.ov [style*="--tc:#7af0ff"],.ov[style*="--tc:#7af0ff"]{animation:rbw 3s linear infinite}
+[style*="--tc:#7af0ff"]:is(.acard,.lot,.encl,.rc,.expc,.tgt){background-image:linear-gradient(135deg,rgba(255,107,138,.2),rgba(255,211,106,.16),rgba(109,255,160,.16),rgba(95,215,255,.2),rgba(169,140,255,.22))}
+i[style*="background:#7af0ff"]{background:linear-gradient(90deg,#ff6b8a,#ffd36a,#6dffa0,#5fd7ff,#a98cff)!important}
+.fly{will-change:transform,opacity}
+.walk .p svg{animation:none!important}
+img.aimg{max-width:100%;height:auto;aspect-ratio:1;-webkit-user-drag:none;user-select:none;pointer-events:none}
+img.aimg.neon{filter:drop-shadow(0 0 6px rgba(57,255,176,.55))}
+.pager{display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;margin:4px 0}
+.pgb{min-width:36px;height:36px;padding:0 8px;border-radius:12px;border:1px solid var(--edge);background:var(--glass);color:var(--fg);font:800 13px var(--f-body)}
+.pgb.on{background:var(--lime);color:#06210f;border-color:var(--lime)}.pgb:disabled{opacity:.35}
+.pgd{color:var(--muted);padding:0 2px}.pgi{width:100%;text-align:center;font-size:11px;color:var(--muted)}
+/* рынок и номера */
+.acard .sn,.lot .sn{position:absolute;top:6px;right:6px;z-index:2;font:800 10.5px var(--f-body);padding:2px 6px;border-radius:999px;background:rgba(0,0,0,.55);color:#fff;border:1px solid color-mix(in srgb,var(--tc) 70%,transparent)}
+.acard .sn.vet{font-size:11px;padding:1px 5px}
+.lot .sn.big{font:400 15px var(--f-disp);padding:3px 9px;color:#fff;background:color-mix(in srgb,var(--tc) 35%,rgba(0,0,0,.6))}
+.acard .pin.lot{background:rgba(255,200,61,.9);color:#3a2600}
+.lots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.lot{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:10px;border-radius:18px;border:1px solid color-mix(in srgb,var(--tc) 55%,transparent);background:radial-gradient(circle at 50% 30%,color-mix(in srgb,var(--tc) 22%,transparent),rgba(0,0,0,.25) 70%);color:var(--fg);font:inherit;text-align:left}
+.lot svg,.lot img{width:100%;height:auto;aspect-ratio:1}
+.lot b{font-size:13px;font-weight:800}.lot small{font-size:11px;color:var(--muted)}.lot .sl{color:#cfe}
+.lot .star{margin-top:6px;font-weight:800;color:#ffd36a;background:rgba(255,211,106,.12);padding:4px 10px;border-radius:999px;font-size:13px}
+.lot .pin{position:absolute;top:6px;left:6px;z-index:2;font-size:10px;font-weight:800;padding:2px 7px;border-radius:999px;background:var(--lime);color:#06210f}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.chip{flex:none;padding:8px 12px;border-radius:999px;border:1px solid var(--edge);background:rgba(0,0,0,.22);color:var(--fg);font:700 12.5px var(--f-body)}
+.chip.on{background:var(--lime);color:#06210f;border-color:var(--lime)}
+.zsb{font-weight:800;color:#ffe27a;background:rgba(255,226,122,.12);border:1px solid rgba(255,226,122,.35);padding:5px 11px;border-radius:999px;white-space:nowrap}
+.mkhead{border-color:rgba(255,200,61,.4)!important;background:linear-gradient(135deg,rgba(255,200,61,.14),rgba(255,154,61,.05))!important}
+.opt.gold{border-color:rgba(255,226,122,.5);background:rgba(255,226,122,.1)}
 .giftb{position:relative;font-size:17px;animation:giftw 2.4s ease-in-out infinite}
 .giftb i{position:absolute;top:-4px;right:-4px;min-width:17px;height:17px;border-radius:9px;background:#ff4f7a;color:#fff;font:800 10px/17px var(--f-body);font-style:normal;text-align:center;padding:0 4px}
 @keyframes giftw{0%,80%,100%{transform:rotate(0)}85%{transform:rotate(-12deg)}90%{transform:rotate(10deg)}95%{transform:rotate(-6deg)}}
@@ -929,6 +958,17 @@ macaw:function(P,u){
 
 SPECIES.forEach(function(sp){ if (REDRAW[sp.id]) sp.draw=REDRAW[sp.id]; });
 
+// Быстрая картинка животного: SVG рисуется один раз, превращается в обычное изображение
+// и дальше переиспользуется. Списки на 100+ животных больше не перерисовывают сложные фильтры.
+var IMG_CACHE={};
+function animalIMG(spi, tier, cls, mut, hat){
+  var k=spi+'|'+tier+'|'+(mut||'')+'|'+(hat||''), u=IMG_CACHE[k];
+  if (!u){ var svg=animalSVG(spi,tier,'',0,mut,hat).replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" ');
+    try{ u=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'})); }catch(e){ u='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg); }
+    IMG_CACHE[k]=u; }
+  return '<img class="aimg'+(cls?' '+cls:'')+(mut==='neon'?' neon':'')+'" src="'+u+'" alt="" decoding="async" draggable="false">';
+}
+
 // ===== новые ареалы: Арктика, Сибирь, Австралия, Океанариум, Мифы =====
 // hd: точка макушки для шапок-скинов [x, y, масштаб, наклон]
 function lum(h){ var c=hex2rgb(h); return (0.3*c[0]+0.59*c[1]+0.11*c[2])/255; }
@@ -1391,8 +1431,15 @@ function caseName(k){ var C=CASES[k]; return C.n||ZONES[C.zone].n; }
 var INCOME_RATE=0.004, INCOME_CAP=3*3600e3, VIP_CAP=12*3600e3, DEALER=0.6;
 function mutM(a){ return a.mu&&MUTS[a.mu]?MUTS[a.mu].m:1; }
 function val(a){ return SPECIES[a.s].v*TM[a.t]*(a.k||1)*mutM(a); }
-function aname(a){ return (a.star?'★ ':'')+(a.mu&&MUTS[a.mu]?MUTS[a.mu].n+' ':'')+(a.mu?SPECIES[a.s].n.toLowerCase():SPECIES[a.s].n); }
+function aname(a){ return (a.vet?'🏛 ':'')+(a.star?'★ ':'')+(a.mu&&MUTS[a.mu]?MUTS[a.mu].n+' ':'')+(a.mu?SPECIES[a.s].n.toLowerCase():SPECIES[a.s].n)+(a.serial?' #'+a.serial:''); }
+/* ---------- номерные животные: золото и выше выдаёт сервер, у каждого свой номер ---------- */
+function reg(a){ return !!(a&&a.rid); }
+function locked(a){ return !!(a&&(a.price>0||a.frozen)); }
+function fromSrv(x, a){ a=a||{id:nid(), place:'bag'}; a.s=sid(x.s); a.t=x.t; if (x.mu) a.mu=x.mu; else delete a.mu; if (x.k&&x.k!==1) a.k=x.k; else delete a.k;
+  if (x.rid){ a.rid=x.rid; a.serial=x.serial; a.price=x.price||0; a.frozen=x.frozen||0; delete a.vet; } return a; }
+function numTag(a){ return a.serial?'<span class="sn">#'+a.serial+'</span>':a.vet?'<span class="sn vet" title="Ветеран: получен до запуска рынка">🏛</span>':''; }
 function aSVG(a,cls,lite){ return animalSVG(a.s,a.t,cls,lite,a.mu||'',a.hat||''); }
+function aIMG(a,cls){ return animalIMG(a.s,a.t,cls,a.mu||'',a.hat||''); }
 function isVip(){ return (S.vipUntil||0)>Date.now(); }
 function lines(){ var n=0; SPECIES.forEach(function(sp,i){ var g=S.album[i]; if (g&&g[0]&&g[1]&&g[2]&&g[3]&&g[4]&&g[5]) n++; }); return n; }
 function incMult(){ return (1+0.05*lines())*(isVip()?1.25:1); }
@@ -1426,7 +1473,7 @@ function sClick(){ tone(900,0.04,'sine',0.04); }
 /* ---------- state ---------- */
 function fresh(){ return {coins:10000, xp:0, lvl:1, cs:'farm', n:1, fast:false, sound:true, inv:[], slots:3, pend:0, incAt:Date.now(),
   album:{}, st:{opened:0, upOk:0, upFail:0, sold:0, earned:0, tMax:0, golds:0, placed:0}, claimed:{}, giftAt:0, giftDay:0, uid:'', refUsed:false, filt:-1, sel:null, upMode:'one', ctier:0, csel:[],
-  ver:2, giftLog:[], tix:{}, wheelAt:0, wheelX:0, hats:{}, vipUntil:0, vipDay:'', starter:false, savedAt:0}; }
+  ver:2, mk:1, zs:0, giftLog:[], tix:{}, wheelAt:0, wheelX:0, hats:{}, vipUntil:0, vipDay:'', starter:false, savedAt:0}; }
 var S=fresh(), ui={tab:'cases', view:'', busy:false, modal:false, press:false};
 var $=function(id){return document.getElementById(id);};
 function rub(n){ n=Math.round(n); return n.toLocaleString('ru-RU').replace(/[ ,]/g,' '); }
@@ -1482,6 +1529,8 @@ function apply(d){ if(!d||typeof d!=='object') return; var f=fresh(); for (var k
   // миграция старых сейвов: проверяем животных, добавляем новые поля
   f.inv=(Array.isArray(f.inv)?f.inv:[]).filter(function(a){ return a && SPECIES[a.s] && TIERS[a.t] && typeof a.t==='number'; });
   f.inv.forEach(function(a){ if (!a.id) a.id=nid(); if (a.place!=='zoo'&&a.place!=='exp') a.place='bag'; if (a.place==='exp'&&!a.expEnd) a.place='bag'; if (a.mu&&!MUTS[a.mu]) delete a.mu; if (a.hat&&!HATS[a.hat]) delete a.hat; });
+  // животные золото+ без номера из версий до рынка — «ветераны»: остаются в игре, но не продаются
+  if (!d.mk){ f.inv.forEach(function(a){ if (a.t>=5&&!a.rid) a.vet=1; }); } f.mk=1;
   if (!CASES[f.cs]) f.cs='farm'; if (!f.tix||typeof f.tix!=='object') f.tix={}; if (!f.hats||typeof f.hats!=='object') f.hats={};
   if (f.ctier>MAX_UP) f.ctier=0; f.ver=2; S=f; }
 function loadLocal(){ try{ var s=localStorage.getItem(SAVE_KEY); return s?JSON.parse(s):null; }catch(e){ return null; } }
@@ -1498,8 +1547,12 @@ var ICON={
 };
 var TABS=[['cases','Кейсы'],['bag','Сумка'],['up','Апгрейд'],['zoo','Зоопарк'],['more','Ещё']];
 function badge(t){ if (t==='more'&&ui.gifts&&ui.gifts.length) return true; if (t==='zoo') return pending()>=Math.max(500,rate()*10)||expA().some(function(a){return a.expEnd<=Date.now();})||zooA().some(function(a){return a.sick;}); if (t==='more') return giftReady()||wheelReady()||TASKS.some(function(x){return !S.claimed[x.id]&&x.val()>=x.goal;}); return false; }
+var topSig='';
 function renderTop(){
   var p=Math.min(100,S.xp/xpNeed(S.lvl)*100);
+  var sig=[S.lvl,Math.round(p),S.sound,ui.tab,(ui.gifts||[]).length,TABS.map(function(t){ return badge(t[0])?1:0; }).join('')].join('|');
+  if (sig===topSig && $('coinNum')){ var cn=S.coins>=1e7?short(S.coins):rub(S.coins); if ($('coinNum').textContent!==cn) $('coinNum').textContent=cn; return; }
+  topSig=sig;
   $('top').innerHTML='<div class="lvl"><span class="badge" style="--p:'+p+'%"><span>'+S.lvl+'</span></span><small>уровень</small></div>'+
     '<button class="iconbtn" data-act="sound" aria-label="'+(S.sound?'Выключить звук':'Включить звук')+'" aria-pressed="'+S.sound+'">'+(S.sound?'<svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 9a4 4 0 010 6M18.5 6.5a8 8 0 010 11"/></svg>':'<svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9l5 6M22 9l-5 6"/></svg>')+'</button>'+(ui.gifts&&ui.gifts.length?'<button class="iconbtn giftb" data-view-go="gifts" aria-label="Подарки">🎁<i>'+ui.gifts.length+'</i></button>':'')+
     '<div class="coins"><span class="coin">₽</span><b class="num" id="coinNum">'+(S.coins>=1e7?short(S.coins):rub(S.coins))+'</b></div>';
@@ -1510,7 +1563,7 @@ function renderTop(){
 function caseArt(k){
   var c=CASES[k], z=ZONES[c.zone];
   return '<div class="art"><div class="bg" style="background:linear-gradient(180deg,'+z.sky[0]+','+z.sky[1]+')"></div><div class="sun"></div><div class="hill" style="background:radial-gradient(ellipse at 50% 20%,'+z.bg[0]+','+z.bg[1]+')"></div>'+
-    '<div class="pets">'+c.pets.map(function(s,i){ return animalSVG(s, i===1?2:0); }).join('')+'</div></div>';
+    '<div class="pets">'+c.pets.map(function(s,i){ return animalIMG(s,i===1?2:0); }).join('')+'</div></div>';
 }
 function renderCases(){
   var h='<div class="cases" id="caseRow">'+Object.keys(CASES).map(function(k){ var c=CASES[k], lock=S.lvl<c.lvl;
@@ -1523,7 +1576,7 @@ function renderCases(){
     '<div class="tierbar">'+D.map(function(p,i){ return p?'<i style="flex:'+Math.max(p,1.2)+';background:'+tc(i)+'"></i>':''; }).join('')+'</div>'+
     '<div class="tierleg">'+D.map(function(p,i){ return p?'<span><i style="background:'+tc(i)+'"></i>'+TIERS[i].n+'<b>'+(p>=1?p:p.toString().replace('.',','))+'%</b></span>':''; }).join('')+'</div>'+
     '<p class="sub" style="margin-top:8px">+ шанс мутации 3,2%: пятнистый, альбинос, меланист, неоновый, кристальный. ⚪ Белые не падают из кейсов.</p>'+
-    (C.elite?'<p class="sub" style="margin-top:6px">Внутри любое животное из 7 ареалов.</p>':'<div class="inside">'+pool.map(function(i){ var s=SPECIES[i]; return '<div>'+animalSVG(i,0)+esc(s.n)+'<br><b style="color:var(--coin)">'+short(s.v)+'</b></div>'; }).join('')+'</div>')+'</div>';
+    (C.elite?'<p class="sub" style="margin-top:6px">Внутри любое животное из 7 ареалов.</p>':'<div class="inside">'+pool.map(function(i){ var s=SPECIES[i]; return '<div>'+animalIMG(i,0)+esc(s.n)+'<br><b style="color:var(--coin)">'+short(s.v)+'</b></div>'; }).join('')+'</div>')+'</div>';
   var tix=(S.tix&&S.tix[S.cs])||0, cost=C.cost*S.n, free=tix>=S.n;
   h+='<div class="ctl"><span class="lab2">Кейсов</span><div class="seg">'+[1,2,3,4,5].map(function(n){ return '<button data-n="'+n+'" aria-pressed="'+(S.n===n)+'">'+n+'</button>'; }).join('')+'</div>'+
     '<button class="toggle" data-act="fast" aria-pressed="'+S.fast+'">⚡ '+(S.fast?'Быстро':'Обычно')+'</button></div>';
@@ -1538,15 +1591,23 @@ function openCases(){
   if (ui.busy) return; var k=S.cs, C=CASES[k], n=S.n, cost=C.cost*n, tix=(S.tix&&S.tix[k])||0;
   if (tix>=n){ S.tix[k]-=n; }
   else { if (S.coins<cost){ toast('Не хватает монет'); hap('error'); return; } S.coins-=cost; }
-  S.st.opened+=n;
-  var got=[]; for (var i=0;i<n;i++){ var a=rollAnimal(k); a.id=nid(); a.place='bag'; S.inv.push(a); seen(a); got.push(a); if (a.mu){ S.st.muts=(S.st.muts||0)+1; if (a.mu==='cry') S.st.cry=(S.st.cry||0)+1; } if (a.t===6) S.st.rainbows=(S.st.rainbows||0)+1; }
-  addXp(Math.ceil(n*caseXp(C.cost))); save();
-  ui.busy=true; hap('medium'); sClick();
-  playReel(got, k, function(){ ui.busy=false; showReveal(got,'drop'); });
+  S.st.opened+=n; ui.busy=true; hap('medium'); sClick();
+  getRolls(k, n, function(got){
+    got.forEach(function(a){ S.inv.push(a); seen(a); if (a.mu){ S.st.muts=(S.st.muts||0)+1; if (a.mu==='cry') S.st.cry=(S.st.cry||0)+1; } if (a.t===6) S.st.rainbows=(S.st.rainbows||0)+1; });
+    addXp(Math.ceil(n*caseXp(C.cost))); save(true);
+    playReel(got, k, function(){ ui.busy=false; showReveal(got,'drop'); });
+  });
 }
+// кейсы бросает сервер (золото и выше получают номер). Без связи — бросаем сами, но не выше красной
+function getRolls(k, n, cb){
+  if (!apiOn()){ cb(localRolls(k,n,7)); return; }
+  api('/api/roll',{case:k, n:n}).then(function(d){ if (!d.items||d.items.length!==n) throw 0; cb(d.items.map(function(x){ return fromSrv(x); })); })
+    .catch(function(){ cb(localRolls(k,n,4)); });
+}
+function localRolls(k, n, cap){ var out=[]; for (var i=0;i<n;i++){ var a=rollAnimal(k); while (a.t>cap) a=rollAnimal(k); a.id=nid(); a.place='bag'; out.push(a); } return out; }
 function caseXp(c){ return 2+Math.min(c,7000)/1000+Math.max(0,Math.log10(c/7000))*6; }
 var FILL=[60,24,10,4,1.5,0.5,0.15,0];
-function reelCard(a,compact){ return '<div class="rc" style="--tc:'+tc(a.t)+'">'+aSVG(a)+(compact?'':'<span>'+esc(SPECIES[a.s].n)+'</span>')+'</div>'; }
+function reelCard(a,compact){ return '<div class="rc" style="--tc:'+tc(a.t)+'">'+aIMG(a)+(compact?'':'<span>'+esc(SPECIES[a.s].n)+'</span>')+'</div>'; }
 function playReel(got, ck, done){
   var ov=document.createElement('div'); ov.className='ov'; ov.id='ov';
   var compact=got.length>=3, W=compact?72:104, G=8, IDX=38, TOT=44;
@@ -1579,8 +1640,8 @@ function showReveal(list, mode, chainN){
   var ov=document.createElement('div'); ov.className='ov'+(list.length>1?' many':''); ov.id='rev'; ov.style.setProperty('--tc',tc(best.t));
   var head = mode==='white' ? '<h3 style="color:#fff;text-shadow:0 0 18px #fff">⚪ БЕЛАЯ РЕДКОСТЬ! Такое бывает раз в жизни</h3>' : chainN>1 ? '<h3 style="color:#7dff6a">⚡ Цепной апгрейд: +'+chainN+' редкост'+(chainN<5?'и':'ей')+'!</h3>' : mode==='contract' ? '<h3 style="color:var(--coin)">Контракт выполнен!</h3>' : mode==='up' ? '<h3 style="color:var(--lime)">Апгрейд удался!</h3>' : (list.length>1?'<h3>Тебе выпало</h3>':'');
   var h=head+'<div class="reveal" style="--tc:'+tc(best.t)+'"><div class="stage"><div class="rays"></div><div class="halo"></div>'+burst(best.t)+aSVG(best,'big')+'</div>'+
-    '<span class="tierpill">'+(best.star?'★ ':'')+TIERS[best.t].n+'</span>'+mutPill(best)+'<div class="nm">'+esc(SPECIES[best.s].n)+'</div>'+(best.star?'<div class="sub" style="color:var(--coin)">Отборный: ×'+best.k.toFixed(1).replace('.',',')+' к обычной цене</div>':'')+'<div class="worth"><span class="coin">₽</span><span id="worth">0</span></div></div>';
-  if (list.length>1) h+='<div class="multi">'+list.map(function(a){ return '<div class="acard'+(a.t>=5?' t5':'')+'" style="--tc:'+tc(a.t)+'">'+aSVG(a)+'<b>'+esc(SPECIES[a.s].n)+'</b><small>'+TIERS[a.t].n+(a.mu?' · '+MUTS[a.mu].n:'')+'</small></div>'; }).join('')+'</div>';
+    '<span class="tierpill">'+(best.star?'★ ':'')+TIERS[best.t].n+'</span>'+mutPill(best)+(best.serial?' <span class="tierpill" style="--tc:#ffffff">№ '+best.serial+'</span>':'')+'<div class="nm">'+esc(SPECIES[best.s].n)+'</div>'+(best.star?'<div class="sub" style="color:var(--coin)">Отборный: ×'+best.k.toFixed(1).replace('.',',')+' к обычной цене</div>':'')+'<div class="worth"><span class="coin">₽</span><span id="worth">0</span></div></div>';
+  if (list.length>1) h+='<div class="multi">'+list.map(function(a){ return '<div class="acard'+(a.t>=5?' t5':'')+'" style="--tc:'+tc(a.t)+'">'+aIMG(a)+'<b>'+esc(SPECIES[a.s].n)+'</b><small>'+TIERS[a.t].n+(a.mu?' · '+MUTS[a.mu].n:'')+'</small></div>'; }).join('')+'</div>';
   if (list.length===1){ var a=list[0];
     h+='<div class="acts"><button class="btn lime" data-act="rvZoo" data-id="'+a.id+'">В зоопарк</button>'+(a.t<=MAX_UP?'<button class="btn coinb" data-act="rvUp" data-id="'+a.id+'">Апгрейд '+upPctTxt(a.t)+'</button>':'<button class="btn" disabled>Максимум</button>')+
       '<button class="btn" data-act="rvSell" data-id="'+a.id+'">Продать · '+short(dealer(a))+'</button><button class="btn" data-act="rvClose">В сумку</button></div>';
@@ -1597,7 +1658,16 @@ function countUp(el,to,ms){ if (!el) return; var t0=performance.now(); (function
 function closeReveal(){ var o=$('rev'); if (o) o.remove(); ui.modal=false; render(); setTimeout(flush,150); }
 
 /* ---------- bag ---------- */
-function acard(a, act){ var z=a.place==='zoo', ex=a.place==='exp'; return '<button class="acard'+(a.t>=5?' t5':'')+'" style="--tc:'+tc(a.t)+'" data-act="'+(act||'item')+'" data-id="'+a.id+'">'+(z?'<span class="pin">в зоопарке</span>':ex?'<span class="pin">в экспедиции</span>':'')+(a.mu?'<span class="mut" style="--mc:'+MUTS[a.mu].c+'">'+MUTS[a.mu].n+'</span>':'')+aSVG(a)+'<b>'+esc(SPECIES[a.s].n)+'</b><small>'+TIERS[a.t].n+(a.star?' · отборный':'')+'</small><span class="val">'+short(val(a))+' ₽</span></button>'; }
+// постраничный вывод: по 30 животных
+var PER=30; ui.pg={};
+function pageOf(key, list){ var n=Math.max(1,Math.ceil(list.length/PER)), p=Math.max(0,Math.min(ui.pg[key]||0,n-1)); ui.pg[key]=p;
+  return {items:list.slice(p*PER,p*PER+PER), html:n>1?pagerHTML(key,p,n,list.length):''}; }
+function pagerHTML(key,p,n,total){ var b=[], add=function(i){ b.push('<button class="pgb'+(i===p?' on':'')+'" data-act="pg" data-id="'+key+'" data-x="'+i+'"'+(i===p?' aria-current="page"':'')+'>'+(i+1)+'</button>'); };
+  var lo=Math.max(0,p-1), hi=Math.min(n-1,p+1); if (p<=1) hi=Math.min(n-1,3); if (p>=n-2) lo=Math.max(0,n-4);
+  if (lo>0){ add(0); if (lo>1) b.push('<span class="pgd">…</span>'); } for (var i=lo;i<=hi;i++) add(i); if (hi<n-1){ if (hi<n-2) b.push('<span class="pgd">…</span>'); add(n-1); }
+  return '<div class="pager"><button class="pgb" data-act="pg" data-id="'+key+'" data-x="'+(p-1)+'"'+(p?'':' disabled')+' aria-label="Назад">‹</button>'+b.join('')+'<button class="pgb" data-act="pg" data-id="'+key+'" data-x="'+(p+1)+'"'+(p<n-1?'':' disabled')+' aria-label="Вперёд">›</button><span class="pgi">'+(p*PER+1)+'–'+Math.min(total,(p+1)*PER)+' из '+total+'</span></div>'; }
+function pagedGrid(key, list, fn){ var P=pageOf(key,list); return P.html+'<div class="grid">'+P.items.map(fn).join('')+'</div>'+P.html; }
+function acard(a, act){ var z=a.place==='zoo', ex=a.place==='exp'; return '<button class="acard'+(a.t>=5?' t5':'')+'" style="--tc:'+tc(a.t)+'" data-act="'+(act||'item')+'" data-id="'+a.id+'">'+(a.frozen?'<span class="pin">🔒 заморожен</span>':a.price?'<span class="pin lot">🏪 '+a.price+' ⭐</span>':z?'<span class="pin">в зоопарке</span>':ex?'<span class="pin">в экспедиции</span>':'')+numTag(a)+(a.mu?'<span class="mut" style="--mc:'+MUTS[a.mu].c+'">'+MUTS[a.mu].n+'</span>':'')+aIMG(a)+'<b>'+esc(SPECIES[a.s].n)+'</b><small>'+TIERS[a.t].n+(a.star?' · отборный':'')+'</small><span class="val">'+short(val(a))+' ₽</span></button>'; }
 function renderBag(){
   var list=bag().slice().sort(function(a,b){ return b.t-a.t || val(b)-val(a); }), f=S.filt;
   var h='<div class="between"><h2>Сумка</h2><span class="sub">'+list.length+' животных</span></div>';
@@ -1605,10 +1675,12 @@ function renderBag(){
   if (f>=0) list=list.filter(function(a){return a.t===f;});
   if (!list.length) return h+'<div class="empty">Тут пусто. Открой кейс, и животные появятся в сумке</div>';
   h+='<button class="btn" data-act="bulk" style="align-self:flex-start">Быстрая продажа…</button>';
-  return h+'<div class="grid">'+list.map(function(a){ return acard(a); }).join('')+'</div>';
+  return h+pagedGrid('bag'+f, list, function(a){ return acard(a); });
 }
 function itemSheet(id){
   var a=find(id); if (!a) return; var z=a.place==='zoo';
+  if (a.frozen){ info('🔒 Заморожен', aname(a)+' заморожен администрацией: его нельзя продать или улучшить. Если это ошибка, напиши в поддержку бота.'); return; }
+  if (a.price){ sheet('<div class="hero" style="--tc:'+tc(a.t)+'">'+aSVG(a)+'</div><h3>'+esc(aname(a))+'</h3><p>🏪 Выставлен на рынке за <b style="color:#ffd36a">'+a.price+' ⭐</b>. Пока он на продаже, его нельзя улучшать, ставить в вольер или отправлять в экспедицию.</p><div class="list"><button class="opt" data-act="unlist" data-id="'+id+'">Снять с продажи<span></span></button><button class="opt" data-act="close">Закрыть<span></span></button></div>'); return; }
   if (a.place==='exp'){ info('В экспедиции', SPECIES[a.s].n+' сейчас в экспедиции. Вернётся через '+hm((a.expEnd||0)-Date.now())+'.'); return; }
   var acts='';
   if (z && a.sick) acts+='<button class="opt lime" data-act="heal" data-id="'+id+'"'+(S.coins>=vetCost(a)?'':' disabled')+'>🩺 Вылечить у ветеринара<small>Пока болеет, приносит вдвое меньше</small><span>'+short(vetCost(a))+' ₽</span></button>';
@@ -1617,6 +1689,8 @@ function itemSheet(id){
   if (!z) acts+='<button class="opt" data-act="expPick" data-id="'+id+'"'+(expA().length>=expSlots()?' disabled':'')+'>🧭 В экспедицию<small>'+(expA().length>=expSlots()?'Все места в экспедициях заняты':'Принесёт монеты и, может быть, кейс')+'</small><span></span></button>';
   if (a.t<=MAX_UP){ var nx=a.t===MAX_UP?'Радужный или ⚪ Белый':'«'+TIERS[a.t+1].n+'»';
     acts+='<button class="opt" data-act="goUp" data-id="'+id+'">Апгрейд до '+nx+'<small>Шанс '+upPctTxt(a.t)+'. Если не выйдет, животное сбежит</small><span>'+short(val({s:a.s,t:a.t+1,k:a.k,mu:a.mu}))+'</span></button>'; }
+  if (reg(a)) acts+='<button class="opt lime" data-act="sellPick" data-id="'+id+'">🏪 Продать на рынке за ⭐<small>Другие игроки купят его за звёзды, тебе — 85% в 💫 зоо-звёздах</small><span>#'+a.serial+'</span></button>';
+  else if (a.t>=5) acts+='<div class="sub" style="padding:4px 2px">'+(a.vet?'🏛 Ветеран: получен до запуска рынка. Его нельзя продать на рынке, зато он редкий по-своему.':'Без номера: получен без связи с сервером, на рынок не выставить.')+'</div>';
   acts+='<button class="opt" data-act="hatPick" data-id="'+id+'">🎩 Скин<small>'+(a.hat?'Надето: '+HATS[a.hat].n:'Корона, цилиндр, нимб и другие')+'</small><span></span></button>';
   acts+='<button class="opt red" data-act="sell" data-id="'+id+'">Продать скупщику<small>Скупщик платит '+Math.round(DEALER*100)+'% цены</small><span>'+short(dealer(a))+' ₽</span></button>';
   acts+='<button class="opt" data-act="share" data-id="'+id+'">Похвастаться<span></span></button><button class="opt" data-act="close">Закрыть<span></span></button>';
@@ -1627,6 +1701,11 @@ function bulkSheet(){
   sheet('<h3>Быстрая продажа</h3><p>Продаю скупщику животных из сумки. Зоопарк не трогаю.</p><div class="list">'+opts.map(function(o){ var L=bag().filter(function(a){return a.t<=o[0]&&!a.mu&&!a.hat;}), sum=L.reduce(function(s,a){return s+dealer(a);},0);
     return '<button class="opt red" data-act="bulkGo" data-id="'+o[0]+'"'+(L.length?'':' disabled')+'>'+o[1]+'<small>'+o[2]+' · '+L.length+' шт</small><span>'+short(sum)+' ₽</span></button>'; }).join('')+'<button class="opt" data-act="close">Отмена<span></span></button></div>');
 }
+function sellSafe(ids, done){ var regs=ids.map(find).filter(function(a){ return a&&reg(a); });
+  if (ids.map(find).some(locked)){ toast('Сначала сними животное с продажи на рынке'); return; }
+  if (!regs.length){ done(sellIds(ids)); return; }
+  if (!apiOn()){ toast('Номерное животное можно продать скупщику только с интернетом'); return; }
+  Promise.all(regs.map(function(a){ return api('/api/burn',{rid:a.rid}); })).then(function(){ done(sellIds(ids)); }).catch(function(){ toast('Нет связи с сервером'); }); }
 function sellIds(ids){ var sum=0; ids.forEach(function(id){ var a=find(id); if (!a) return; if (a.place==='zoo') settle(); sum+=dealer(a); S.inv=S.inv.filter(function(x){return x.id!==id;}); if (S.sel===id) S.sel=null; }); S.coins+=sum; S.st.sold+=ids.length; S.st.earned+=sum; sCoin(); hap('medium'); return sum; }
 
 /* ---------- upgrade & contract ---------- */
@@ -1641,14 +1720,16 @@ function contractOut(five){
   var odds={}; five.forEach(function(a){ odds[a.s]=(odds[a.s]||0)+0.2; });
   return {t:t, p:p, k:k, inSum:inSum, odds:Object.keys(odds).map(function(s){ return {s:+s, p:odds[s], v:SPECIES[+s].v*TM[t+1]*k}; }).sort(function(x,y){ return y.p-x.p; })};
 }
-function csel(){ return (S.csel||[]).map(find).filter(function(a){ return a && a.place!=='zoo' && a.place!=='exp' && a.t===S.ctier; }); }
+function csel(){ return (S.csel||[]).map(find).filter(function(a){ return a && a.place!=='zoo' && a.place!=='exp' && !locked(a) && a.t===S.ctier; }); }
 // Бонусная ⚡-зона: первые 5% зелёной зоны. Попал в неё — цепной апгрейд.
 var BONUS=0.05;
 // Цепной апгрейд: каждый следующий шаг идёт с обычным шансом этой редкости (75/50/25/10/5%).
 // Ожидаемая стоимость цепочки E[t] считается заранее, и размер ⚡ зоны подбирается так,
 // чтобы апгрейд в среднем возвращал ~100% вложенного, а не печатал деньги.
-var CHAIN_E=[]; (function(){ CHAIN_E[5]=TM[5]; for (var t=4;t>=0;t--) CHAIN_E[t]=UP_CHANCE[t]*CHAIN_E[t+1]+(1-UP_CHANCE[t])*TM[t]; })();
-function boltB(V, Vt, T, p){ if (T>=MAX_UP) return 0; var r=CHAIN_E[T]/TM[T]-1; return Math.max(0,Math.min(p, BONUS, 0.08*V/(Vt*r))); }
+// цепь идёт максимум до красной: золото и выше выдаёт только сервер (у них есть номера)
+var CHAIN_MAX=4;
+var CHAIN_E=[]; (function(){ CHAIN_E[CHAIN_MAX]=TM[CHAIN_MAX]; for (var t=CHAIN_MAX-1;t>=0;t--) CHAIN_E[t]=UP_CHANCE[t]*CHAIN_E[t+1]+(1-UP_CHANCE[t])*TM[t]; })();
+function boltB(V, Vt, T, p){ if (T>=CHAIN_MAX) return 0; var r=CHAIN_E[T]/TM[T]-1; return Math.max(0,Math.min(p, BONUS, 0.08*V/(Vt*r))); }
 function bonOf(t, contract){ return t===MAX_UP ? (contract?0:GOLD_WH) : BONUS; }
 function gaugeHTML(center, p, cur, nxt, chain, bonP){
   var R=96, C=2*Math.PI*R, bon=chain?0:Math.min(bonP===undefined?BONUS:bonP,p), white=cur===MAX_UP&&!chain, gid='gg'+(++aUID);
@@ -1665,13 +1746,13 @@ function modeSeg(){ return '<div class="seg"><button data-act="mode" data-id="on
 function renderUp(){ return S.upMode==='five'?renderContract():renderSingle(); }
 function renderSingle(){
   var a=S.sel&&find(S.sel);
-  if (!a||a.t>MAX_UP||a.place==='exp'){
-    S.sel=null; var list=S.inv.filter(function(x){return x.t<=MAX_UP&&x.place!=='exp';}).sort(function(x,y){ return y.t-x.t||val(y)-val(x); });
+  if (!a||a.t>MAX_UP||a.place==='exp'||locked(a)){
+    S.sel=null; var list=S.inv.filter(function(x){return x.t<=MAX_UP&&x.place!=='exp'&&!locked(x);}).sort(function(x,y){ return y.t-x.t||val(y)-val(x); });
     var h=modeSeg()+'<div class="glass pad"><h2>Апгрейд</h2><p class="sub" style="margin-top:6px">Повышай редкость одного животного. Можно прыгнуть сразу через несколько редкостей или докинуть монет, чтобы поднять шанс. Цена растёт в несколько раз, но если стрелка попадёт в красную зону, животное сбежит.</p><div style="height:10px"></div>'+
       UP_CHANCE.map(function(p,i){ return '<div class="oddsrow"><span class="tierpill" style="--tc:'+tc(i)+';font-size:10px">'+TIERS[i].n+'</span><span class="arrow">→ '+Math.round(p*100)+'% →</span><span class="tierpill" style="--tc:'+tc(i+1)+';font-size:10px">'+TIERS[i+1].n+'</span></div>'; }).join('')+'</div>';
     h+='<h3>Выбери животное</h3>';
     if (!list.length) return h+'<div class="empty">Нет животных для апгрейда. Открой кейс</div>';
-    return h+'<div class="grid">'+list.map(function(x){ return acard(x,'pickUp'); }).join('')+'</div>';
+    return h+pagedGrid('up', list, function(x){ return acard(x,'pickUp'); });
   }
   if (ui.upFor!==a.id){ ui.upFor=a.id; ui.upT=a.t===MAX_UP?6:a.t+1; ui.upC=0; }
   var gold=a.t===MAX_UP, T=upTarget(a), mc=upMaxC(a,T); if (ui.upC>mc) ui.upC=mc;
@@ -1707,12 +1788,12 @@ function upLive(){ var a=S.sel&&find(S.sel); if (!a) return; var T=upTarget(a), 
   var v=$('upCv'); if (v) v.textContent=short(ui.upC)+' ₽'; var b=$('upGo'); if (b) b.innerHTML='Улучшить · <span id="upPct">'+pctTxt(U.p)+'</span>'+(ui.upC?' · '+short(ui.upC)+' ₽':''); }
 function renderContract(){
   var tier=S.ctier==null?0:S.ctier; S.ctier=tier;
-  var pool=bag().filter(function(a){ return a.t===tier; }).sort(function(a,b){ return val(a)-val(b); }), chosen=csel(); S.csel=chosen.map(function(a){return a.id;});
+  var pool=bag().filter(function(a){ return a.t===tier && !locked(a); }).sort(function(a,b){ return val(a)-val(b); }), chosen=csel(); S.csel=chosen.map(function(a){return a.id;});
   var h=modeSeg()+'<div class="glass pad"><h2>Контракт ×5</h2><p class="sub" style="margin-top:6px">Положи 5 любых животных <b style="color:var(--fg)">одной редкости</b> и получи одно <b style="color:var(--coin)">Отборное ★</b> следующей. Вид выпадает из тех, кого положил: каждое животное даёт 20%. Если не повезёт, сбегут все пятеро.</p><div style="height:8px"></div>'+
     CONTRACT_P.map(function(p,i){ return '<div class="oddsrow"><span class="tierpill" style="--tc:'+tc(i)+';font-size:10px">5 × '+TIERS[i].n+'</span><span class="arrow">→ '+Math.round(p*100)+'% →</span><span class="tierpill" style="--tc:'+tc(i+1)+';font-size:10px">★ '+TIERS[i+1].n+'</span></div>'; }).join('')+'</div>';
   h+='<div class="filters">'+TIERS.slice(0,6).map(function(T,i){ var n=bag().filter(function(a){return a.t===i;}).length; return '<button data-act="ctier" data-id="'+i+'" aria-pressed="'+(tier===i)+'"><i style="background:'+T.c+'"></i>'+T.n+' · '+n+'</button>'; }).join('')+'</div>';
   h+='<div class="glass pad"><div class="between"><h3>Слоты '+chosen.length+'/5</h3><div class="row"><button class="btn" data-act="cfill"'+(pool.length>=5?'':' disabled')+'>Самые дешёвые</button>'+(chosen.length?'<button class="btn" data-act="cclear">Очистить</button>':'')+'</div></div><div style="height:8px"></div>'+
-    '<div class="five">'+[0,1,2,3,4].map(function(i){ var a=chosen[i]; return a?'<button class="acard" style="--tc:'+tc(a.t)+'" data-act="cdel" data-id="'+a.id+'">'+aSVG(a,'',1)+'</button>':'<div class="slot5">+</div>'; }).join('')+'</div>';
+    '<div class="five">'+[0,1,2,3,4].map(function(i){ var a=chosen[i]; return a?'<button class="acard" style="--tc:'+tc(a.t)+'" data-act="cdel" data-id="'+a.id+'">'+aIMG(a)+'</button>':'<div class="slot5">+</div>'; }).join('')+'</div>';
   if (chosen.length===5){
     var o=contractOut(chosen);
     h+='<div style="height:12px"></div>'+gaugeHTML(animalSVG(o.odds[0].s,tier+1), o.p, tier, tier+1, false, cBolt(o))+'<div style="height:12px"></div>'+
@@ -1724,7 +1805,7 @@ function renderContract(){
   if (chosen.length===5) h+='<button class="cta gold" data-act="doContract">Подписать контракт · '+Math.round(CONTRACT_P[tier]*100)+'%</button>';
   h+='<h3>'+TIERS[tier].n+' в сумке</h3>';
   if (!pool.length) return h+'<div class="empty">Нет животных этой редкости. Открой кейсы или выбери другую редкость</div>';
-  return h+'<div class="grid">'+pool.map(function(a){ var on=S.csel.indexOf(a.id)>=0; return acard(a, on?'cdel':'cadd').replace('class="acard','class="acard'+(on?' picked':'')); }).join('')+'</div>';
+  return h+pagedGrid('ct'+tier, pool, function(a){ var on=S.csel.indexOf(a.id)>=0; return acard(a, on?'cdel':'cadd').replace('class="acard','class="acard'+(on?' picked':'')); });
 }
 var needleAng=0;
 function easeOutQuint(x){ return 1-Math.pow(1-x,5); }
@@ -1751,7 +1832,7 @@ function rollUp(p, bonP){ var r=Math.random(), b=Math.min(bonP===undefined?BONUS
 // цепной апгрейд: после ⚡ колесо само крутится с шансом 50%, пока не выпадет больше 50% или не дойдём до золота
 function cBolt(o){ return boltB(o.inSum, 0.92*o.inSum/o.p, o.t, o.p); }
 function runChain(a, steps, done){
-  if (a.t>=5){ done(steps); return; }
+  if (a.t>=CHAIN_MAX){ done(steps); return; }
   var g=$('gauge'), info=$('uinfo');
   var CP=UP_CHANCE[a.t];
   if (g) g.outerHTML=gaugeHTML(aSVG(a), CP, a.t, a.t+1, true);
@@ -1767,33 +1848,50 @@ function runChain(a, steps, done){
 function chainLog(steps){ return steps.length?'<span class="chain">'+steps.map(function(t){ return '<i style="background:'+tc(t)+'">'+TIERS[t].n+'</i>'; }).join('')+'</span>':''; }
 var RUN_TO={farm:'лес',savanna:'саванну',jungle:'джунгли',arctic:'льды',siberia:'тайгу',australia:'буш',ocean:'океан',myth:'облака'};
 function doUpgrade(){
-  var a=S.sel&&find(S.sel); if (!a||a.t>MAX_UP||ui.busy) return;
-  var gold=a.t===MAX_UP, T=upTarget(a), c=Math.min(ui.upC||0, upMaxC(a,T)), U=upP(a,T,c), p=U.p, bp=U.bon, res=rollUp(p,bp);
-  if (c>S.coins) return; S.coins-=c; ui.upC=0; S.st.upCoins=(S.st.upCoins||0)+c;
+  var a=S.sel&&find(S.sel); if (!a||a.t>MAX_UP||ui.busy||locked(a)) return;
+  var gold=a.t===MAX_UP, T=upTarget(a), c=Math.min(ui.upC||0, upMaxC(a,T)), U=upP(a,T,c), p=U.p, bp=U.bon;
+  if (c>S.coins) return;
+  // золото и выше бросает сервер; ветераны и животные без номера улучшаются как раньше, без номера
+  var srv=apiOn() && T>=5 && (!gold || reg(a));
+  S.coins-=c; ui.upC=0; S.st.upCoins=(S.st.upCoins||0)+c;
   if (a.place==='zoo') settle();
   ui.busy=true; hap('medium'); renderTop();
+  if (!srv){ upFinish(a, gold, T, rollUp(p,bp), p, bp, null); return; }
+  api('/api/up', gold?{rid:a.rid, c:c}:{a:{s:SPECIES[a.s].id, t:a.t, k:a.k||1, mu:a.mu||''}, T:T, c:c}).then(function(d){
+    if (!d.res) throw 0; upFinish(a, gold, T, d.res==='white'?'bonus':d.res, p, bp, d.a||null);
+  }).catch(function(e){ S.coins+=c; ui.busy=false; renderTop(); toast(String(e).indexOf('429')>=0?'Слишком много попыток — передохни немного':'Нет связи с сервером. Монеты возвращены'); });
+}
+function upFinish(a, gold, T, res, p, bp, sx){
   spinNeedle(p, res!=='fail', function(){
     if (res!=='fail'){
-      if (gold){ a.t=res==='bonus'?7:6; S.st.upOk++; seen(a); if (a.t===7) S.st.whites=(S.st.whites||0)+1; else S.st.rainbows=(S.st.rainbows||0)+1; addXp(40+a.t*10); save(); ui.busy=false; showReveal([a], a.t===7?'white':'up'); return; }
-      var jump=T-a.t; a.t=T; S.st.upOk++; if (jump>1) S.st.jumps=(S.st.jumps||0)+1; seen(a); addXp(4+a.t*3*jump); save();
-      if (res==='bonus' && a.t<5){ S.st.chains=(S.st.chains||0)+1; sWin(a.t); var gc=$('gc'); if (gc){ gc.innerHTML=aSVG(a); gc.firstChild.classList.add('uok'); }
+      if (gold){ if (sx) fromSrv(sx,a); else a.t=res==='bonus'?7:6; S.st.upOk++; seen(a); if (a.t===7) S.st.whites=(S.st.whites||0)+1; else S.st.rainbows=(S.st.rainbows||0)+1; addXp(40+a.t*10); save(true); ui.busy=false; showReveal([a], a.t===7?'white':'up'); return; }
+      var jump=T-a.t; if (sx) fromSrv(sx,a); else a.t=T; S.st.upOk++; if (jump>1) S.st.jumps=(S.st.jumps||0)+1; seen(a); addXp(4+a.t*3*jump); save(true);
+      if (res==='bonus' && a.t<CHAIN_MAX){ S.st.chains=(S.st.chains||0)+1; sWin(a.t); var gc=$('gc'); if (gc){ gc.innerHTML=aSVG(a); gc.firstChild.classList.add('uok'); }
         runChain(a, [a.t], function(steps){ addXp(steps.length*5); save(); ui.busy=false; showReveal([a], steps.length>1?'chain':'up', steps.length); }); }
       else { ui.busy=false; showReveal([a],'up'); } }
     else { S.st.upFail++; var gc2=$('gc'); if (gc2&&gc2.firstChild) gc2.firstChild.classList.add('ufail'); sFail(); hap('error');
-      setTimeout(function(){ S.inv=S.inv.filter(function(x){return x.id!==a.id;}); S.sel=null; save(); ui.busy=false;
+      setTimeout(function(){ S.inv=S.inv.filter(function(x){return x.id!==a.id;}); S.sel=null; save(true); ui.busy=false;
         info('Сбежал…', SPECIES[a.s].n+' перепрыгнул через ограду и убежал в '+(RUN_TO[SPECIES[a.s].zone]||'лес')+'. В следующий раз повезёт!'); render(); }, 900); }
   }, landAngle(p,res,bp));
 }
 function doContract(){
   if (ui.busy) return; var five=csel(); if (five.length!==5) return;
-  var o=contractOut(five), t=o.t, p=o.p, res=rollUp(p,cBolt(o)), pickS=five[Math.floor(Math.random()*5)].s;
+  var o=contractOut(five), t=o.t, p=o.p;
+  var srv=apiOn() && (t===4 || (t===5 && five.every(reg))), anyVet=five.some(function(a){ return a.vet||(a.t>=5&&!a.rid); });
   ui.busy=true; hap('medium');
+  if (!srv){ contractFinish(five, o, rollUp(p,cBolt(o)), five[Math.floor(Math.random()*5)].s, null, anyVet); return; }
+  var body=t===5?{rids:five.map(function(a){return a.rid;})}:{a:five.map(function(a){ return {s:SPECIES[a.s].id, t:a.t, k:a.k||1, mu:a.mu||''}; })};
+  api('/api/contract', body).then(function(d){ if (!d.res) throw 0; contractFinish(five, o, d.res, d.a?sid(d.a.s):five[0].s, d.a||null, false); })
+    .catch(function(e){ ui.busy=false; toast(String(e).indexOf('429')>=0?'Слишком много попыток — передохни немного':'Нет связи с сервером. Животные остались у тебя'); });
+}
+function contractFinish(five, o, res, pickS, sx, vet){
+  var t=o.t, p=o.p;
   spinNeedle(p, res!=='fail', function(){
     var ids=five.map(function(a){return a.id;}), wasZoo=five.some(function(a){return a.place==='zoo';}); S.inv=S.inv.filter(function(x){ return ids.indexOf(x.id)<0; }); S.csel=[];
     S.st.contracts=(S.st.contracts||0)+1;
-    if (res!=='fail'){ var r={id:nid(), s:pickS, t:t+1, k:+o.k.toFixed(3), star:1, place:'bag'}; S.inv.push(r); seen(r); S.st.upOk++; S.st.contractOk=(S.st.contractOk||0)+1; addXp(8+r.t*4); save();
+    if (res!=='fail'){ var r={id:nid(), s:pickS, t:t+1, k:+o.k.toFixed(3), star:1, place:'bag'}; if (sx) fromSrv(sx,r); else if (vet&&r.t>=5) r.vet=1; S.inv.push(r); seen(r); S.st.upOk++; S.st.contractOk=(S.st.contractOk||0)+1; addXp(8+r.t*4); save();
       var gc=$('gc'); if (gc) gc.innerHTML=aSVG(r); if (r.t===6) S.st.rainbows=(S.st.rainbows||0)+1;
-      if (res==='bonus' && r.t<5){ S.st.chains=(S.st.chains||0)+1; sWin(r.t);
+      if (res==='bonus' && r.t<CHAIN_MAX){ S.st.chains=(S.st.chains||0)+1; sWin(r.t);
         runChain(r, [r.t], function(steps){ addXp(steps.length*5); save(); ui.busy=false; showReveal([r], 'contract', steps.length); }); }
       else { ui.busy=false; showReveal([r],'contract'); } }
     else { S.st.upFail++; var gc2=$('gc'); if (gc2&&gc2.firstChild) gc2.firstChild.classList.add('ufail'); sFail(); hap('error');
@@ -1803,7 +1901,7 @@ function doContract(){
 
 /* ---------- zoo ---------- */
 var VISITOR_C=['#ff8a5c','#5cc8ff','#ffd35c','#b78cff','#7be495','#ff6fa8'];
-function visitorsHTML(n){ var s='', k=Math.min(10,Math.max(1,Math.round(n))); for (var i=0;i<k;i++){ var c=VISITOR_C[i%6], d=(9+Math.random()*8).toFixed(1), del=(-Math.random()*16).toFixed(1);
+function visitorsHTML(n){ var s='', k=Math.min(6,Math.max(1,Math.round(n))); for (var i=0;i<k;i++){ var c=VISITOR_C[i%6], d=(9+Math.random()*8).toFixed(1), del=(-Math.random()*16).toFixed(1);
   s+='<span class="p" style="animation-duration:'+d+'s;animation-delay:'+del+'s"><svg width="14" height="26" viewBox="0 0 14 26"><circle cx="7" cy="5" r="4" fill="#ffd9b8"/><path d="M2 12 Q7 8 12 12 L11 20 H3 Z" fill="'+c+'"/><path d="M4 20 l-1 6 M10 20 l1 6" stroke="#2a3a44" stroke-width="2.4" stroke-linecap="round"/></svg></span>'; } return s; }
 function slotCost(){ return Math.round(4000*Math.pow(2.2,S.slots-3)/100)*100; }
 // живые вольеры: животное ходит, ест, спит; на тап подпрыгивает
@@ -1814,7 +1912,7 @@ function enclHTML(a){
     '<div class="bush" style="left:-8%;bottom:30%;width:34%;height:30%;background:'+z.bg[1]+';opacity:.85"></div><div class="bush" style="right:-6%;bottom:34%;width:30%;height:26%;background:'+z.bg[1]+';opacity:.7"></div>'+
     '<div class="gr" style="background:radial-gradient(ellipse at 50% 25%,'+z.bg[0]+','+z.bg[1]+')"></div>'+
     '<div class="bowl"></div>'+
-    '<button class="pet m-'+m+'" data-act="pet" data-id="'+a.id+'" aria-label="Погладить">'+aSVG(a,'an')+'<i class="zz">z<b>z</b><b>z</b></i></button>'+(a.t?'<div class="ring"></div>':'')+
+    '<button class="pet m-'+m+'" data-act="pet" data-id="'+a.id+'" aria-label="Погладить">'+aIMG(a,'an')+'<i class="zz">z<b>z</b><b>z</b></i></button>'+(a.t?'<div class="ring"></div>':'')+
     (a.sick?'<button class="sickb" data-act="item" data-id="'+a.id+'">🤒 Болеет</button>':'')+
     '<button class="tag" data-act="item" data-id="'+a.id+'"><b>'+esc(SPECIES[a.s].n)+'</b><small>+'+short(inc(a))+'/мин</small></button></div>';
 }
@@ -1838,7 +1936,7 @@ var EXP=[{h:1,k:0.10,c:0.10,n:'Прогулка'},{h:4,k:0.32,c:0.35,n:'Похо
 function expSlots(){ return 2+(isVip()?1:0)+Math.min(2,Math.floor(S.lvl/10)); }
 function expPick(id){ var a=find(id); if (!a) return;
   sheet('<h3>Куда отправим?</h3><p>'+esc(SPECIES[a.s].n)+' уйдёт из сумки и вернётся с добычей. Пока он в пути, его нельзя продать или улучшить.</p><div class="list">'+EXP.map(function(e,i){ return '<button class="opt'+(i===2?' lime':'')+'" data-act="expGo" data-id="'+id+'" data-x="'+i+'">'+e.n+' · '+e.h+' ч<small>≈ '+short(val(a)*e.k)+' ₽ и шанс '+Math.round(e.c*100)+'% на бесплатный кейс</small><span>🧭</span></button>'; }).join('')+'<button class="opt" data-act="close">Отмена<span></span></button></div>'); }
-function expGo(id,x){ var a=find(id), e=EXP[x]; if (!a||!e||expA().length>=expSlots()) return; a.place='exp'; a.expEnd=Date.now()+e.h*3600e3; a.expX=x; S.st.exps=(S.st.exps||0)+1; hap('ok'); sClick(); toast(SPECIES[a.s].n+' отправился в путь: '+e.h+' ч'); }
+function expGo(id,x){ var a=find(id), e=EXP[x]; if (!a||!e||expA().length>=expSlots()||locked(a)) return; a.place='exp'; a.expEnd=Date.now()+e.h*3600e3; a.expX=x; S.st.exps=(S.st.exps||0)+1; hap('ok'); sClick(); toast(SPECIES[a.s].n+' отправился в путь: '+e.h+' ч'); }
 function unlockedCases(){ return Object.keys(CASES).filter(function(k){ return S.lvl>=CASES[k].lvl && k!=='myth' && k!=='elite'; }); }
 function expBack(id){ var a=find(id); if (!a||a.place!=='exp'||Date.now()<a.expEnd) return; var e=EXP[a.expX||0], coins=Math.round(val(a)*e.k*(0.85+Math.random()*0.3)), txt='Принёс '+rub(coins)+' монет';
   S.coins+=coins; S.st.earned+=coins; if (Math.random()<e.c){ var L=unlockedCases(), k=L[Math.floor(Math.random()*L.length)]||'farm'; addTix(k,1); txt+=' и бесплатный кейс «'+caseName(k)+'»'; }
@@ -1859,19 +1957,19 @@ function renderZoo(){
   var ex=expA(), ns=expSlots();
   h+='<div class="glass pad"><div class="between"><h3>🧭 Экспедиции</h3><span class="sub">'+ex.length+'/'+ns+'</span></div><p class="sub" style="margin:6px 0 10px">Отправь животное из сумки в поход на 1, 4 или 8 часов. Вернётся с монетами, а иногда и с бесплатным кейсом.</p><div class="exps">'+
     ex.map(function(a){ var left=a.expEnd-Date.now(), done=left<=0, e=EXP[a.expX||0];
-      return '<div class="expc" style="--tc:'+tc(a.t)+'">'+aSVG(a,'',1)+'<div><b>'+esc(SPECIES[a.s].n)+'</b><small>'+e.n+' · '+(done?'вернулся!':'ещё <span class="exl" data-end="'+a.expEnd+'">'+hm(left)+'</span>')+'</small><div class="prog"><i style="width:'+Math.min(100,100-left/(e.h*3600e3)*100)+'%"></i></div></div><button class="btn'+(done?' lime':'')+'" data-act="expBack" data-id="'+a.id+'"'+(done?'':' disabled')+'>'+(done?'Забрать':'В пути')+'</button></div>'; }).join('')+
+      return '<div class="expc" style="--tc:'+tc(a.t)+'">'+aIMG(a)+'<div><b>'+esc(SPECIES[a.s].n)+'</b><small>'+e.n+' · '+(done?'вернулся!':'ещё <span class="exl" data-end="'+a.expEnd+'">'+hm(left)+'</span>')+'</small><div class="prog"><i style="width:'+Math.min(100,100-left/(e.h*3600e3)*100)+'%"></i></div></div><button class="btn'+(done?' lime':'')+'" data-act="expBack" data-id="'+a.id+'"'+(done?'':' disabled')+'>'+(done?'Забрать':'В пути')+'</button></div>'; }).join('')+
     (ex.length<ns?'<button class="expc add" data-act="expList"><span>+</span> Отправить животное</button>':'')+'</div></div>';
   return h;
 }
 function placePick(){
   var list=bag().sort(function(a,b){ return inc(b)-inc(a); });
-  sheet('<h3>Кого поставить в вольер?</h3>'+(list.length?'<div class="grid">'+list.map(function(a){ return acard(a,'place'); }).join('')+'</div>':'<p>Сумка пуста. Открой кейс.</p>')+'<div class="list"><button class="opt" data-act="close">Закрыть<span></span></button></div>');
+  ui.sheetFn=placePick; sheet('<h3>Кого поставить в вольер?</h3>'+(list.length?pagedGrid('place', list, function(a){ return acard(a,'place'); }):'<p>Сумка пуста. Открой кейс.</p>')+'<div class="list"><button class="opt" data-act="close">Закрыть<span></span></button></div>');
 }
 function expList(){
   var list=bag().sort(function(a,b){ return val(b)-val(a); });
-  sheet('<h3>Кого отправить в экспедицию?</h3>'+(list.length?'<div class="grid">'+list.map(function(a){ return acard(a,'expPick'); }).join('')+'</div>':'<p>В сумке никого нет. Открой кейс или убери животное из вольера.</p>')+'<div class="list"><button class="opt" data-act="close">Закрыть<span></span></button></div>');
+  ui.sheetFn=expList; sheet('<h3>Кого отправить в экспедицию?</h3>'+(list.length?pagedGrid('exp', list, function(a){ return acard(a,'expPick'); }):'<p>В сумке никого нет. Открой кейс или убери животное из вольера.</p>')+'<div class="list"><button class="opt" data-act="close">Закрыть<span></span></button></div>');
 }
-function toZoo(id){ var a=find(id); if (!a||a.place==='zoo'||a.place==='exp') return; if (zooA().length>=S.slots){ toast('Все вольеры заняты. Построй новый'); return; } settle(); a.place='zoo'; S.st.placed++; hap('ok'); sClick(); toast(SPECIES[a.s].n+' переехал в вольер'); }
+function toZoo(id){ var a=find(id); if (!a||a.place==='zoo'||a.place==='exp') return; if (locked(a)){ toast(a.frozen?'Животное заморожено':'Сначала сними его с продажи'); return; } if (zooA().length>=S.slots){ toast('Все вольеры заняты. Построй новый'); return; } settle(); a.place='zoo'; S.st.placed++; hap('ok'); sClick(); toast(SPECIES[a.s].n+' переехал в вольер'); }
 function collect(){ settle(); var p=Math.floor(S.pend); if (p<1) return; S.pend-=p; S.coins+=p; S.st.earned+=p; sCoin(); hap('ok'); flyCoins(); toast('Касса зоопарка: +'+rub(p)+' ₽'); }
 function flyCoins(){ var t=$('coinNum'), b=document.querySelector('[data-act="collect"]')||document.querySelector('.sheet')||$('screen'); if (!t||!b) return; var ar=$('app').getBoundingClientRect(), tr=t.getBoundingClientRect(), br=b.getBoundingClientRect();
   for (var i=0;i<8;i++){ var c=document.createElement('span'); c.className='coin flycoin'; c.textContent='₽'; c.style.left=(br.left-ar.left+br.width/2-11+(Math.random()-.5)*30)+'px'; c.style.top=(br.top-ar.top+(Math.random()-.5)*20)+'px';
@@ -1959,6 +2057,7 @@ function buy(id){
   var it=SHOP.filter(function(x){return x.id===id;})[0]; if (!it) return;
   if (!apiOn()){ info('Магазин скоро откроется','Покупки за звёзды Telegram заработают, когда к игре подключат сервер бота. Твой прогресс от этого не пострадает.'); return; }
   if (it.once && S.starter){ toast('Стартовый набор уже куплен'); return; }
+  if ((S.zs||0)>=it.star && !arguments[1]){ sheet('<h3>'+esc(it.n)+'</h3><p>Чем заплатить?</p><div class="list"><button class="opt gold" data-act="buyZs" data-id="'+id+'">Зоо-звёздами<small>У тебя '+rub(S.zs)+' 💫</small><span>💫 '+it.star+'</span></button><button class="opt lime" data-act="buyStars" data-id="'+id+'">Звёздами Telegram<span>⭐ '+it.star+'</span></button><button class="opt" data-act="close">Отмена<span></span></button></div>'); return; }
   ui.busy=true; toast('Открываю оплату…');
   api('/api/invoice',{item:id}).then(function(d){ ui.busy=false; if (!d.link) throw new Error('no link');
     tg.openInvoice(d.link, function(status){ if (status==='paid'){ toast('Оплата прошла! Начисляю…'); setTimeout(claimBuys,1200); setTimeout(claimBuys,4000); } else if (status==='failed') toast('Оплата не прошла'); });
@@ -1986,10 +2085,78 @@ function takeGiftUI(id){ if (ui.busy) return; ui.busy=true; takeGift(id).then(fu
 function takeAllUI(){ if (ui.busy||!ui.gifts.length) return; ui.busy=true; var ids=ui.gifts.map(function(g){return g.id;}), got=[];
   (function next(){ if (!ids.length){ ui.busy=false; render(); if (got.length){ sWin(4); flyCoins(); info('🎁 Все подарки получены!','Ты получил: '+got.join('; ')+'.'); } return; }
     takeGift(ids.shift()).then(function(t){ if (t) got.push(t); next(); }).catch(function(){ ui.busy=false; render(); toast('Сервер не ответил, попробуй ещё раз'); }); })(); }
-function giftIcon(d){ return d.vip?'👑':d.hat?'🎩':d.tix&&d.tix.myth?'🦄':d.tix&&d.tix.elite?'⭐':d.tix?'🎟':d.spins?'🎡':'💰'; }
-function giftDesc(d){ var t=[]; if (+d.coins>0) t.push(rub(+d.coins)+' монет'); if (d.tix) Object.keys(d.tix).forEach(function(k){ if (CASES[k]) t.push(d.tix[k]+' × «'+caseName(k)+'»'); }); if (+d.vip>0) t.push('VIP '+d.vip+' дн.'); if (+d.spins>0) t.push(d.spins+' прокрутки колеса'); if (d.hat&&HATS[d.hat]) t.push('скин «'+HATS[d.hat].n+'»'); return t.join(', '); }
+function giftIcon(d){ return d.zs&&!d.coins?'💫':d.vip?'👑':d.hat?'🎩':d.tix&&d.tix.myth?'🦄':d.tix&&d.tix.elite?'⭐':d.tix?'🎟':d.spins?'🎡':'💰'; }
+function giftDesc(d){ var t=[]; if (+d.zs>0) t.push(rub(+d.zs)+' 💫 зоо-звёзд'); if (+d.coins>0) t.push(rub(+d.coins)+' монет'); if (d.tix) Object.keys(d.tix).forEach(function(k){ if (CASES[k]) t.push(d.tix[k]+' × «'+caseName(k)+'»'); }); if (+d.vip>0) t.push('VIP '+d.vip+' дн.'); if (+d.spins>0) t.push(d.spins+' прокрутки колеса'); if (d.hat&&HATS[d.hat]) t.push('скин «'+HATS[d.hat].n+'»'); return t.join(', '); }
 function dateRu(t){ try{ return new Date(t).toLocaleDateString('ru-RU',{day:'numeric',month:'long'}); }catch(e){ return ''; } }
+/* ---------- рынок ---------- */
+var syncing=false;
+function syncMine(){ if (!apiOn()||syncing) return; syncing=true;
+  api('/api/my').then(function(d){ syncing=false; S.zs=d.zs||0; S.sales=(d.sales||[]).slice(0,30); var srv={}, changed=false, msgs=[];
+    (d.animals||[]).forEach(function(x){ srv[x.rid]=x; });
+    S.inv=S.inv.filter(function(a){ if (!a.rid||srv[a.rid]) return true; changed=true; if (a.place==='zoo') settle();
+      var sold=(d.sales||[]).filter(function(x){ return x.rid===a.rid&&x.sold; })[0]; if (sold) msgs.push('💰 '+aname(a)+' продан за '+sold.price+' — тебе +'+(sold.price-sold.fee)+' 💫');
+      if (S.sel===a.id) S.sel=null; return false; });
+    var have={}; S.inv.forEach(function(a){ if (a.rid) have[a.rid]=a; });
+    Object.keys(srv).forEach(function(r){ var x=srv[r], a=have[r];
+      if (a){ if (a.t!==x.t||a.serial!==x.serial||(a.price||0)!==x.price||(a.frozen||0)!==x.frozen){ fromSrv(x,a); changed=true; } if ((a.price||a.frozen)&&a.place!=='bag'){ if (a.place==='zoo') settle(); a.place='bag'; changed=true; } }
+      else { var n=fromSrv(x); S.inv.push(n); seen(n); changed=true; msgs.push('🎉 В сумке: '+aname(n)); } });
+    if (changed){ save(true); if (!ui.busy&&!ui.modal) render(); else renderTop(); }
+    if (msgs.length) queue.push({title:'Рынок', text:msgs.join('. ')+'.'});
+  }).catch(function(){ syncing=false; }); }
+ui.mk={t:0, sort:'new', mine:0, items:null};
+function loadMarket(){ if (!apiOn()){ ui.mk.items=[]; render(); return; } ui.mk.items=null;
+  api('/api/market',{t:ui.mk.t, sort:ui.mk.sort, mine:ui.mk.mine}).then(function(d){ ui.mk.items=d.items||[]; S.zs=d.zs||0; if (ui.view==='market') render(); }).catch(function(){ ui.mk.items=[]; ui.mk.err=1; if (ui.view==='market') render(); }); }
+function lotCard(x){ return '<button class="lot" style="--tc:'+tc(x.t)+'" data-act="lot" data-id="'+x.rid+'"><span class="sn big">#'+x.serial+'</span>'+(x.mine?'<span class="pin">твой лот</span>':'')+animalIMG(sid(x.s),x.t,'',x.mu||'')+'<b>'+esc(SPECIES[sid(x.s)].n)+'</b><small>'+TIERS[x.t].n+(x.mu?' · '+MUTS[x.mu].n:'')+'</small><small class="sl">'+esc(x.seller)+'</small><span class="star">⭐ '+x.price+'</span></button>'; }
+function renderMarket(back){
+  var M=ui.mk, mine=bag().filter(function(a){ return reg(a)&&!a.price&&!a.frozen; });
+  var h=back+'<div class="glass pad mkhead"><div class="between"><h2>🏪 Рынок</h2><span class="zsb">💫 '+rub(S.zs||0)+'</span></div><p class="sub" style="margin-top:6px">Золотые, радужные и белые животные с номерами. Покупай за звёзды Telegram ⭐ или за зоо-звёзды 💫. Продавец получает 85% цены в зоо-звёздах, ими можно платить в магазине и здесь.</p>'+
+    (apiOn()?'<button class="btn lime" data-act="sellList" style="margin-top:10px;width:100%">Продать своё животное'+(mine.length?' ('+mine.length+')':'')+'</button>':'')+'</div>';
+  h+='<div class="chips">'+[[0,'Все'],[5,'🟡 Золотые'],[6,'🌈 Радужные'],[7,'⚪ Белые']].map(function(c){ return '<button class="chip'+(M.t===c[0]?' on':'')+'" data-act="mkT" data-id="'+c[0]+'">'+c[1]+'</button>'; }).join('')+'</div>'+
+    '<div class="chips">'+[['new','Новые'],['cheap','Дешевле'],['exp','Дороже'],['num','По номеру']].map(function(c){ return '<button class="chip'+(M.sort===c[0]?' on':'')+'" data-act="mkS" data-id="'+c[0]+'">'+c[1]+'</button>'; }).join('')+'<button class="chip'+(M.mine?' on':'')+'" data-act="mkMine">Мои лоты</button></div>';
+  if (!apiOn()) return h+'<div class="glass pad"><p class="sub">Рынок работает только внутри Telegram.</p></div>';
+  if (M.items===null) return h+'<div class="glass pad"><p class="sub">Загружаю лоты…</p></div>';
+  if (!M.items.length) return h+'<div class="glass pad" style="text-align:center"><div style="font-size:40px">🏪</div><p class="sub">'+(M.err?'Сервер не ответил, попробуй ещё раз.':M.mine?'У тебя нет лотов на продаже.':'Пока здесь пусто. Выстави своё номерное животное первым — покупатели найдутся!')+'</p></div>';
+  h+='<div class="lots">'+M.items.map(lotCard).join('')+'</div>';
+  if (S.sales&&S.sales.length) h+='<div class="glass pad"><h3>Мои сделки</h3><div style="height:6px"></div>'+S.sales.slice(0,10).map(function(x){ return '<div class="between" style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06);gap:8px"><span style="min-width:0">'+(x.sold?'Продал':'Купил')+' '+esc(TIERS[x.t].n.toLowerCase()+' '+SPECIES[sid(x.s)].n.toLowerCase())+' #'+x.serial+'</span><b style="flex:none;color:'+(x.sold?'var(--lime)':'#ffd36a')+'">'+(x.sold?'+'+(x.price-x.fee)+' 💫':x.price+(x.method==='stars'?' ⭐':' 💫'))+'</b></div>'; }).join('')+'</div>';
+  return h;
+}
+var ORIGIN={case:'из кейса', up:'апгрейдом', contract:'контрактом'};
+function lotSheet(rid){ if (!apiOn()) return; sheet('<p class="sub">Загружаю…</p>');
+  api('/api/animal',{rid:rid}).then(function(d){ var x=d.a, i=sid(x.s); S.zs=d.zs||0; var m=document.querySelector('.modal'); if (m) m.remove(); ui.modal=false;
+    var hist='<div class="sub" style="margin:8px 0">Выбит '+(ORIGIN[x.origin]||'')+' игроком <b style="color:var(--fg)">'+esc(x.by||'—')+'</b>, '+dateRu(x.created)+'</div>'+(d.hist||[]).map(function(hh){ return '<div class="sub">'+dateRu(hh.created)+': '+esc(hh.seller||'?')+' → '+esc(hh.buyer||'?')+' за '+hh.price+(hh.method==='stars'?' ⭐':' 💫')+'</div>'; }).join('');
+    var acts='';
+    if (x.mine) acts='<button class="opt" data-act="unlistR" data-id="'+x.rid+'">Снять с продажи<span></span></button>';
+    else if (x.price){ acts='<button class="opt lime" data-act="buyLot" data-id="'+x.rid+'" data-x="stars">Купить за звёзды Telegram<small>Оплата в окне Telegram</small><span>⭐ '+x.price+'</span></button>'+
+      '<button class="opt'+((S.zs||0)>=x.price?' gold':'')+'" data-act="buyLot" data-id="'+x.rid+'" data-x="zs"'+((S.zs||0)>=x.price?'':' disabled')+'>Купить за зоо-звёзды<small>У тебя '+rub(S.zs||0)+' 💫</small><span>💫 '+x.price+'</span></button>'; }
+    sheet('<div class="hero" style="--tc:'+tc(x.t)+'">'+animalSVG(i,x.t,'',0,x.mu||'')+'</div><div class="between"><div><h3>'+esc(TIERS[x.t].n+' '+SPECIES[i].n.toLowerCase())+' <span style="color:#fff">#'+x.serial+'</span></h3><span class="tierpill" style="--tc:'+tc(x.t)+';margin-top:6px;font-size:11px">'+TIERS[x.t].n+'</span>'+(x.mu?' <span class="tierpill" style="--tc:'+MUTS[x.mu].c+';font-size:11px">'+MUTS[x.mu].n+'</span>':'')+'</div>'+(x.price?'<span class="price" style="font-size:20px">⭐ '+x.price+'</span>':'')+'</div>'+
+      '<p class="sub" style="margin-top:6px">Продавец: '+esc(x.seller)+'</p>'+hist+'<div class="list">'+acts+'<button class="opt" data-act="close">Закрыть<span></span></button></div>');
+  }).catch(function(){ var m=document.querySelector('.modal'); if (m) m.remove(); ui.modal=false; toast('Лот уже купили или сняли'); loadMarket(); }); }
+function buyLot(rid, pay){ if (ui.busy) return;
+  if (pay==='zs'){ ui.busy=true; api('/api/buy',{rid:rid, pay:'zs'}).then(function(d){ ui.busy=false; closeModal(); if (!d.ok) throw 0; sWin(5); hap('ok'); var n=fromSrv(d.a); if (!S.inv.some(function(a){return a.rid===n.rid;})){ S.inv.push(n); seen(n); } save(true); syncMine(); loadMarket(); info('🎉 Покупка!', aname(n)+' теперь твой. Он ждёт в сумке.'); })
+      .catch(function(){ ui.busy=false; closeModal(); toast('Не вышло: лот уже купили или не хватает 💫'); loadMarket(); syncMine(); }); return; }
+  ui.busy=true; toast('Открываю оплату…');
+  api('/api/buy',{rid:rid, pay:'stars'}).then(function(d){ ui.busy=false; if (!d.link) throw 0; closeModal();
+    tg.openInvoice(d.link, function(st){ if (st==='paid'){ toast('Оплата прошла! Забираю животное…'); setTimeout(syncMine,1500); setTimeout(syncMine,4500); setTimeout(loadMarket,2000); } else if (st==='failed') toast('Оплата не прошла'); });
+  }).catch(function(){ ui.busy=false; toast('Лот уже купили или сняли'); closeModal(); loadMarket(); }); }
+function closeModal(){ var m=document.querySelector('.modal'); if (m) m.remove(); ui.modal=false; }
+function sellList(){ ui.sheetFn=sellList; var L=bag().filter(function(a){ return reg(a)&&!a.price&&!a.frozen; }).concat(zooA().filter(function(a){ return reg(a)&&!a.frozen; }));
+  sheet('<h3>Что выставить на рынок?</h3><p>Продавать можно только животных с номером: золотых, радужных и белых, полученных после запуска рынка.</p>'+(L.length?pagedGrid('sell', L, function(a){ return acard(a,'sellPick'); }):'<p class="sub">У тебя пока нет номерных животных. Выбей золото в кейсе или апгрейдом!</p>')+'<div class="list"><button class="opt" data-act="close">Закрыть<span></span></button></div>'); }
+var SUGGEST={5:[50,100,250],6:[500,1000,2500],7:[5000,10000,25000]};
+function sellPick(id){ var a=find(id); if (!a||!reg(a)) return; closeModal();
+  sheet('<div class="hero" style="--tc:'+tc(a.t)+'">'+aSVG(a)+'</div><h3>'+esc(aname(a))+'</h3><p>Назначь цену в звёздах Telegram. Когда кто-то купит, ты получишь <b style="color:var(--lime)">85%</b> в 💫 зоо-звёздах. Пока лот висит, животное нельзя улучшать и ставить в вольер.</p>'+
+    '<input id="sellP" type="number" inputmode="numeric" min="10" max="1000000" placeholder="Цена, ⭐" style="width:100%;box-sizing:border-box;background:rgba(0,0,0,.3);border:1px solid var(--edge);border-radius:12px;padding:12px;color:var(--fg);font:800 18px var(--f-body)">'+
+    '<div class="row" style="gap:6px;margin-top:8px">'+(SUGGEST[a.t]||[50,100,250]).map(function(v){ return '<button class="btn" data-act="sellSug" data-id="'+v+'" style="flex:1">'+v+' ⭐</button>'; }).join('')+'</div>'+
+    '<p class="sub" id="sellGet" style="margin-top:8px">Минимум 10 ⭐</p><div class="list"><button class="opt lime" data-act="sellGo" data-id="'+id+'">Выставить на рынок<span>🏪</span></button><button class="opt" data-act="close">Отмена<span></span></button></div>'); }
+function sellGet(){ var v=Math.round(+($('sellP')&&$('sellP').value)||0), g=$('sellGet'); if (g) g.textContent=v>=10?'Тебе придёт: '+(v-Math.ceil(v*0.15))+' 💫 (комиссия рынка 15%)':'Минимум 10 ⭐'; }
+function sellGo(id){ var a=find(id), v=Math.round(+($('sellP')&&$('sellP').value)||0); if (!a) return; if (v<10||v>1000000){ toast('Цена от 10 до 1 000 000 ⭐'); return; } if (ui.busy) return; ui.busy=true;
+  api('/api/list',{rid:a.rid, price:v}).then(function(d){ ui.busy=false; if (!d.ok) throw 0; if (a.place==='zoo') settle(); a.place='bag'; a.price=v; save(true); closeModal(); hap('ok'); sCoin(); toast('Выставлено за '+v+' ⭐'); ui.mk.mine=1; ui.tab='more'; ui.view='market'; loadMarket(); render(); })
+    .catch(function(){ ui.busy=false; toast('Не получилось выставить. Попробуй ещё раз'); }); }
+function unlist(id){ var a=find(id); if (!a||!reg(a)) return; api('/api/unlist',{rid:a.rid}).then(function(){ a.price=0; save(true); closeModal(); toast('Снято с продажи'); loadMarket(); render(); }).catch(function(){ toast('Нет связи с сервером'); }); }
+function unlistR(rid){ var a=S.inv.filter(function(x){ return x.rid===rid; })[0]; if (a) unlist(a.id); else api('/api/unlist',{rid:rid}).then(function(){ closeModal(); syncMine(); loadMarket(); }); }
+function buyZs(id){ var it=SHOP.filter(function(x){return x.id===id;})[0]; if (!it||ui.busy) return; ui.busy=true;
+  api('/api/zs_buy',{item:id}).then(function(d){ ui.busy=false; closeModal(); if (!d.ok) throw 0; S.zs=d.zs; toast('Оплачено зоо-звёздами! Начисляю…'); claimBuys(); }).catch(function(){ ui.busy=false; closeModal(); toast('Не хватает 💫 или сервер не ответил'); }); }
 function grantGift(d){ var t=[];
+  if (+d.zs>0){ S.zs=(S.zs||0)+(+d.zs); t.push(rub(+d.zs)+' 💫 зоо-звёзд'); }
   if (+d.coins>0){ S.coins+=+d.coins; t.push(rub(+d.coins)+' монет'); }
   if (d.tix) Object.keys(d.tix).forEach(function(k){ if (CASES[k]&&+d.tix[k]>0){ addTix(k,+d.tix[k]); t.push(d.tix[k]+' × кейс «'+caseName(k)+'»'); } });
   if (+d.vip>0){ settle(); S.vipUntil=Math.max(Date.now(),S.vipUntil||0)+(+d.vip)*24*3600e3; t.push('VIP на '+d.vip+' дн.'); }
@@ -2017,7 +2184,7 @@ function hatPick(id){ var a=find(id); if (!a) return;
 function renderMore(){
   var v=ui.view, back='<button class="btn" data-view="" style="align-self:flex-start">← Назад</button>';
   if (v==='album') return back+'<div class="glass pad"><div class="between"><h2>Альбом</h2><span class="sub">'+albumCount()+' из '+albumTotal()+'</span></div><p class="sub" style="margin-top:6px">Каждое животное в каждой редкости — отдельная карточка. Собери у вида все 6 редкостей до золотой, и это <b style="color:var(--lime)">линейка: +5% к доходу зоопарка навсегда</b>. Собрано линеек: '+lines()+'.</p></div>'+
-    SPECIES.map(function(sp,i){ var got=S.album[i]||{}, full=got[0]&&got[1]&&got[2]&&got[3]&&got[4]&&got[5]; return '<div class="glass pad'+(full?' lineok':'')+'" style="padding:10px"><div class="between" style="margin-bottom:8px"><b>'+esc(sp.n)+(full?' <span style="color:var(--lime)">✓ +5%</span>':'')+'</b><span class="sub">'+Object.keys(got).length+'/'+TIERS.length+' · '+ZONES[sp.zone].n+'</span></div><div class="alb">'+TIERS.map(function(T,t){ return '<div class="'+(got[t]?'on':'sil')+'" style="--tc:'+T.c+'" title="'+T.n+'">'+animalSVG(i,got[t]?t:0,'',1)+'</div>'; }).join('')+'</div></div>'; }).join('');
+    SPECIES.map(function(sp,i){ var got=S.album[i]||{}, full=got[0]&&got[1]&&got[2]&&got[3]&&got[4]&&got[5]; return '<div class="glass pad'+(full?' lineok':'')+'" style="padding:10px"><div class="between" style="margin-bottom:8px"><b>'+esc(sp.n)+(full?' <span style="color:var(--lime)">✓ +5%</span>':'')+'</b><span class="sub">'+Object.keys(got).length+'/'+TIERS.length+' · '+ZONES[sp.zone].n+'</span></div><div class="alb">'+TIERS.map(function(T,t){ return '<div class="'+(got[t]?'on':'sil')+'" style="--tc:'+T.c+'" title="'+T.n+'">'+animalIMG(i,got[t]?t:0)+'</div>'; }).join('')+'</div></div>'; }).join('');
   if (v==='tasks') return back+'<div class="glass pad"><div class="between"><h2>Задания</h2><span class="sub">'+TASKS.filter(function(t){return S.claimed[t.id];}).length+' из '+TASKS.length+'</span></div></div>'+
     TASKS.slice().sort(function(a,b){ function o(t){ return S.claimed[t.id]?2:t.val()>=t.goal?0:1; } return o(a)-o(b); }).map(function(t){ var x=Math.min(t.goal,t.val()), d=x>=t.goal, c=S.claimed[t.id];
       return '<div class="glass pad task"><div><b>'+esc(t.text)+'</b><div class="sub">Награда: '+rub(t.coins)+' монет</div></div><button class="btn'+(d&&!c?' lime':'')+'" data-act="claim" data-id="'+t.id+'"'+(d&&!c?'':' disabled')+'>'+(c?'Получено':d?'Забрать':short(x)+'/'+short(t.goal))+'</button><div class="prog"><i style="width:'+(x/t.goal*100)+'%"></i></div></div>'; }).join('');
@@ -2028,6 +2195,7 @@ function renderMore(){
     return back+'<div class="glass pad" style="text-align:center"><h2>Колесо Палыча</h2><p class="sub" style="margin:6px 0 12px">Смотритель Палыч разрешает крутить колесо раз в сутки бесплатно. Джекпот — Мифический кейс 🦄</p>'+wheelSVG()+
       '<div style="height:12px"></div><button class="cta gold" data-act="spin"'+(rd?'':' disabled')+'>'+(rd?(Date.now()-(S.wheelAt||0)<WHEEL_CD?'Крутить · осталось '+S.wheelX:'Крутить бесплатно'):'Через '+hm(WHEEL_CD-(Date.now()-(S.wheelAt||0))))+'</button>'+
       '<button class="btn" data-act="buy" data-id="spin3" style="margin-top:10px">Ещё 3 прокрутки · ⭐ 30</button></div>'; }
+  if (v==='market') return renderMarket(back);
   if (v==='gifts'){ var G=ui.gifts||[], L=S.giftLog||[];
     return back+'<div class="glass pad"><div class="between"><h2>🎁 Подарки</h2>'+(G.length>1?'<button class="btn lime" data-act="giftAll">Забрать всё</button>':'')+'</div><p class="sub" style="margin-top:6px">Здесь появляются подарки от создателя ZooPark: монеты, кейсы, VIP и скины. Подарки для всех игроков ждут 7 дней.</p></div>'+
       (!apiOn()?'<div class="glass pad"><p class="sub">Подарки появятся, когда игра подключена к серверу.</p></div>':
@@ -2041,8 +2209,9 @@ function renderMore(){
   if (v==='top'){ if (topData===null) return back+'<div class="glass pad"><h2>Топ зоопарков</h2><p class="sub">Загружаю…</p></div>';
     if (topData.off||topData.err) return back+'<div class="glass pad"><h2>Топ зоопарков</h2><p class="sub" style="margin-top:6px">'+(topData.off?'Таблица лидеров появится, когда к игре подключат сервер. Твоя стоимость зоопарка сейчас: <b style="color:var(--coin)">'+short(worth())+' ₽</b>':'Сервер не отвечает, попробуй позже.')+'</p></div>';
     return back+'<div class="glass pad"><div class="between"><h2>Топ зоопарков</h2><span class="sub">по стоимости животных</span></div>'+(topData.me?'<p class="sub" style="margin-top:6px">Ты на <b style="color:var(--coin)">'+topData.me.rank+' месте</b> · '+short(topData.me.score)+' ₽</p>':'')+'</div>'+
-      '<div class="glass pad toplist">'+(topData.top||[]).map(function(r,i){ var b=r.best; return '<div class="toprow'+(i<3?' t'+i:'')+'"><span class="rk">'+(i+1)+'</span>'+(b?'<span class="tav" style="--tc:'+tc(b.t||0)+'">'+animalSVG(sid(b.s),b.t||0,'',1,b.mu||'')+'</span>':'<span class="tav"></span>')+'<div><b>'+esc(r.name||'Игрок')+'</b><small>'+r.lvl+' ур.</small></div><span class="sc">'+short(r.score)+' ₽</span></div>'; }).join('')+'</div>'; }
+      '<div class="glass pad toplist">'+(topData.top||[]).map(function(r,i){ var b=r.best; return '<div class="toprow'+(i<3?' t'+i:'')+'"><span class="rk">'+(i+1)+'</span>'+(b?'<span class="tav" style="--tc:'+tc(b.t||0)+'">'+animalIMG(sid(b.s),b.t||0,'',b.mu||'')+'</span>':'<span class="tav"></span>')+'<div><b>'+esc(r.name||'Игрок')+'</b><small>'+r.lvl+' ур.</small></div><span class="sc">'+short(r.score)+' ₽</span></div>'; }).join('')+'</div>'; }
   var tiles=[
+    ['market','Рынок', apiOn()?'💫 '+rub(S.zs||0)+' · номерные животные':'Номерные животные за ⭐', 'linear-gradient(180deg,#ffe27a,#ff9a3d)', false,'🏪'],
     ['wheel','Колесо Палыча', wheelReady()?'Можно крутить!':'через '+hm(WHEEL_CD-(Date.now()-(S.wheelAt||0))), 'linear-gradient(180deg,#ffe98a,#ff8a3d)', wheelReady(),'🎡'],
     ['gift','Смотритель', giftReady()?'Подарок ждёт!':'через '+hm(GIFT_CD-(Date.now()-S.giftAt)), 'linear-gradient(180deg,#ffe98a,#ffb52e)', giftReady(),'★'],
     ['tasks','Задания', TASKS.filter(function(t){return S.claimed[t.id];}).length+' из '+TASKS.length, 'linear-gradient(180deg,#b8ff7a,#3fd58a)', TASKS.some(function(x){return !S.claimed[x.id]&&x.val()>=x.goal;}),'✓'],
@@ -2076,7 +2245,7 @@ function copy(t,msg){ try{ navigator.clipboard.writeText(t).then(function(){toas
 /* ---------- events ---------- */
 document.addEventListener('pointerdown',function(){ ui.press=true; ac(); });
 ['pointerup','pointercancel'].forEach(function(ev){ document.addEventListener(ev,function(){ setTimeout(function(){ ui.press=false; },80); }); });
-document.addEventListener('input',function(e){ if (e.target&&e.target.id==='upC'){ ui.upC=+e.target.value; upLive(); } });
+document.addEventListener('input',function(e){ if (e.target&&e.target.id==='upC'){ ui.upC=+e.target.value; upLive(); } if (e.target&&e.target.id==='sellP') sellGet(); });
 document.addEventListener('change',function(e){ if (e.target&&e.target.id==='upC'){ hap('light'); } });
 document.addEventListener('click',function(e){
   var el=e.target.closest('button'); if (!el) return;
@@ -2086,7 +2255,7 @@ document.addEventListener('click',function(e){
   if (ui.busy && !inRev) return;
   if (d.tab){ ui.tab=d.tab; ui.view=''; hap('light'); sClick(); render(); $('screen').scrollTop=0; return; }
   if (el.hasAttribute('data-view-go')){ ui.tab='more'; ui.view=d.viewGo; hap('light'); render(); $('screen').scrollTop=0; return; }
-  if (el.hasAttribute('data-view')){ ui.view=d.view; if (d.view==='top') loadTop(); hap('light'); render(); $('screen').scrollTop=0; return; }
+  if (el.hasAttribute('data-view')){ ui.view=d.view; if (d.view==='top') loadTop(); if (d.view==='market'){ loadMarket(); syncMine(); } hap('light'); render(); $('screen').scrollTop=0; return; }
   if (d.case){ S.cs=d.case; hap('light'); sClick(); render(); el=document.querySelector('[data-case="'+d.case+'"]'); if (el&&el.scrollIntoView) el.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'}); return; }
   if (d.n){ S.n=+d.n; hap('light'); render(); return; }
   if (d.filt!==undefined){ S.filt=+d.filt; render(); return; }
@@ -2099,14 +2268,14 @@ document.addEventListener('click',function(e){
     case 'rvClose': closeReveal(); return;
     case 'rvZoo': closeReveal(); toZoo(id); save(); render(); return;
     case 'rvUp': closeReveal(); S.sel=id; S.upMode='one'; ui.tab='up'; render(); return;
-    case 'rvSell': var sm=sellIds([id]); closeReveal(); toast('Скупщик заплатил '+rub(sm)+' монет'); save(); render(); return;
+    case 'rvSell': sellSafe([id], function(sm){ closeReveal(); toast('Скупщик заплатил '+rub(sm)+' монет'); save(true); render(); }); return;
     case 'rvSellAll': var ids=($('rev').dataset.ids||'').split(','), s2=sellIds(ids); closeReveal(); toast('Скупщик заплатил '+rub(s2)+' монет'); save(); render(); return;
     case 'item': itemSheet(id); return;
     case 'close': closeSheet(); return;
     case 'toZoo': toZoo(id); return after();
     case 'toBag': settle(); var a=find(id); if (a) a.place='bag'; return after();
     case 'goUp': S.sel=id; S.upMode='one'; var m=document.querySelector('.modal'); if (m) m.remove(); ui.modal=false; ui.tab='up'; render(); $('screen').scrollTop=0; return;
-    case 'sell': var s3=sellIds([id]); toast('Скупщик заплатил '+rub(s3)+' монет'); return after();
+    case 'sell': sellSafe([id], function(s3){ toast('Скупщик заплатил '+rub(s3)+' монет'); var mm=document.querySelector('.modal'); if (mm) mm.remove(); ui.modal=false; save(true); render(); }); return;
     case 'bulk': bulkSheet(); return;
     case 'bulkGo': var L=bag().filter(function(x){return x.t<=+id&&!x.mu&&!x.hat;}).map(function(x){return x.id;}), s4=sellIds(L); toast('Продано: '+L.length+' за '+rub(s4)+' монет'); return after();
     case 'pickUp': S.sel=id; hap('light'); render(); return;
@@ -2118,7 +2287,7 @@ document.addEventListener('click',function(e){
     case 'ctier': S.ctier=+id; S.csel=[]; hap('light'); render(); return;
     case 'cadd': S.csel=(S.csel||[]); if (S.csel.length<5){ S.csel.push(id); sClick(); hap('light'); } else toast('Все 5 слотов заняты'); render(); return;
     case 'cdel': S.csel=(S.csel||[]).filter(function(x){return x!==id;}); render(); return;
-    case 'cfill': S.csel=bag().filter(function(a){return a.t===S.ctier;}).sort(function(a,b){return val(a)-val(b);}).slice(0,5).map(function(a){return a.id;}); sClick(); render(); return;
+    case 'cfill': S.csel=bag().filter(function(a){return a.t===S.ctier&&!locked(a);}).sort(function(a,b){return val(a)-val(b);}).slice(0,5).map(function(a){return a.id;}); sClick(); render(); return;
     case 'cclear': S.csel=[]; render(); return;
     case 'doContract': doContract(); return;
     case 'placePick': placePick(); return;
@@ -2143,6 +2312,20 @@ document.addEventListener('click',function(e){
     case 'hatOff': var hb=find(id); if (hb) delete hb.hat; return after();
     case 'buy': if (inSheet){ var m4=document.querySelector('.modal'); if (m4) m4.remove(); ui.modal=false; render(); } buy(id); return;
     case 'spin': spinWheel(); return;
+    case 'pg': ui.pg[id]=+d.x; hap('light'); if (inSheet&&ui.sheetFn){ closeModal(); ui.sheetFn(); } else { render(); var gr=document.querySelector('#screen .pager'); if (gr) gr.scrollIntoView({block:'start'}); } return;
+    case 'lot': lotSheet(+id); return;
+    case 'buyLot': buyLot(+id, d.x); return;
+    case 'mkT': ui.mk.t=+id; loadMarket(); render(); return;
+    case 'mkS': ui.mk.sort=id; loadMarket(); render(); return;
+    case 'mkMine': ui.mk.mine=ui.mk.mine?0:1; loadMarket(); render(); return;
+    case 'sellList': sellList(); return;
+    case 'sellPick': sellPick(id); return;
+    case 'sellSug': var sp2=$('sellP'); if (sp2){ sp2.value=id; sellGet(); } return;
+    case 'sellGo': sellGo(id); return;
+    case 'unlist': unlist(id); return;
+    case 'unlistR': unlistR(+id); return;
+    case 'buyZs': buyZs(id); return;
+    case 'buyStars': closeModal(); buy(id, 1); return;
     case 'giftTake': takeGiftUI(+id); return;
     case 'giftAll': takeAllUI(); return;
     case 'resetYes': var u=S.uid; S=fresh(); S.uid=u; S.refUsed=true; ui.tab='cases'; ui.view=''; save(); closeSheet(); return;
@@ -2151,12 +2334,16 @@ document.addEventListener('click',function(e){
 
 /* ---------- loop & boot ---------- */
 var expDoneSeen=0;
+var lastMoreR=0, lastWheelR=null;
 function tick(){
   if (ui.busy||ui.modal||ui.press) return;
   if (ui.tab==='zoo'){ var p=$('pend'); if (p) p.textContent=rub(pending()); var b=document.querySelector('[data-act="collect"]'); if (b) b.disabled=pending()<1;
     var nd=expA().filter(function(a){return a.expEnd<=Date.now();}).length; if (nd!==expDoneSeen){ expDoneSeen=nd; render(); return; }
     document.querySelectorAll('.exl').forEach(function(e){ e.textContent=hm(+e.dataset.end-Date.now()); }); }
-  if (ui.tab==='more'&&(!ui.view||ui.view==='wheel')) render(); else renderTop();
+  // «Ещё» обновляем раз в 30 секунд (там только таймеры), колесо — когда станет доступно
+  if (ui.tab==='more'&&!ui.view&&Date.now()-lastMoreR>30e3){ lastMoreR=Date.now(); render(); }
+  else if (ui.tab==='more'&&ui.view==='wheel'&&wheelReady()!==lastWheelR){ lastWheelR=wheelReady(); render(); }
+  else renderTop();
   flush();
 }
 function start(data){
@@ -2168,10 +2355,10 @@ function start(data){
   if (sp&&/^ref_/.test(sp)&&!S.refUsed&&sp!=='ref_'+S.uid){ S.refUsed=true; S.coins+=5000; queue.push({title:'Тебя позвал друг',text:'Добро пожаловать в зоопарк! Держи 5 000 монет на старт.'}); }
   if (S.savedAt) sickRoll(Math.min(Date.now()-S.savedAt, 12*3600e3));
   vipDaily(); render(); flush();
-  cloudLoad(hadLocal, function(ok){ if (ok){ lastBody=bodyOf(); vipDaily(); render(); toast('Прогресс загружен из облака'); } else { lastBody=''; } save(true); claimBuys(); loadGifts(); }, base0);
-  setInterval(tick,1000); setInterval(save,8000); setInterval(moodTick,1500); setInterval(function(){ sickRoll(60e3); vipDaily(); },60e3); setInterval(loadGifts,120e3); setInterval(function(){ if (!document.hidden) cloudPull(); },30e3);
+  cloudLoad(hadLocal, function(ok){ if (ok){ lastBody=bodyOf(); vipDaily(); render(); toast('Прогресс загружен из облака'); } else { lastBody=''; } save(true); claimBuys(); loadGifts(); syncMine(); }, base0);
+  setInterval(tick,1000); setInterval(save,8000); setInterval(moodTick,1500); setInterval(function(){ sickRoll(60e3); vipDaily(); },60e3); setInterval(loadGifts,120e3); setInterval(function(){ if (!document.hidden) syncMine(); },60e3); setInterval(function(){ if (!document.hidden) cloudPull(); },30e3);
   setTimeout(function(){ pushScore(true); },6000); setInterval(function(){ pushScore(false); },300e3);
-  document.addEventListener('visibilitychange',function(){ if (document.hidden) save(true); else { cloudPull(); render(); claimBuys(); loadGifts(); } });
+  document.addEventListener('visibilitychange',function(){ if (document.hidden) save(true); else { cloudPull(); render(); claimBuys(); loadGifts(); syncMine(); } });
   window.addEventListener('pagehide',function(){ save(true); });
 }
 var hot=window.claude&&window.claude.hot;
