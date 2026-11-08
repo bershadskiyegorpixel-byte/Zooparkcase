@@ -384,6 +384,13 @@ img.aimg.neon{filter:drop-shadow(0 0 6px rgba(57,255,176,.55))}
 .pgd{color:var(--muted);padding:0 2px}.pgi{width:100%;text-align:center;font-size:11px;color:var(--muted)}
 /* рынок и номера */
 .acard .sn,.lot .sn{position:absolute;top:6px;right:6px;z-index:2;font:800 10.5px var(--f-body);padding:2px 6px;border-radius:999px;background:rgba(0,0,0,.55);color:#fff;border:1px solid color-mix(in srgb,var(--tc) 70%,transparent)}
+.sn.pr{background:linear-gradient(90deg,#7a510a,#c98a12);color:#fff6cf;border-color:#ffd36a;box-shadow:0 0 8px rgba(255,211,106,.55)}
+.strk{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin:12px 0}
+.strk div{border-radius:10px;padding:6px 2px;text-align:center;background:rgba(255,255,255,.05);border:1px solid var(--edge);font:700 10px var(--f-body);color:var(--mut,#9fb8ae)}
+.strk div b{display:block;font-size:17px;margin-bottom:2px}
+.strk .ok{background:rgba(63,213,138,.16);border-color:#3fd58a;color:#d6ffe9}
+.strk .now{background:linear-gradient(180deg,#ffe98a,#ff9a3d);border-color:#ffd36a;color:#2a1600}
+.wk{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06)}
 .acard .sn.vet{font-size:11px;padding:1px 5px}
 .lot .sn.big{font:400 15px var(--f-disp);padding:3px 9px;color:#fff;background:color-mix(in srgb,var(--tc) 35%,rgba(0,0,0,.6))}
 .acard .pin.lot{background:rgba(255,200,61,.9);color:#3a2600}
@@ -1431,13 +1438,15 @@ function caseName(k){ var C=CASES[k]; return C.n||ZONES[C.zone].n; }
 var INCOME_RATE=0.004, INCOME_CAP=3*3600e3, VIP_CAP=12*3600e3, DEALER=0.6;
 function mutM(a){ return a.mu&&MUTS[a.mu]?MUTS[a.mu].m:1; }
 function val(a){ return SPECIES[a.s].v*TM[a.t]*(a.k||1)*mutM(a); }
-function aname(a){ return (a.vet?'🏛 ':'')+(a.star?'★ ':'')+(a.mu&&MUTS[a.mu]?MUTS[a.mu].n+' ':'')+(a.mu?SPECIES[a.s].n.toLowerCase():SPECIES[a.s].n)+(a.serial?' #'+a.serial:''); }
+function aname(a){ return (a.vet?'🏛 ':'')+(a.star?'★ ':'')+(a.mu&&MUTS[a.mu]?MUTS[a.mu].n+' ':'')+(a.mu?SPECIES[a.s].n.toLowerCase():SPECIES[a.s].n)+(a.serial?' #'+a.serial+(isPretty(a.serial)?'✨':''):''); }
 /* ---------- номерные животные: золото и выше выдаёт сервер, у каждого свой номер ---------- */
 function reg(a){ return !!(a&&a.rid); }
 function locked(a){ return !!(a&&(a.price>0||a.frozen)); }
 function fromSrv(x, a){ a=a||{id:nid(), place:'bag'}; a.s=sid(x.s); a.t=x.t; if (x.mu) a.mu=x.mu; else delete a.mu; if (x.k&&x.k!==1) a.k=x.k; else delete a.k;
   if (x.rid){ a.rid=x.rid; a.serial=x.serial; a.price=x.price||0; a.frozen=x.frozen||0; delete a.vet; } return a; }
-function numTag(a){ return a.serial?'<span class="sn">#'+a.serial+'</span>':a.vet?'<span class="sn vet" title="Ветеран: получен до запуска рынка">🏛</span>':''; }
+function isPretty(n){ n=+n; if (!n) return false; var s=String(n); if (n<=9) return true; if (/^(\d)\1+$/.test(s)) return true; if (/^[1-9]0+$/.test(s)) return true;
+  if (s.length>=3){ var up=true, dn=true; for (var i=1;i<s.length;i++){ if (+s[i]!==+s[i-1]+1) up=false; if (+s[i]!==+s[i-1]-1) dn=false; } if (up||dn) return true; } return false; }
+function numTag(a){ return a.serial?'<span class="sn'+(isPretty(a.serial)?' pr':'')+'">#'+a.serial+(isPretty(a.serial)?'✨':'')+'</span>':a.vet?'<span class="sn vet" title="Ветеран: получен до запуска рынка">🏛</span>':''; }
 function aSVG(a,cls,lite){ return animalSVG(a.s,a.t,cls,lite,a.mu||'',a.hat||''); }
 function aIMG(a,cls){ return animalIMG(a.s,a.t,cls,a.mu||'',a.hat||''); }
 function isVip(){ return (S.vipUntil||0)>Date.now(); }
@@ -1471,9 +1480,9 @@ function sFail(){ tone(220,0.4,'sawtooth',0.05); tone(160,0.5,'sawtooth',0.05,0.
 function sClick(){ tone(900,0.04,'sine',0.04); }
 
 /* ---------- state ---------- */
-function fresh(){ return {coins:10000, xp:0, lvl:1, cs:'farm', n:1, fast:false, sound:true, inv:[], slots:3, pend:0, incAt:Date.now(),
+function fresh(){ return {coins:50000, xp:0, lvl:1, cs:'farm', n:1, fast:false, sound:true, inv:[], slots:3, pend:0, incAt:Date.now(),
   album:{}, st:{opened:0, upOk:0, upFail:0, sold:0, earned:0, tMax:0, golds:0, placed:0}, claimed:{}, giftAt:0, giftDay:0, uid:'', refUsed:false, filt:-1, sel:null, upMode:'one', ctier:0, csel:[],
-  ver:2, mk:1, zs:0, giftLog:[], tix:{}, wheelAt:0, wheelX:0, hats:{}, vipUntil:0, vipDay:'', starter:false, savedAt:0}; }
+  ver:2, mk:1, zs:0, giftLog:[], tix:{}, wheelAt:0, wheelX:0, hats:{}, vipUntil:0, vipDay:'', starter:false, savedAt:0, season:0, rst:-1, streak:{d:0,last:''}}; }
 var S=fresh(), ui={tab:'cases', view:'', busy:false, modal:false, press:false};
 var $=function(id){return document.getElementById(id);};
 function rub(n){ n=Math.round(n); return n.toLocaleString('ru-RU').replace(/[ ,]/g,' '); }
@@ -1507,7 +1516,7 @@ function cloudPull(){ var C=cs(); if (!C||!cloudReady||pulling||ui.busy||ui.moda
   try{ C.getItem('zs_m', function(err,v){ var m=null; try{ m=v?JSON.parse(v):null; }catch(e){}
     if (!m||!m.n||m.t<=(S.savedAt||0)+1000||ui.busy){ pulling=false; return; }
     var keys=[]; for (var i=0;i<m.n;i++) keys.push('zs_'+i);
-    C.getItems(keys, function(e2,vals){ pulling=false; if (ui.busy||cloudDirty) return; try{ var d=JSON.parse(keys.map(function(k){ return vals[k]||''; }).join('')); if (d&&d.inv&&d.savedAt===m.t){ apply(d); lastBody=bodyOf(); render(); toast('Прогресс подтянут с другого устройства'); } }catch(e){} });
+    C.getItems(keys, function(e2,vals){ pulling=false; if (ui.busy||cloudDirty) return; try{ var d=JSON.parse(keys.map(function(k){ return vals[k]||''; }).join('')); if (d&&d.inv&&d.savedAt===m.t){ apply(d); lastBody=bodyOf(); if (!seasonCheck()){ render(); toast('Прогресс подтянут с другого устройства'); } } }catch(e){} });
   }); }catch(e){ pulling=false; } }
 function cs(){ return tg&&tg.CloudStorage&&tg.isVersionAtLeast&&tg.isVersionAtLeast('6.9')?tg.CloudStorage:null; }
 function cloudSave(s,force){ var C=cs(); if (!C||!cloudReady||!cloudDirty) return; var now=Date.now();
@@ -2005,15 +2014,16 @@ function claimTask(id){ var t=TASKS.filter(function(x){return x.id===id;})[0]; i
 var WHEEL_CD=24*3600e3;
 function lvF(){ return Math.max(1,Math.floor(S.lvl/3)); }
 function bestCase(){ var L=unlockedCases(); return L[L.length-1]||'farm'; }
+// баланс: бесплатная прокрутка в день в среднем стоит 1–2 лучших кейса игрока; джекпоты редкие (5 Золотых сафари — 1%, Мифический — 2%)
 var WHEEL=[
-  {t:'Монеты', ic:'₽', c:'#3fd58a', w:26, g:function(){ var n=3000*lvF(); S.coins+=n; return rub(n)+' монет'; }},
-  {t:'Кейс', ic:'🎟', c:'#4c7dff', w:16, g:function(){ var k=bestCase(); addTix(k,1); return 'бесплатный кейс «'+caseName(k)+'»'; }},
-  {t:'Монеты', ic:'₽₽', c:'#9a5cff', w:20, g:function(){ var n=8000*lvF(); S.coins+=n; return rub(n)+' монет'; }},
-  {t:'3 кейса', ic:'🎟3', c:'#ff4fd8', w:9, g:function(){ var k=bestCase(); addTix(k,3); return '3 бесплатных кейса «'+caseName(k)+'»'; }},
-  {t:'Мешок', ic:'💰', c:'#ff8a3d', w:12, g:function(){ var n=25000*lvF(); S.coins+=n; return rub(n)+' монет'; }},
-  {t:'Золотой', ic:'⭐', c:'#ffc83d', w:8, g:function(){ addTix('elite',1); return 'кейс «Золотой сафари»'; }},
-  {t:'Эпик', ic:'🐾', c:'#ff3b46', w:7, g:function(){ var L=unlockedCases(), pool=casePool(L[L.length-1]||'farm'), x={id:nid(), s:pool[Math.floor(Math.random()*pool.length)], t:2, place:'bag'}; if (Math.random()<0.25) x.mu=rollMut()||'spot'; S.inv.push(x); seen(x); return 'эпическое животное: '+aname(x); }},
-  {t:'ДЖЕКПОТ', ic:'🦄', c:'#7af0ff', w:2, g:function(){ addTix('myth',1); return 'ДЖЕКПОТ: Мифический кейс!'; }}
+  {t:'Монеты', ic:'₽', c:'#3fd58a', w:28, g:function(){ var n=4000*lvF(); S.coins+=n; return rub(n)+' монет'; }},
+  {t:'Кейс', ic:'🎟', c:'#4c7dff', w:23, g:function(){ var k=bestCase(); addTix(k,1); return 'бесплатный кейс «'+caseName(k)+'»'; }},
+  {t:'Мешок', ic:'💰', c:'#9a5cff', w:17, g:function(){ var n=15000*lvF(); S.coins+=n; return rub(n)+' монет'; }},
+  {t:'3 кейса', ic:'🎟3', c:'#ff4fd8', w:11, g:function(){ var k=bestCase(); addTix(k,3); return '3 бесплатных кейса «'+caseName(k)+'»'; }},
+  {t:'5 💫', ic:'💫', c:'#2fb4ff', w:12, zs:1, g:function(){ var n=8000*lvF(); S.coins+=n; return rub(n)+' монет'; }},
+  {t:'Золотой', ic:'⭐', c:'#ffc83d', w:6, g:function(){ addTix('elite',1); return 'кейс «Золотой сафари»'; }},
+  {t:'Миф', ic:'🦄', c:'#7af0ff', w:2, g:function(){ addTix('myth',1); return 'Мифический кейс 🦄'; }},
+  {t:'ДЖЕКПОТ', ic:'⭐×5', c:'#ff3b46', w:1, g:function(){ addTix('elite',5); return '5 кейсов «Золотой сафари»'; }}
 ];
 var wheelAng=0;
 function wheelReady(){ return Date.now()-(S.wheelAt||0)>=WHEEL_CD || (S.wheelX||0)>0; }
@@ -2029,7 +2039,9 @@ function spinWheel(){
   var to=wheelAng+360*5+((target-wheelAng%360)+360)%360; wheelAng=to; ui.busy=true; hap('medium'); S.st.spins=(S.st.spins||0)+1; save();
   var w=$('wsvg'); if (w){ w.style.transition='transform '+(S.fast?1.6:4.2)+'s cubic-bezier(.12,.75,.12,1)'; w.style.transform='rotate('+to+'deg)'; }
   var ticks=0, tk=setInterval(function(){ sTick(); if (++ticks>24) clearInterval(tk); }, S.fast?60:150);
-  setTimeout(function(){ clearInterval(tk); var txt=WHEEL[i].g(); save(); ui.busy=false; sWin(i>=5?4:2); hap('ok'); info(i===7?'🦄 ДЖЕКПОТ!':'Колесо Палыча', 'Выпало: '+txt+'. '+(S.wheelX>0?'Осталось прокруток: '+S.wheelX+'.':'Следующая бесплатная прокрутка через сутки.')); render(); }, (S.fast?1.6:4.2)*1000+200);
+  var W=WHEEL[i], zsP=W.zs&&apiOn()?api('/api/wheel_zs').catch(function(){ return {}; }):Promise.resolve({});
+  setTimeout(function(){ clearInterval(tk); zsP.then(function(r){ var txt; if (W.zs&&r&&r.ok){ S.zs=r.zs; txt='5 💫 зоо-звёзд'; } else { txt=W.g(); if (W.zs&&apiOn()) txt+=' (💫 уже выпадали сегодня — вместо них монеты)'; }
+    save(); ui.busy=false; sWin(i>=5?4:2); hap('ok'); info(i>=6?'🎉 ДЖЕКПОТ!':'Колесо Палыча', 'Выпало: '+txt+'. '+(S.wheelX>0?'Осталось прокруток: '+S.wheelX+'.':'Следующая бесплатная прокрутка через сутки.')); render(); }); }, (S.fast?1.6:4.2)*1000+200);
 }
 
 /* ---------- магазин за звёзды Telegram (нужен сервер, см. API_URL) ---------- */
@@ -2037,6 +2049,7 @@ var SHOP=[
   {id:'starter', n:'Стартовый набор', star:49, once:1, ic:'🎁', d:'50 000 монет, 3 кейса «Золотой сафари» и эпическое животное. Один раз на аккаунт'},
   {id:'vip30', n:'VIP на 30 дней', star:299, ic:'👑', d:'+25% к доходу, касса копит 12 часов, +1 место в экспедиции, бесплатный кейс каждый день'},
   {id:'c1', n:'25 000 монет', star:25, ic:'₽'}, {id:'c2', n:'120 000 монет', star:100, ic:'₽', tag:'+20%'}, {id:'c3', n:'350 000 монет', star:250, ic:'₽', tag:'+40%'}, {id:'c4', n:'800 000 монет', star:500, ic:'💰', tag:'+60%'}, {id:'c5', n:'2 000 000 монет', star:1000, ic:'💰', tag:'+100%'},
+  {id:'zs100', n:'100 зоо-звёзд', star:100, ic:'💫', zsp:100, d:'Валюта рынка: покупай номерных животных у игроков'}, {id:'zs500', n:'520 зоо-звёзд', star:500, ic:'💫', zsp:520, tag:'+4%'}, {id:'zs1000', n:'1 100 зоо-звёзд', star:1000, ic:'💫', zsp:1100, tag:'+10%'},
   {id:'elite5', n:'5 кейсов «Золотой сафари»', star:150, ic:'⭐'}, {id:'myth3', n:'3 Мифических кейса', star:200, ic:'🦄'}, {id:'spin3', n:'3 прокрутки колеса Палыча', star:30, ic:'🎡'}
 ];
 Object.keys(HATS).forEach(function(k){ SHOP.push({id:'hat_'+k, n:'Скин «'+HATS[k].n+'»', star:HATS[k].star, ic:'🎩', hat:k, d:'Навсегда. Надевай на любых животных'}); });
@@ -2057,6 +2070,10 @@ function buy(id){
   var it=SHOP.filter(function(x){return x.id===id;})[0]; if (!it) return;
   if (!apiOn()){ info('Магазин скоро откроется','Покупки за звёзды Telegram заработают, когда к игре подключат сервер бота. Твой прогресс от этого не пострадает.'); return; }
   if (it.once && S.starter){ toast('Стартовый набор уже куплен'); return; }
+  if (it.zsp){ ui.busy=true; toast('Открываю оплату…');
+    api('/api/invoice',{item:id}).then(function(d){ ui.busy=false; if (!d.link) throw new Error('no link');
+      tg.openInvoice(d.link, function(st){ if (st==='paid'){ toast('Оплата прошла! Зачисляю 💫…'); [1500,4500,9000].forEach(function(ms){ setTimeout(function(){ var z0=S.zs||0; syncMine(); setTimeout(function(){ if ((S.zs||0)>z0){ sCoin(); hap('ok'); render(); } },1200); },ms); }); } else if (st==='failed') toast('Оплата не прошла'); });
+    }).catch(function(){ ui.busy=false; toast('Сервер не отвечает. Попробуй позже'); }); return; }
   if ((S.zs||0)>=it.star && !arguments[1]){ sheet('<h3>'+esc(it.n)+'</h3><p>Чем заплатить?</p><div class="list"><button class="opt gold" data-act="buyZs" data-id="'+id+'">Зоо-звёздами<small>У тебя '+rub(S.zs)+' 💫</small><span>💫 '+it.star+'</span></button><button class="opt lime" data-act="buyStars" data-id="'+id+'">Звёздами Telegram<span>⭐ '+it.star+'</span></button><button class="opt" data-act="close">Отмена<span></span></button></div>'); return; }
   ui.busy=true; toast('Открываю оплату…');
   api('/api/invoice',{item:id}).then(function(d){ ui.busy=false; if (!d.link) throw new Error('no link');
@@ -2085,8 +2102,8 @@ function takeGiftUI(id){ if (ui.busy) return; ui.busy=true; takeGift(id).then(fu
 function takeAllUI(){ if (ui.busy||!ui.gifts.length) return; ui.busy=true; var ids=ui.gifts.map(function(g){return g.id;}), got=[];
   (function next(){ if (!ids.length){ ui.busy=false; render(); if (got.length){ sWin(4); flyCoins(); info('🎁 Все подарки получены!','Ты получил: '+got.join('; ')+'.'); } return; }
     takeGift(ids.shift()).then(function(t){ if (t) got.push(t); next(); }).catch(function(){ ui.busy=false; render(); toast('Сервер не ответил, попробуй ещё раз'); }); })(); }
-function giftIcon(d){ return d.zs&&!d.coins?'💫':d.vip?'👑':d.hat?'🎩':d.tix&&d.tix.myth?'🦄':d.tix&&d.tix.elite?'⭐':d.tix?'🎟':d.spins?'🎡':'💰'; }
-function giftDesc(d){ var t=[]; if (+d.zs>0) t.push(rub(+d.zs)+' 💫 зоо-звёзд'); if (+d.coins>0) t.push(rub(+d.coins)+' монет'); if (d.tix) Object.keys(d.tix).forEach(function(k){ if (CASES[k]) t.push(d.tix[k]+' × «'+caseName(k)+'»'); }); if (+d.vip>0) t.push('VIP '+d.vip+' дн.'); if (+d.spins>0) t.push(d.spins+' прокрутки колеса'); if (d.hat&&HATS[d.hat]) t.push('скин «'+HATS[d.hat].n+'»'); return t.join(', '); }
+function giftIcon(d){ return d.lvl?'⬆️':d.zs&&!d.coins?'💫':d.vip?'👑':d.hat?'🎩':d.tix&&d.tix.myth?'🦄':d.tix&&d.tix.elite?'⭐':d.tix?'🎟':d.spins?'🎡':'💰'; }
+function giftDesc(d){ var t=[]; if (+d.zs>0) t.push(rub(+d.zs)+' 💫 зоо-звёзд'); if (+d.coins>0) t.push(rub(+d.coins)+' монет'); if (d.tix) Object.keys(d.tix).forEach(function(k){ if (CASES[k]) t.push(d.tix[k]+' × «'+caseName(k)+'»'); }); if (+d.vip>0) t.push('VIP '+d.vip+' дн.'); if (+d.spins>0) t.push(d.spins+' прокрутки колеса'); if (d.hat&&HATS[d.hat]) t.push('скин «'+HATS[d.hat].n+'»'); if (+d.lvl>0) t.push('уровень '+d.lvl); return t.join(', '); }
 function dateRu(t){ try{ return new Date(t).toLocaleDateString('ru-RU',{day:'numeric',month:'long'}); }catch(e){ return ''; } }
 /* ---------- рынок ---------- */
 var syncing=false;
@@ -2103,16 +2120,16 @@ function syncMine(){ if (!apiOn()||syncing) return; syncing=true;
     if (changed){ save(true); if (!ui.busy&&!ui.modal) render(); else renderTop(); }
     if (msgs.length) queue.push({title:'Рынок', text:msgs.join('. ')+'.'});
   }).catch(function(){ syncing=false; }); }
-ui.mk={t:0, sort:'new', mine:0, items:null};
+ui.mk={t:0, sort:'new', mine:0, pretty:0, items:null};
 function loadMarket(){ if (!apiOn()){ ui.mk.items=[]; render(); return; } ui.mk.items=null;
-  api('/api/market',{t:ui.mk.t, sort:ui.mk.sort, mine:ui.mk.mine}).then(function(d){ ui.mk.items=d.items||[]; S.zs=d.zs||0; if (ui.view==='market') render(); }).catch(function(){ ui.mk.items=[]; ui.mk.err=1; if (ui.view==='market') render(); }); }
-function lotCard(x){ return '<button class="lot" style="--tc:'+tc(x.t)+'" data-act="lot" data-id="'+x.rid+'"><span class="sn big">#'+x.serial+'</span>'+(x.mine?'<span class="pin">твой лот</span>':'')+animalIMG(sid(x.s),x.t,'',x.mu||'')+'<b>'+esc(SPECIES[sid(x.s)].n)+'</b><small>'+TIERS[x.t].n+(x.mu?' · '+MUTS[x.mu].n:'')+'</small><small class="sl">'+esc(x.seller)+'</small><span class="star">⭐ '+x.price+'</span></button>'; }
+  api('/api/market',{t:ui.mk.t, sort:ui.mk.sort, mine:ui.mk.mine, pretty:ui.mk.pretty}).then(function(d){ ui.mk.items=d.items||[]; S.zs=d.zs||0; if (ui.view==='market') render(); }).catch(function(){ ui.mk.items=[]; ui.mk.err=1; if (ui.view==='market') render(); }); }
+function lotCard(x){ return '<button class="lot" style="--tc:'+tc(x.t)+'" data-act="lot" data-id="'+x.rid+'"><span class="sn big'+(isPretty(x.serial)?' pr':'')+'">#'+x.serial+(isPretty(x.serial)?'✨':'')+'</span>'+(x.mine?'<span class="pin">твой лот</span>':'')+animalIMG(sid(x.s),x.t,'',x.mu||'')+'<b>'+esc(SPECIES[sid(x.s)].n)+'</b><small>'+TIERS[x.t].n+(x.mu?' · '+MUTS[x.mu].n:'')+'</small><small class="sl">'+esc(x.seller)+'</small><span class="star">⭐ '+x.price+'</span></button>'; }
 function renderMarket(back){
   var M=ui.mk, mine=bag().filter(function(a){ return reg(a)&&!a.price&&!a.frozen; });
-  var h=back+'<div class="glass pad mkhead"><div class="between"><h2>🏪 Рынок</h2><span class="zsb">💫 '+rub(S.zs||0)+'</span></div><p class="sub" style="margin-top:6px">Золотые, радужные и белые животные с номерами. Покупай за звёзды Telegram ⭐ или за зоо-звёзды 💫. Продавец получает 85% цены в зоо-звёздах, ими можно платить в магазине и здесь.</p>'+
+  var h=back+'<div class="glass pad mkhead"><div class="between"><h2>🏪 Рынок</h2><button class="zsb" data-act="zsShop" style="border:0;cursor:pointer">💫 '+rub(S.zs||0)+' ＋</button></div><p class="sub" style="margin-top:6px">Золотые, радужные и белые животные с номерами. Покупай за звёзды Telegram ⭐ или за зоо-звёзды 💫. Продавец получает 85% цены в зоо-звёздах, ими можно платить в магазине и здесь. ✨ — красивый номер: от 1 до 9, одинаковые цифры (777), круглые (1000) и лесенки (12345).</p>'+
     (apiOn()?'<button class="btn lime" data-act="sellList" style="margin-top:10px;width:100%">Продать своё животное'+(mine.length?' ('+mine.length+')':'')+'</button>':'')+'</div>';
   h+='<div class="chips">'+[[0,'Все'],[5,'🟡 Золотые'],[6,'🌈 Радужные'],[7,'⚪ Белые']].map(function(c){ return '<button class="chip'+(M.t===c[0]?' on':'')+'" data-act="mkT" data-id="'+c[0]+'">'+c[1]+'</button>'; }).join('')+'</div>'+
-    '<div class="chips">'+[['new','Новые'],['cheap','Дешевле'],['exp','Дороже'],['num','По номеру']].map(function(c){ return '<button class="chip'+(M.sort===c[0]?' on':'')+'" data-act="mkS" data-id="'+c[0]+'">'+c[1]+'</button>'; }).join('')+'<button class="chip'+(M.mine?' on':'')+'" data-act="mkMine">Мои лоты</button></div>';
+    '<div class="chips">'+[['new','Новые'],['cheap','Дешевле'],['exp','Дороже'],['num','По номеру']].map(function(c){ return '<button class="chip'+(M.sort===c[0]?' on':'')+'" data-act="mkS" data-id="'+c[0]+'">'+c[1]+'</button>'; }).join('')+'<button class="chip'+(M.pretty?' on':'')+'" data-act="mkPretty">✨ Красивые</button><button class="chip'+(M.mine?' on':'')+'" data-act="mkMine">Мои лоты</button></div>';
   if (!apiOn()) return h+'<div class="glass pad"><p class="sub">Рынок работает только внутри Telegram.</p></div>';
   if (M.items===null) return h+'<div class="glass pad"><p class="sub">Загружаю лоты…</p></div>';
   if (!M.items.length) return h+'<div class="glass pad" style="text-align:center"><div style="font-size:40px">🏪</div><p class="sub">'+(M.err?'Сервер не ответил, попробуй ещё раз.':M.mine?'У тебя нет лотов на продаже.':'Пока здесь пусто. Выстави своё номерное животное первым — покупатели найдутся!')+'</p></div>';
@@ -2153,6 +2170,8 @@ function sellGo(id){ var a=find(id), v=Math.round(+($('sellP')&&$('sellP').value
     .catch(function(){ ui.busy=false; toast('Не получилось выставить. Попробуй ещё раз'); }); }
 function unlist(id){ var a=find(id); if (!a||!reg(a)) return; api('/api/unlist',{rid:a.rid}).then(function(){ a.price=0; save(true); closeModal(); toast('Снято с продажи'); loadMarket(); render(); }).catch(function(){ toast('Нет связи с сервером'); }); }
 function unlistR(rid){ var a=S.inv.filter(function(x){ return x.rid===rid; })[0]; if (a) unlist(a.id); else api('/api/unlist',{rid:rid}).then(function(){ closeModal(); syncMine(); loadMarket(); }); }
+function zsShop(){ if (!apiOn()){ info('Зоо-звёзды','Покупка 💫 работает только внутри Telegram.'); return; }
+  sheet('<h3>💫 Зоо-звёзды</h3><p>Ими платят на рынке и в магазине. Сейчас у тебя: <b style="color:var(--coin)">'+rub(S.zs||0)+' 💫</b></p><div class="list">'+SHOP.filter(function(x){ return x.zsp; }).map(function(x){ return '<button class="opt gold" data-act="buy" data-id="'+x.id+'">'+esc(x.n)+(x.tag?'<small>бонус '+x.tag+'</small>':'')+'<span>⭐ '+x.star+'</span></button>'; }).join('')+'<button class="opt" data-act="close">Закрыть<span></span></button></div>'); }
 function buyZs(id){ var it=SHOP.filter(function(x){return x.id===id;})[0]; if (!it||ui.busy) return; ui.busy=true;
   api('/api/zs_buy',{item:id}).then(function(d){ ui.busy=false; closeModal(); if (!d.ok) throw 0; S.zs=d.zs; toast('Оплачено зоо-звёздами! Начисляю…'); claimBuys(); }).catch(function(){ ui.busy=false; closeModal(); toast('Не хватает 💫 или сервер не ответил'); }); }
 function grantGift(d){ var t=[];
@@ -2162,7 +2181,35 @@ function grantGift(d){ var t=[];
   if (+d.vip>0){ settle(); S.vipUntil=Math.max(Date.now(),S.vipUntil||0)+(+d.vip)*24*3600e3; t.push('VIP на '+d.vip+' дн.'); }
   if (+d.spins>0){ S.wheelX=(S.wheelX||0)+(+d.spins); t.push(d.spins+' прокрутки колеса'); }
   if (d.hat&&HATS[d.hat]){ S.hats=S.hats||{}; S.hats[d.hat]=1; t.push('скин «'+HATS[d.hat].n+'»'); }
+  if (+d.lvl>S.lvl){ S.lvl=Math.min(999,Math.round(+d.lvl)); S.xp=0; t.push('уровень '+S.lvl); }
   return t.join(', '); }
+/* ---------- серия ежедневных входов: 7 дней, пропуск дня — начинаем сначала ---------- */
+var STREAK=[
+  {ic:'₽', n:function(){ return rub(5000*lvF()); }, g:function(){ var n=5000*lvF(); S.coins+=n; return rub(n)+' монет'; }},
+  {ic:'🎟', n:function(){ return '1 кейс'; }, g:function(){ var k=bestCase(); addTix(k,1); return 'кейс «'+caseName(k)+'»'; }},
+  {ic:'💰', n:function(){ return rub(15000*lvF()); }, g:function(){ var n=15000*lvF(); S.coins+=n; return rub(n)+' монет'; }},
+  {ic:'🎟2', n:function(){ return '2 кейса'; }, g:function(){ var k=bestCase(); addTix(k,2); return '2 кейса «'+caseName(k)+'»'; }},
+  {ic:'⭐', n:function(){ return 'Золотой'; }, g:function(){ addTix('elite',1); return 'кейс «Золотой сафари»'; }},
+  {ic:'💰', n:function(){ return rub(40000*lvF()); }, g:function(){ var n=40000*lvF(); S.coins+=n; return rub(n)+' монет'; }},
+  {ic:'🦄', n:function(){ return 'Мифический'; }, g:function(){ addTix('myth',1); return 'Мифический кейс 🦄'; }}
+];
+function dayKey(t){ var d=new Date(t); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
+function streakSheet(got){ var st=S.streak||{d:0}, h='<div class="strk">'+STREAK.map(function(x,k){ var n=k+1; return '<div class="'+(n<st.d?'ok':n===st.d?'now':'')+'"><b>'+(n<st.d?'✓':x.ic)+'</b>День '+n+'<br>'+x.n()+'</div>'; }).join('')+'</div>';
+  sheet('<h3>🔥 Серия входов: день '+st.d+' из 7</h3>'+(got?'<p>Награда за сегодня: <b style="color:var(--lime)">'+esc(got)+'</b></p>':'<p>Заходи каждый день: награды растут, а на 7-й день — Мифический кейс. Пропустишь день — серия начнётся заново.</p>')+h+'<div class="list"><button class="opt lime" data-act="close">'+(got?'Забрать':'Понятно')+'<span></span></button></div>'); }
+function checkStreak(){ if (!cloudReady||ui.modal||ui.busy) return; var now=Date.now(), today=dayKey(now), st=S.streak||{d:0,last:''}; if (st.last===today) return;
+  st.d=st.last===dayKey(now-86400e3)&&st.d<7?st.d+1:1; st.last=today; S.streak=st; var got=STREAK[st.d-1].g(); save(true); sWin(st.d===7?5:2); hap('ok'); streakSheet(got); }
+/* ---------- сезоны: после вайпа сервер поднимает номер сезона, игра стирает прогресс у себя и в облаке ---------- */
+var SRV=null;
+function keepPaid(){ return {uid:S.uid, refUsed:S.refUsed, sound:S.sound, fast:S.fast, vipUntil:S.vipUntil, vipDay:S.vipDay, hats:S.hats, starter:S.starter, zs:S.zs, giftLog:S.giftLog, streak:S.streak}; }
+function wipeLocal(){ var k=keepPaid(); S=Object.assign(fresh(), k); S.mk=1; ui.tab='cases'; ui.view=''; ui.sel=null; }
+function seasonCheck(){ if (!SRV) return false; var w=false, newbie=!S.st.opened&&!S.inv.length;
+  if (newbie){ S.season=SRV.season; S.rst=SRV.reset; return false; }
+  if ((S.season||1)<SRV.season){ wipeLocal(); w='season'; } else if (S.rst>=0&&S.rst<SRV.reset){ wipeLocal(); w='reset'; }
+  S.season=SRV.season; S.rst=SRV.reset;
+  if (w){ save(true); render(); var m=document.querySelector('.modal'); if (m) m.remove(); ui.modal=false;
+    queue.unshift(w==='season'?{title:'🔄 Новый сезон '+SRV.season+'!',text:'Все зоопарки начинают с нуля — шансы у всех равные. Держи 50 000 монет на старт. VIP, скины и зоо-звёзды остались у тебя. Удачи в охоте за номером #1!'}:{title:'Прогресс обнулён',text:'Администратор обнулил твой прогресс. Начинаем заново: держи 50 000 монет. VIP, скины и зоо-звёзды остались у тебя.'}); flush(); }
+  return w; }
+function loadSeason(cb){ if (!apiOn()){ cb&&cb(); return; } api('/api/season').then(function(d){ if (d&&d.season){ SRV={season:+d.season, reset:+d.reset||0}; seasonCheck(); } cb&&cb(); }).catch(function(){ cb&&cb(); }); }
 // VIP: бесплатный кейс каждый день
 function vipDaily(){ if (!isVip()) return; var d=new Date().toDateString(); if (S.vipDay===d) return; S.vipDay=d; var k=bestCase(); addTix(k,1); queue.push({title:'👑 VIP-подарок',text:'Бесплатный кейс «'+caseName(k)+'» уже ждёт во вкладке «Кейсы».'}); save(); }
 
@@ -2189,10 +2236,10 @@ function renderMore(){
     TASKS.slice().sort(function(a,b){ function o(t){ return S.claimed[t.id]?2:t.val()>=t.goal?0:1; } return o(a)-o(b); }).map(function(t){ var x=Math.min(t.goal,t.val()), d=x>=t.goal, c=S.claimed[t.id];
       return '<div class="glass pad task"><div><b>'+esc(t.text)+'</b><div class="sub">Награда: '+rub(t.coins)+' монет</div></div><button class="btn'+(d&&!c?' lime':'')+'" data-act="claim" data-id="'+t.id+'"'+(d&&!c?'':' disabled')+'>'+(c?'Получено':d?'Забрать':short(x)+'/'+short(t.goal))+'</button><div class="prog"><i style="width:'+(x/t.goal*100)+'%"></i></div></div>'; }).join('');
   if (v==='stats') return back+'<div class="glass pad"><h2>Статистика</h2><div style="height:8px"></div>'+[['Стоимость зоопарка',rub(worth())],['Открыто кейсов',S.st.opened],['Удачных апгрейдов',S.st.upOk],['Сбежало на апгрейде',S.st.upFail],['Легендарных животных',S.st.golds],['🌈 Радужных',S.st.rainbows||0],['⚪ Белых',S.st.whites||0],['Мутантов',S.st.muts||0],['Экспедиций',S.st.exps||0],['Продано скупщику',S.st.sold],['Заработано',rub(S.st.earned)],['Карточек альбома',albumCount()+' из '+albumTotal()],['Линеек собрано',lines()]].map(function(r){ return '<div class="between" style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06)"><span class="sub">'+r[0]+'</span><b>'+r[1]+'</b></div>'; }).join('')+'<div style="height:10px"></div><button class="btn" data-act="reset">Начать заново</button></div>';
-  if (v==='friends'){ var link='https://t.me/'+BOT_USERNAME+'/'+APP_NAME+'?startapp=ref_'+S.uid;
-    return back+'<div class="glass pad"><h2>Друзья</h2><p class="sub" style="margin:8px 0">Друг по твоей ссылке получает 5 000 монет на старте.</p><input id="refLink" readonly value="'+esc(link)+'" style="width:100%;box-sizing:border-box;background:rgba(0,0,0,.3);border:1px solid var(--edge);border-radius:12px;padding:10px;color:var(--fg);font-family:var(--f-body)"><div class="row" style="margin-top:10px"><button class="btn lime" data-act="copyRef">Скопировать</button><button class="btn" data-act="shareRef">Позвать в Telegram</button></div></div>'; }
+  if (v==='friends'){ var link='https://t.me/'+BOT_USERNAME+'/'+APP_NAME+'?startapp=ref_'+S.uid, RF=ui.refs;
+    return back+'<div class="glass pad"><h2>Друзья</h2><p class="sub" style="margin:8px 0">Друг по твоей ссылке получает <b style="color:var(--fg)">5 000 монет</b> на старте. Когда он дойдёт до <b style="color:var(--fg)">5 уровня</b>, тебе придёт кейс <b style="color:var(--coin)">«Золотой сафари»</b> ⭐ — за каждого друга!</p>'+(RF?'<div class="row" style="gap:8px;margin:8px 0"><div class="glass pad" style="flex:1;text-align:center;padding:10px"><b style="font-size:22px">'+RF.n+'</b><div class="sub">пришло по ссылке</div></div><div class="glass pad" style="flex:1;text-align:center;padding:10px"><b style="font-size:22px;color:var(--coin)">'+RF.paid+'</b><div class="sub">дошли до 5 ур. = ⭐</div></div></div>':'')+'<input id="refLink" readonly value="'+esc(link)+'" style="width:100%;box-sizing:border-box;background:rgba(0,0,0,.3);border:1px solid var(--edge);border-radius:12px;padding:10px;color:var(--fg);font-family:var(--f-body)"><div class="row" style="margin-top:10px"><button class="btn lime" data-act="copyRef">Скопировать</button><button class="btn" data-act="shareRef">Позвать в Telegram</button></div></div>'; }
   if (v==='wheel'){ var rd=wheelReady();
-    return back+'<div class="glass pad" style="text-align:center"><h2>Колесо Палыча</h2><p class="sub" style="margin:6px 0 12px">Смотритель Палыч разрешает крутить колесо раз в сутки бесплатно. Джекпот — Мифический кейс 🦄</p>'+wheelSVG()+
+    return back+'<div class="glass pad" style="text-align:center"><h2>Колесо Палыча</h2><p class="sub" style="margin:6px 0 12px">Раз в сутки бесплатно. Монеты, кейсы твоего уровня, 💫 зоо-звёзды, а если повезёт — Мифический кейс 🦄 или джекпот: 5 «Золотых сафари»!</p>'+wheelSVG()+
       '<div style="height:12px"></div><button class="cta gold" data-act="spin"'+(rd?'':' disabled')+'>'+(rd?(Date.now()-(S.wheelAt||0)<WHEEL_CD?'Крутить · осталось '+S.wheelX:'Крутить бесплатно'):'Через '+hm(WHEEL_CD-(Date.now()-(S.wheelAt||0))))+'</button>'+
       '<button class="btn" data-act="buy" data-id="spin3" style="margin-top:10px">Ещё 3 прокрутки · ⭐ 30</button></div>'; }
   if (v==='market') return renderMarket(back);
@@ -2203,26 +2250,30 @@ function renderMore(){
         :'<div class="glass pad" style="text-align:center"><div style="font-size:42px">📭</div><p class="sub">Новых подарков пока нет. Загляни позже: создатель любит радовать игроков.</p></div>')+
       (L.length?'<div class="glass pad"><h3>Полученные</h3><div style="height:6px"></div>'+L.map(function(x){ return '<div class="between" style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);gap:10px"><span style="min-width:0">'+esc(x.x)+(x.n?'<br><small class="sub">«'+esc(x.n)+'»</small>':'')+'</span><small class="sub" style="flex:none">'+dateRu(x.t)+'</small></div>'; }).join('')+'</div>':''); }
   if (v==='shop'){ var off=!apiOn();
-    return back+'<div class="glass pad"><h2>Магазин</h2><p class="sub" style="margin-top:6px">Оплата звёздами Telegram ⭐. '+(off?'<b style="color:var(--coin)">Скоро откроется</b>: покупки заработают, когда к игре подключат сервер.':'Покупка приходит сразу после оплаты.')+'</p>'+(isVip()?'<p class="sub" style="margin-top:6px;color:var(--coin)">👑 VIP активен ещё '+hm(S.vipUntil-Date.now())+'</p>':'')+'</div>'+
+    return back+'<div class="glass pad"><h2>Магазин</h2><p class="sub" style="margin-top:6px">Оплата звёздами Telegram ⭐. Зоо-звёзды 💫 — валюта рынка. '+(off?'<b style="color:var(--coin)">Скоро откроется</b>: покупки заработают, когда к игре подключат сервер.':'Покупка приходит сразу после оплаты.')+'</p>'+(isVip()?'<p class="sub" style="margin-top:6px;color:var(--coin)">👑 VIP активен ещё '+hm(S.vipUntil-Date.now())+'</p>':'')+'</div>'+
       '<div class="shop">'+SHOP.filter(function(x){ return !(x.once&&S.starter); }).map(function(x){ var own=x.hat&&S.hats&&S.hats[x.hat];
         return '<button class="shopc'+(x.id==='starter'||x.id==='vip30'?' wide':'')+'" data-act="buy" data-id="'+x.id+'"'+(own?' disabled':'')+'>'+(x.hat?'<span class="ic">'+animalSVG(0,0,'',1,'',x.hat)+'</span>':'<span class="ic">'+x.ic+'</span>')+'<b>'+esc(x.n)+'</b>'+(x.d?'<small>'+esc(x.d)+'</small>':'')+(x.tag?'<i class="tagb">'+x.tag+'</i>':'')+'<span class="star">'+(own?'куплено':'⭐ '+x.star)+'</span></button>'; }).join('')+'</div>'; }
   if (v==='top'){ if (topData===null) return back+'<div class="glass pad"><h2>Топ зоопарков</h2><p class="sub">Загружаю…</p></div>';
     if (topData.off||topData.err) return back+'<div class="glass pad"><h2>Топ зоопарков</h2><p class="sub" style="margin-top:6px">'+(topData.off?'Таблица лидеров появится, когда к игре подключат сервер. Твоя стоимость зоопарка сейчас: <b style="color:var(--coin)">'+short(worth())+' ₽</b>':'Сервер не отвечает, попробуй позже.')+'</p></div>';
-    return back+'<div class="glass pad"><div class="between"><h2>Топ зоопарков</h2><span class="sub">по стоимости животных</span></div>'+(topData.me?'<p class="sub" style="margin-top:6px">Ты на <b style="color:var(--coin)">'+topData.me.rank+' месте</b> · '+short(topData.me.score)+' ₽</p>':'')+'</div>'+
+    var WK=topData.week, wk='';
+    if (WK) wk='<div class="glass pad"><div class="between"><h3>🏆 Недельный конкурс</h3><span class="sub">итоги через '+hm(WK.end-Date.now())+'</span></div><p class="sub" style="margin:6px 0">В понедельник в 00:00 по Москве десятка самых дорогих зоопарков получает призы в «🎁 Подарки».</p>'+(WK.prizes||[]).slice(0,4).map(function(p,i){ return '<div class="wk"><b>'+(i<3?['🥇','🥈','🥉'][i]+' '+(i+1)+' место':'4–10 место')+'</b><span class="sub" style="text-align:right">'+esc(p)+'</span></div>'; }).join('')+
+      (WK.last&&WK.last.length?'<div style="height:8px"></div><b class="sub">Победители прошлой недели</b>'+WK.last.slice(0,3).map(function(r){ return '<div class="wk"><span>'+['🥇','🥈','🥉'][r.place-1]+' '+esc(r.name||'Игрок')+'</span><span class="sub">'+short(r.score)+' ₽</span></div>'; }).join(''):'')+'</div>';
+    return back+'<div class="glass pad"><div class="between"><h2>Топ зоопарков</h2><span class="sub">по стоимости животных</span></div>'+(topData.me?'<p class="sub" style="margin-top:6px">Ты на <b style="color:var(--coin)">'+topData.me.rank+' месте</b> · '+short(topData.me.score)+' ₽</p>':'')+'</div>'+wk+
       '<div class="glass pad toplist">'+(topData.top||[]).map(function(r,i){ var b=r.best; return '<div class="toprow'+(i<3?' t'+i:'')+'"><span class="rk">'+(i+1)+'</span>'+(b?'<span class="tav" style="--tc:'+tc(b.t||0)+'">'+animalIMG(sid(b.s),b.t||0,'',b.mu||'')+'</span>':'<span class="tav"></span>')+'<div><b>'+esc(r.name||'Игрок')+'</b><small>'+r.lvl+' ур.</small></div><span class="sc">'+short(r.score)+' ₽</span></div>'; }).join('')+'</div>'; }
   var tiles=[
     ['market','Рынок', apiOn()?'💫 '+rub(S.zs||0)+' · номерные животные':'Номерные животные за ⭐', 'linear-gradient(180deg,#ffe27a,#ff9a3d)', false,'🏪'],
     ['wheel','Колесо Палыча', wheelReady()?'Можно крутить!':'через '+hm(WHEEL_CD-(Date.now()-(S.wheelAt||0))), 'linear-gradient(180deg,#ffe98a,#ff8a3d)', wheelReady(),'🎡'],
+    ['streak','Серия входов', '🔥 день '+((S.streak&&S.streak.d)||0)+' из 7', 'linear-gradient(180deg,#ffd27a,#ff5a3d)', false,'🔥'],
     ['gift','Смотритель', giftReady()?'Подарок ждёт!':'через '+hm(GIFT_CD-(Date.now()-S.giftAt)), 'linear-gradient(180deg,#ffe98a,#ffb52e)', giftReady(),'★'],
     ['tasks','Задания', TASKS.filter(function(t){return S.claimed[t.id];}).length+' из '+TASKS.length, 'linear-gradient(180deg,#b8ff7a,#3fd58a)', TASKS.some(function(x){return !S.claimed[x.id]&&x.val()>=x.goal;}),'✓'],
     ['album','Альбом', albumCount()+' из '+albumTotal()+' · линеек '+lines(), 'linear-gradient(180deg,#c9a6ff,#8a4dff)', false,'❖'],
     ['gifts','Подарки', (ui.gifts&&ui.gifts.length)?'Ждут: '+ui.gifts.length:'Подарки от создателя', 'linear-gradient(180deg,#ffb3c8,#ff5f8a)', !!(ui.gifts&&ui.gifts.length),'🎁'],
     ['shop','Магазин', isVip()?'👑 VIP активен':'Звёзды, VIP, скины', 'linear-gradient(180deg,#9ff0ff,#2fb4ff)', false,'⭐'],
-    ['top','Топ игроков','Чей зоопарк дороже','linear-gradient(180deg,#ffd0a0,#ff6a3d)', false,'🏆'],
-    ['friends','Друзья','Позови и получи бонус','linear-gradient(180deg,#9fd8ff,#4c7dff)', false,'+'],
+    ['top','Топ недели','Призы каждый понедельник','linear-gradient(180deg,#ffd0a0,#ff6a3d)', false,'🏆'],
+    ['friends','Друзья','⭐ Золотой сафари за друга','linear-gradient(180deg,#9fd8ff,#4c7dff)', false,'+'],
     ['stats','Статистика','Рекорды','linear-gradient(180deg,#ffb3e8,#ff4fd8)', false,'#']
   ];
-  return '<div class="tiles">'+tiles.map(function(t){ return '<button class="tile glass" '+(t[0]==='gift'?'data-act="gift"':'data-view="'+t[0]+'"')+'>'+(t[4]?'<span class="dot"></span>':'')+'<span class="ic" style="background:'+t[3]+'">'+t[5]+'</span><b>'+t[1]+'</b><span>'+t[2]+'</span></button>'; }).join('')+'</div>'+
+  return '<div class="tiles">'+tiles.map(function(t){ return '<button class="tile glass" '+(t[0]==='gift'?'data-act="gift"':t[0]==='streak'?'data-act="streak"':'data-view="'+t[0]+'"')+'>'+(t[4]?'<span class="dot"></span>':'')+'<span class="ic" style="background:'+t[3]+'">'+t[5]+'</span><b>'+t[1]+'</b><span>'+t[2]+'</span></button>'; }).join('')+'</div>'+
     (!S.starter?'<button class="glass pad promo" data-act="buy" data-id="starter"><span class="ic">🎁</span><div><b>Стартовый набор</b><small>50 000 монет + 3 золотых кейса + эпик</small></div><span class="star">⭐ 49</span></button>':'');
 }
 
@@ -2255,7 +2306,7 @@ document.addEventListener('click',function(e){
   if (ui.busy && !inRev) return;
   if (d.tab){ ui.tab=d.tab; ui.view=''; hap('light'); sClick(); render(); $('screen').scrollTop=0; return; }
   if (el.hasAttribute('data-view-go')){ ui.tab='more'; ui.view=d.viewGo; hap('light'); render(); $('screen').scrollTop=0; return; }
-  if (el.hasAttribute('data-view')){ ui.view=d.view; if (d.view==='top') loadTop(); if (d.view==='market'){ loadMarket(); syncMine(); } hap('light'); render(); $('screen').scrollTop=0; return; }
+  if (el.hasAttribute('data-view')){ ui.view=d.view; if (d.view==='top') loadTop(); if (d.view==='friends'&&apiOn()) api('/api/refs').then(function(r){ ui.refs=r; if (ui.view==='friends') render(); }).catch(function(){}); if (d.view==='market'){ loadMarket(); syncMine(); } hap('light'); render(); $('screen').scrollTop=0; return; }
   if (d.case){ S.cs=d.case; hap('light'); sClick(); render(); el=document.querySelector('[data-case="'+d.case+'"]'); if (el&&el.scrollIntoView) el.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'}); return; }
   if (d.n){ S.n=+d.n; hap('light'); render(); return; }
   if (d.filt!==undefined){ S.filt=+d.filt; render(); return; }
@@ -2299,7 +2350,7 @@ document.addEventListener('click',function(e){
     case 'share': var x=find(id); if (x) share('В моём зоопарке живёт '+TIERS[x.t].n.toLowerCase()+' '+SPECIES[x.s].n.toLowerCase()+' за '+rub(val(x))+' монет! А у тебя? 🐾 ZooPark'); return;
     case 'copyRef': copy($('refLink').value,'Ссылка скопирована'); return;
     case 'shareRef': share('Играю в ZooPark: открываю кейсы с животными и строю свой зоопарк. Залетай, 5 000 монет на старт!'); return;
-    case 'reset': sheet('<h3>Начать заново?</h3><p>Все животные, вольеры и прогресс удалятся без возврата.</p><div class="list"><button class="opt red" data-act="resetYes">Да, стереть всё<span></span></button><button class="opt lime" data-act="close">Отмена<span></span></button></div>'); return;
+    case 'reset': sheet('<h3>Начать заново?</h3><p>Все животные, вольеры и прогресс удалятся без возврата. Купленные VIP, скины и зоо-звёзды останутся.</p><div class="list"><button class="opt red" data-act="resetYes">Да, стереть всё<span></span></button><button class="opt lime" data-act="close">Отмена<span></span></button></div>'); return;
     case 'pet': petAnimal(el,id); return;
     case 'heal': heal([id]); return after();
     case 'healAll': heal(zooA().filter(function(a){return a.sick;}).map(function(a){return a.id;})); save(); render(); return;
@@ -2317,6 +2368,9 @@ document.addEventListener('click',function(e){
     case 'buyLot': buyLot(+id, d.x); return;
     case 'mkT': ui.mk.t=+id; loadMarket(); render(); return;
     case 'mkS': ui.mk.sort=id; loadMarket(); render(); return;
+    case 'mkPretty': ui.mk.pretty=ui.mk.pretty?0:1; loadMarket(); render(); return;
+    case 'zsShop': zsShop(); return;
+    case 'streak': streakSheet(); return;
     case 'mkMine': ui.mk.mine=ui.mk.mine?0:1; loadMarket(); render(); return;
     case 'sellList': sellList(); return;
     case 'sellPick': sellPick(id); return;
@@ -2328,7 +2382,7 @@ document.addEventListener('click',function(e){
     case 'buyStars': closeModal(); buy(id, 1); return;
     case 'giftTake': takeGiftUI(+id); return;
     case 'giftAll': takeAllUI(); return;
-    case 'resetYes': var u=S.uid; S=fresh(); S.uid=u; S.refUsed=true; ui.tab='cases'; ui.view=''; save(); closeSheet(); return;
+    case 'resetYes': var sea=S.season, rs=S.rst; wipeLocal(); S.refUsed=true; S.season=sea; S.rst=rs; save(true); closeSheet(); return;
   }
 });
 
@@ -2355,10 +2409,12 @@ function start(data){
   if (sp&&/^ref_/.test(sp)&&!S.refUsed&&sp!=='ref_'+S.uid){ S.refUsed=true; S.coins+=5000; queue.push({title:'Тебя позвал друг',text:'Добро пожаловать в зоопарк! Держи 5 000 монет на старт.'}); }
   if (S.savedAt) sickRoll(Math.min(Date.now()-S.savedAt, 12*3600e3));
   vipDaily(); render(); flush();
-  cloudLoad(hadLocal, function(ok){ if (ok){ lastBody=bodyOf(); vipDaily(); render(); toast('Прогресс загружен из облака'); } else { lastBody=''; } save(true); claimBuys(); loadGifts(); syncMine(); }, base0);
-  setInterval(tick,1000); setInterval(save,8000); setInterval(moodTick,1500); setInterval(function(){ sickRoll(60e3); vipDaily(); },60e3); setInterval(loadGifts,120e3); setInterval(function(){ if (!document.hidden) syncMine(); },60e3); setInterval(function(){ if (!document.hidden) cloudPull(); },30e3);
+  if (sp&&/^ref_/.test(sp)&&sp!=='ref_'+S.uid&&apiOn()) api('/api/ref',{ref:sp}).catch(function(){});
+  cloudLoad(hadLocal, function(ok){ if (ok){ lastBody=bodyOf(); vipDaily(); render(); toast('Прогресс загружен из облака'); } else { lastBody=''; }
+    loadSeason(function(){ save(true); claimBuys(); loadGifts(); syncMine(); setTimeout(checkStreak,600); }); }, base0);
+  setInterval(tick,1000); setInterval(save,8000); setInterval(moodTick,1500); setInterval(function(){ sickRoll(60e3); vipDaily(); checkStreak(); },60e3); setInterval(function(){ if (!document.hidden) loadSeason(); },300e3); setInterval(loadGifts,120e3); setInterval(function(){ if (!document.hidden) syncMine(); },60e3); setInterval(function(){ if (!document.hidden) cloudPull(); },30e3);
   setTimeout(function(){ pushScore(true); },6000); setInterval(function(){ pushScore(false); },300e3);
-  document.addEventListener('visibilitychange',function(){ if (document.hidden) save(true); else { cloudPull(); render(); claimBuys(); loadGifts(); syncMine(); } });
+  document.addEventListener('visibilitychange',function(){ if (document.hidden) save(true); else { loadSeason(); cloudPull(); render(); checkStreak(); claimBuys(); loadGifts(); syncMine(); } });
   window.addEventListener('pagehide',function(){ save(true); });
 }
 var hot=window.claude&&window.claude.hot;
