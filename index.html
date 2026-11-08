@@ -754,7 +754,7 @@ var TIERS=[
   {n:'Редкий',           c:'#4c7dff'},
   {n:'Эпический',        c:'#9a5cff'},
   {n:'Магический',       c:'#ff4fd8'},
-  {n:'Ультраэпический',  c:'#ff3b46'},
+  {n:'Рубиновый',  c:'#ff3b46'},
   {n:'Легендарный',      c:'#ffc83d'},
   {n:'Радужный',         c:'#7af0ff', rb:1},
   {n:'Белый',            c:'#f4f7ff', wh:1}
@@ -1995,7 +1995,7 @@ function T(id,text,goal,v,coins){ return {id:id,text:text,goal:goal,val:v,coins:
 function stv(k){ return function(){ return S.st[k]||0; }; }
 var TASKS=[
   T('o10','Открой 10 кейсов',10,function(){return S.st.opened;},3000), T('o50','Открой 50 кейсов',50,function(){return S.st.opened;},15000), T('o200','Открой 200 кейсов',200,function(){return S.st.opened;},60000), T('o1k','Открой 1 000 кейсов',1000,function(){return S.st.opened;},400000),
-  T('t1','Получи Редкое животное',1,function(){return S.st.tMax>=1?1:0;},2000), T('t2','Получи Эпическое животное',1,function(){return S.st.tMax>=2?1:0;},6000), T('t3','Получи Магическое животное',1,function(){return S.st.tMax>=3?1:0;},25000), T('t4','Получи Ультраэпическое животное',1,function(){return S.st.tMax>=4?1:0;},120000), T('t5','Получи Легендарное животное',1,function(){return S.st.tMax>=5?1:0;},800000),
+  T('t1','Получи Редкое животное',1,function(){return S.st.tMax>=1?1:0;},2000), T('t2','Получи Эпическое животное',1,function(){return S.st.tMax>=2?1:0;},6000), T('t3','Получи Магическое животное',1,function(){return S.st.tMax>=3?1:0;},25000), T('t4','Получи Рубиновое животное',1,function(){return S.st.tMax>=4?1:0;},120000), T('t5','Получи Легендарное животное',1,function(){return S.st.tMax>=5?1:0;},800000),
   T('rb1','Получи 🌈 Радужное животное',1,stv('rainbows'),5000000), T('wt1','Получи ⚪ Белое животное',1,stv('whites'),50000000),
   T('u1','Удачный апгрейд',1,function(){return S.st.upOk;},3000), T('u10','10 удачных апгрейдов',10,function(){return S.st.upOk;},25000), T('u50','50 удачных апгрейдов',50,function(){return S.st.upOk;},150000), T('uf','Потеряй животное на апгрейде',1,function(){return S.st.upFail;},2000), T('j1','Улучши животное сразу через несколько редкостей',1,stv('jumps'),20000), T('ch1','Поймай цепной апгрейд ⚡',1,function(){return S.st.chains||0;},10000), T('c1','Выполни контракт ×5',1,function(){return S.st.contractOk||0;},8000), T('c10','Выполни 10 контрактов',10,function(){return S.st.contractOk||0;},80000),
   T('mu1','Получи животное с мутацией',1,stv('muts'),5000), T('mu10','Собери 10 мутантов',10,stv('muts'),60000), T('cry','Найди кристальное животное',1,stv('cry'),250000),
@@ -2256,7 +2256,7 @@ function renderMore(){
   if (v==='top'){ if (topData===null) return back+'<div class="glass pad"><h2>Топ зоопарков</h2><p class="sub">Загружаю…</p></div>';
     if (topData.off||topData.err) return back+'<div class="glass pad"><h2>Топ зоопарков</h2><p class="sub" style="margin-top:6px">'+(topData.off?'Таблица лидеров появится, когда к игре подключат сервер. Твоя стоимость зоопарка сейчас: <b style="color:var(--coin)">'+short(worth())+' ₽</b>':'Сервер не отвечает, попробуй позже.')+'</p></div>';
     var WK=topData.week, wk='';
-    if (WK) wk='<div class="glass pad"><div class="between"><h3>🏆 Недельный конкурс</h3><span class="sub">итоги через '+hm(WK.end-Date.now())+'</span></div><p class="sub" style="margin:6px 0">В понедельник в 00:00 по Москве десятка самых дорогих зоопарков получает призы в «🎁 Подарки».</p>'+(WK.prizes||[]).slice(0,4).map(function(p,i){ return '<div class="wk"><b>'+(i<3?['🥇','🥈','🥉'][i]+' '+(i+1)+' место':'4–10 место')+'</b><span class="sub" style="text-align:right">'+esc(p)+'</span></div>'; }).join('')+
+    if (WK) wk='<div class="glass pad"><div class="between"><h3>🏆 Недельный конкурс</h3><span class="sub">итоги через '+hm(WK.end-Date.now())+'</span></div><p class="sub" style="margin:6px 0">В понедельник в 00:00 по Москве <b style="color:var(--fg)">10 самых дорогих зоопарков</b> получают <b style="color:var(--coin)">настоящие подарки Telegram</b> прямо в профиль.</p>'+(WK.prizes||[]).slice(0,4).map(function(p,i){ return '<div class="wk"><b>'+(i<3?['🥇','🥈','🥉'][i]+' '+(i+1)+' место':'4–10 место')+'</b><span class="sub" style="text-align:right">'+esc(p)+'</span></div>'; }).join('')+
       (WK.last&&WK.last.length?'<div style="height:8px"></div><b class="sub">Победители прошлой недели</b>'+WK.last.slice(0,3).map(function(r){ return '<div class="wk"><span>'+['🥇','🥈','🥉'][r.place-1]+' '+esc(r.name||'Игрок')+'</span><span class="sub">'+short(r.score)+' ₽</span></div>'; }).join(''):'')+'</div>';
     return back+'<div class="glass pad"><div class="between"><h2>Топ зоопарков</h2><span class="sub">по стоимости животных</span></div>'+(topData.me?'<p class="sub" style="margin-top:6px">Ты на <b style="color:var(--coin)">'+topData.me.rank+' месте</b> · '+short(topData.me.score)+' ₽</p>':'')+'</div>'+wk+
       '<div class="glass pad toplist">'+(topData.top||[]).map(function(r,i){ var b=r.best; return '<div class="toprow'+(i<3?' t'+i:'')+'"><span class="rk">'+(i+1)+'</span>'+(b?'<span class="tav" style="--tc:'+tc(b.t||0)+'">'+animalIMG(sid(b.s),b.t||0,'',b.mu||'')+'</span>':'<span class="tav"></span>')+'<div><b>'+esc(r.name||'Игрок')+'</b><small>'+r.lvl+' ур.</small></div><span class="sc">'+short(r.score)+' ₽</span></div>'; }).join('')+'</div>'; }
@@ -2269,7 +2269,7 @@ function renderMore(){
     ['album','Альбом', albumCount()+' из '+albumTotal()+' · линеек '+lines(), 'linear-gradient(180deg,#c9a6ff,#8a4dff)', false,'❖'],
     ['gifts','Подарки', (ui.gifts&&ui.gifts.length)?'Ждут: '+ui.gifts.length:'Подарки от создателя', 'linear-gradient(180deg,#ffb3c8,#ff5f8a)', !!(ui.gifts&&ui.gifts.length),'🎁'],
     ['shop','Магазин', isVip()?'👑 VIP активен':'Звёзды, VIP, скины', 'linear-gradient(180deg,#9ff0ff,#2fb4ff)', false,'⭐'],
-    ['top','Топ недели','Призы каждый понедельник','linear-gradient(180deg,#ffd0a0,#ff6a3d)', false,'🏆'],
+    ['top','Топ недели','🎁 Настоящие подарки Telegram','linear-gradient(180deg,#ffd0a0,#ff6a3d)', false,'🏆'],
     ['friends','Друзья','⭐ Золотой сафари за друга','linear-gradient(180deg,#9fd8ff,#4c7dff)', false,'+'],
     ['stats','Статистика','Рекорды','linear-gradient(180deg,#ffb3e8,#ff4fd8)', false,'#']
   ];
