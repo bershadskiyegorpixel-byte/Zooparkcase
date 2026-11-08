@@ -427,6 +427,53 @@ img.aimg.neon{filter:drop-shadow(0 0 6px rgba(57,255,176,.55))}
 @media (max-height:700px){.screen{gap:10px}.case{min-height:176px}}
 @media (max-height:600px){.case{min-height:150px}.screen{gap:8px}}
 @media (prefers-reduced-motion:reduce){.encl .pet,.encl .pet svg,.rays,.halo,.fly,.sweep,.tw,.walk .p,.walk .p svg,.stage .big,.cta::after,.acard.t5{animation:none}}
+
+.bphead .bplv{display:flex;align-items:center;gap:12px;margin:10px 0 4px}.bplv>b{font:900 34px var(--f-disp,inherit);color:var(--coin);min-width:56px;text-align:center}
+.bpgoal{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted);margin-top:6px;flex-wrap:wrap}.bpgoal b{color:var(--coin)}
+.bprow{display:grid;grid-template-columns:30px 1fr 1fr;gap:6px;align-items:stretch;margin-bottom:6px;opacity:.75}.bprow.on{opacity:1}
+.bpn{display:flex;align-items:center;justify-content:center;border-radius:10px;background:rgba(255,255,255,.06);font-size:13px}
+.bprow.on .bpn{background:var(--lime);color:#06210f}
+.bpc{border-radius:12px;padding:6px 8px;background:rgba(255,255,255,.05);border:1px solid var(--edge);display:flex;flex-direction:column;gap:4px;font-size:12px;min-width:0}
+.bpc span{font-weight:700;overflow-wrap:anywhere}.bpc small{color:var(--muted);font-size:11px}.bpc .btn{padding:5px 8px;font-size:12px}
+.bpc.prem{background:linear-gradient(180deg,rgba(255,211,106,.14),rgba(255,111,208,.08));border-color:rgba(255,211,106,.35)}
+.bpc.real{box-shadow:0 0 0 1.5px var(--coin),0 0 14px rgba(255,200,61,.35)}.bpc.got{opacity:.55}.bpc.empty{opacity:.3;align-items:center;justify-content:center}
+.accgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.accc{position:relative;border-radius:12px;background:rgba(255,255,255,.05);border:1.5px solid var(--rc);aspect-ratio:1;overflow:hidden}
+.accc img{width:100%;height:100%;display:block}.accc.sil{border-color:var(--edge)}.accc.sil img{filter:brightness(0) opacity(.35)}
+.accc b{position:absolute;right:4px;bottom:2px;font-size:11px;background:rgba(0,0,0,.6);border-radius:6px;padding:0 4px}
+.accrev{text-align:center}.accart{width:180px;height:180px;margin:0 auto 6px;border-radius:24px;background:radial-gradient(circle,var(--rc) -40%,transparent 70%)}.accart.big{font-size:90px;line-height:180px}
+
+.bpwrap{display:flex;gap:6px;margin-top:8px}
+.bplab{display:flex;flex-direction:column;justify-content:space-between;padding:22px 0;width:22px;flex:none}
+.bplab span{writing-mode:vertical-rl;transform:rotate(180deg);font:800 10px var(--f-body,inherit);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:center;height:96px}
+.bplab span.p{color:var(--coin)}
+.bpsc{flex:1;min-width:0;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 2px 8px}
+.bpsc::-webkit-scrollbar{display:none}
+.bptrack{display:flex;gap:8px;width:max-content}
+.bpcol{display:flex;flex-direction:column;align-items:center;gap:6px;width:82px}
+.bplvn{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:800 12px var(--f-body,inherit);background:rgba(255,255,255,.08);color:var(--muted);position:relative}
+.bplvn.on{background:var(--lime);color:#06210f}
+.bpcol.cur .bplvn{box-shadow:0 0 0 3px rgba(155,240,107,.35)}
+.bpcell{position:relative;width:82px;height:104px;border-radius:16px;border:1.5px solid var(--edge);background:rgba(255,255,255,.05);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:6px 4px;color:var(--fg);font:inherit;cursor:pointer}
+.bpcell small{font-size:10px;line-height:1.15;color:var(--muted);text-align:center;overflow-wrap:anywhere}
+.bpcell.free{opacity:.85}
+.bpcell.prem{background:linear-gradient(180deg,rgba(255,211,106,.16),rgba(255,111,208,.10));border-color:rgba(255,211,106,.4)}
+.bpcell.best{border-color:#ffd36a;background:linear-gradient(180deg,rgba(255,211,106,.28),rgba(199,155,255,.18))}
+.bpcell.ready{border-color:var(--lime);box-shadow:0 0 0 1px var(--lime),0 0 16px rgba(155,240,107,.55);animation:bpglow 1.6s ease-in-out infinite}
+.bpcell.prem.ready{border-color:#ffd36a;box-shadow:0 0 0 1px #ffd36a,0 0 18px rgba(255,211,106,.7);animation-name:bpglow2}
+@keyframes bpglow2{50%{box-shadow:0 0 0 1px #ffd36a,0 0 4px rgba(255,211,106,.2)}}
+.bpcell.ready small{color:var(--fg)}
+@keyframes bpglow{50%{box-shadow:0 0 0 1px var(--lime),0 0 4px rgba(155,240,107,.2)}}
+.bpcell.got{opacity:.45}
+.bpcell.lock{filter:saturate(.6)}
+.bpok,.bplk{position:absolute;top:4px;right:6px;font-style:normal;font-size:12px}
+.bpok{color:var(--lime);font-weight:900}
+.bpem{font-size:30px;line-height:1}
+.bpimg{width:54px;height:54px;display:block}.bpimg img{width:100%;height:100%}
+.bpgot{text-align:center}.bpgi{width:120px;height:120px;margin:0 auto 6px;border-radius:28px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,rgba(155,240,107,.4),transparent 70%)}
+.bpgot.prem .bpgi{background:radial-gradient(circle,rgba(255,211,106,.5),transparent 70%)}
+.bpgi .bpem{font-size:64px}.bpgi .bpimg{width:110px;height:110px}
+@media (prefers-reduced-motion:reduce){.bpcell.ready{animation:none}}
 </style>
 
 <div class="app" id="app">
@@ -777,6 +824,29 @@ var HATS={
   halo:{n:'Нимб', star:59, d:function(){ return '<ellipse cx="0" cy="-22" rx="26" ry="8" fill="none" stroke="#fff6b8" stroke-width="9" opacity=".35"/><ellipse cx="0" cy="-22" rx="26" ry="8" fill="none" stroke="#ffd84a" stroke-width="4.5"/><ellipse cx="-6" cy="-27" rx="9" ry="2" fill="#fff" opacity=".7"/>'; }},
   horns:{n:'Рожки', star:39, d:function(){ return '<path d="M-20,2 C-30,-8 -30,-24 -22,-34 C-20,-22 -14,-12 -6,-4 Z" fill="#e0263e" stroke="#7a0a1a" stroke-width="1.8" stroke-linejoin="round"/><path d="M20,2 C30,-8 30,-24 22,-34 C20,-22 14,-12 6,-4 Z" fill="#e0263e" stroke="#7a0a1a" stroke-width="1.8" stroke-linejoin="round"/><path d="M-24,-14 C-24,-20 -23,-26 -21,-30 M24,-14 C24,-20 23,-26 21,-30" stroke="#fff" stroke-opacity=".35" stroke-width="2" fill="none"/>'; }}
 };
+// ===== аксессуары из кейса: 10 моделей × 5 редкостей (штучные) + «Бета» для бета-тестеров =====
+var ACC_R=[{n:'Обычный',m:'#9aa3b5',d:'#4e5566',l:'#dfe4ee'},{n:'Редкий',m:'#4c7dff',d:'#16307f',l:'#b4c9ff'},{n:'Эпический',m:'#9a5cff',d:'#43178f',l:'#dcc4ff'},{n:'Рубиновый',m:'#ff3b46',d:'#7d0712',l:'#ffb7bc'},{n:'Легендарный',m:'#ffc83d',d:'#7a4e06',l:'#fff2a8',gold:1},{n:'Сезонный',m:'#c79bff',d:'#5a2ab0',l:'#ffffff',rb:1}];
+function accF(C,u){ return C.gold||C.rb?'url(#'+u+'ag)':C.m; }
+function accDefs(C,u){ if (C.rb) return '<defs><linearGradient id="'+u+'ag" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff6b8a"/><stop offset=".25" stop-color="#ffd23d"/><stop offset=".5" stop-color="#5ff0a0"/><stop offset=".75" stop-color="#5fc8ff"/><stop offset="1" stop-color="#c79bff"/></linearGradient></defs>'; return C.gold?'<defs><linearGradient id="'+u+'ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6c0"/><stop offset=".45" stop-color="#ffc83d"/><stop offset="1" stop-color="#b07810"/></linearGradient></defs>':''; }
+var ACC_M=[
+ {id:'horns', n:'Рожки', d:function(u,C){ var f=accF(C,u); return '<path d="M-20,2 C-30,-8 -30,-24 -22,-34 C-20,-22 -14,-12 -6,-4 Z" fill="'+f+'" stroke="'+C.d+'" stroke-width="1.8" stroke-linejoin="round"/><path d="M20,2 C30,-8 30,-24 22,-34 C20,-22 14,-12 6,-4 Z" fill="'+f+'" stroke="'+C.d+'" stroke-width="1.8" stroke-linejoin="round"/><path d="M-24,-14 C-24,-20 -23,-26 -21,-30 M24,-14 C24,-20 23,-26 21,-30" stroke="'+C.l+'" stroke-opacity=".7" stroke-width="2" fill="none"/>'; }},
+ {id:'crown', n:'Корона', d:function(u,C){ var f=accF(C,u); return '<path d="M-24,2 L-27,-26 L-13,-13 L0,-33 L13,-13 L27,-26 L24,2 Z" fill="'+f+'" stroke="'+C.d+'" stroke-width="2" stroke-linejoin="round"/><rect x="-25" y="-6" width="50" height="8" rx="3" fill="'+C.d+'" opacity=".55"/><circle cx="0" cy="-2" r="3.6" fill="'+C.l+'"/><circle cx="-14" cy="-2" r="2.6" fill="'+C.l+'"/><circle cx="14" cy="-2" r="2.6" fill="'+C.l+'"/><circle cx="0" cy="-33" r="3" fill="#fff"/><circle cx="-27" cy="-26" r="2.4" fill="#fff"/><circle cx="27" cy="-26" r="2.4" fill="#fff"/>'; }},
+ {id:'tophat', n:'Цилиндр', d:function(u,C){ var f=accF(C,u); return '<ellipse cx="0" cy="-2" rx="30" ry="7" fill="'+C.d+'" stroke="#000" stroke-opacity=".5" stroke-width="1.6"/><path d="M-18,-4 L-16,-42 C-8,-46 8,-46 16,-42 L18,-4 Z" fill="'+f+'" stroke="'+C.d+'" stroke-width="1.8"/><path d="M-17.4,-14 L17.4,-14 L17.8,-6 L-17.8,-6 Z" fill="'+C.d+'"/><path d="M-10,-40 C-6,-42 0,-42 4,-41" stroke="#fff" stroke-opacity=".45" stroke-width="3" fill="none" stroke-linecap="round"/>'; }},
+ {id:'party', n:'Колпак', d:function(u,C){ var f=accF(C,u); return '<defs><clipPath id="'+u+'apc"><path d="M-17,0 L0,-46 L17,0 Z"/></clipPath></defs><path d="M-17,0 L0,-46 L17,0 Z" fill="'+f+'" stroke="'+C.d+'" stroke-width="1.8" stroke-linejoin="round"/><g clip-path="url(#'+u+'apc)"><path d="M-30,-8 L30,-22 L30,-14 L-30,0 Z M-30,-26 L30,-40 L30,-32 L-30,-18 Z" fill="'+C.l+'"/></g><circle cx="0" cy="-47" r="6" fill="#fff" stroke="'+C.d+'" stroke-width="1.6"/>'; }},
+ {id:'bow', n:'Бант', d:function(u,C){ var f=accF(C,u); return '<g transform="translate(14 -4) rotate(-12)"><path d="M0,0 L-22,-14 C-28,-6 -28,6 -22,14 Z" fill="'+f+'" stroke="'+C.d+'" stroke-width="1.8" stroke-linejoin="round"/><path d="M0,0 L22,-14 C28,-6 28,6 22,14 Z" fill="'+f+'" stroke="'+C.d+'" stroke-width="1.8" stroke-linejoin="round"/><path d="M-16,-6 C-12,-4 -8,-2 -4,-1 M16,-6 C12,-4 8,-2 4,-1" stroke="'+C.l+'" stroke-width="2" fill="none"/><circle r="6" fill="'+C.l+'" stroke="'+C.d+'" stroke-width="1.8"/></g>'; }},
+ {id:'halo', n:'Нимб', d:function(u,C){ return '<ellipse cx="0" cy="-22" rx="26" ry="8" fill="none" stroke="'+C.l+'" stroke-width="9" opacity=".45"/><ellipse cx="0" cy="-22" rx="26" ry="8" fill="none" stroke="'+(C.gold?'url(#'+u+'ag)':C.m)+'" stroke-width="4.5"/><ellipse cx="-6" cy="-27" rx="9" ry="2" fill="#fff" opacity=".7"/>'; }},
+ {id:'cap', n:'Кепка', d:function(u,C){ var f=accF(C,u); return '<path d="M-22,-2 C-22,-30 22,-30 22,-2 Z" fill="'+f+'" stroke="'+C.d+'" stroke-width="1.8"/><path d="M8,-4 C24,-6 36,-2 38,2 C30,4 16,4 4,2 Z" fill="'+C.d+'" stroke="'+C.d+'" stroke-width="1.6" stroke-linejoin="round"/><path d="M0,-27 L0,-4" stroke="'+C.d+'" stroke-width="1.4" opacity=".6"/><circle cx="0" cy="-28" r="3" fill="'+C.l+'" stroke="'+C.d+'" stroke-width="1.2"/><path d="M-14,-20 C-10,-24 -4,-25 0,-25" stroke="#fff" stroke-opacity=".45" stroke-width="3" fill="none" stroke-linecap="round"/>'; }},
+ {id:'cowboy', n:'Ковбойская шляпа', d:function(u,C){ var f=accF(C,u); return '<path d="M-38,-6 C-30,4 30,4 38,-6 C34,-2 28,0 18,0 L-18,0 C-28,0 -34,-2 -38,-6 Z" fill="'+f+'" stroke="'+C.d+'" stroke-width="1.8" stroke-linejoin="round"/><path d="M-18,0 C-20,-16 -16,-30 -8,-32 C-4,-28 4,-28 8,-32 C16,-30 20,-16 18,0 Z" fill="'+f+'" stroke="'+C.d+'" stroke-width="1.8" stroke-linejoin="round"/><path d="M-18,-6 L18,-6 L18,-1 L-18,-1 Z" fill="'+C.d+'"/><path d="M-12,-24 C-10,-28 -8,-29 -6,-29" stroke="#fff" stroke-opacity=".45" stroke-width="2.5" fill="none" stroke-linecap="round"/>'; }},
+ {id:'ushanka', n:'Ушанка', d:function(u,C){ var f=accF(C,u); return '<path d="M-24,0 C-26,14 -22,22 -16,24 L-14,-2 Z M24,0 C26,14 22,22 16,24 L14,-2 Z" fill="'+C.l+'" stroke="'+C.d+'" stroke-width="1.6" stroke-linejoin="round"/><path d="M-20,-4 C-22,-26 22,-26 20,-4 Z" fill="'+f+'" stroke="'+C.d+'" stroke-width="1.8"/><path d="M-25,-2 C-25,-14 25,-14 25,-2 C25,4 -25,4 -25,-2 Z" fill="'+C.l+'" stroke="'+C.d+'" stroke-width="1.8"/><path d="M-18,-6 L-16,-2 M-8,-8 L-7,-3 M2,-8 L2,-3 M12,-7 L11,-2" stroke="'+C.d+'" stroke-width="1.2" opacity=".5"/><circle cx="0" cy="-17" r="3.4" fill="#ff3b46" stroke="#7d0712" stroke-width="1"/>'; }},
+ {id:'wreath', n:'Венок', d:function(u,C){ var f=accF(C,u), h=''; for (var i=0;i<9;i++){ var a=Math.PI*(1.05+i*0.11), x=(30*Math.cos(a)).toFixed(1), y=(-6+12*Math.sin(a)).toFixed(1); h+='<ellipse cx="'+x+'" cy="'+y+'" rx="7" ry="4" fill="#3fa84a" stroke="#1f6a2a" stroke-width="1" transform="rotate('+(i*20-80)+' '+x+' '+y+')"/>'; }
+   [[-22,-12],[0,-18],[22,-12],[-11,-16],[11,-16]].forEach(function(p,i){ h+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="'+(i<3?5.5:4)+'" fill="'+f+'" stroke="'+C.d+'" stroke-width="1.4"/><circle cx="'+p[0]+'" cy="'+p[1]+'" r="1.8" fill="'+C.l+'"/>'; }); return h; }}
+];
+ACC_M.forEach(function(M,mi){ ACC_R.forEach(function(C,ri){ HATS['a_'+M.id+'_'+ri]={n:M.n, acc:1, m:mi, r:ri, d:function(u){ return accDefs(C,u)+M.d(u,C); }}; }); });
+HATS.beta={n:'Бета', beta:1, d:function(u){ return '<defs><linearGradient id="'+u+'bt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b8ffdf"/><stop offset="1" stop-color="#18c98a"/></linearGradient></defs>'+
+  '<path d="M-26,0 C-20,-8 20,-8 26,0 C20,6 -20,6 -26,0 Z" fill="#2a2a33" stroke="#000" stroke-opacity=".5" stroke-width="1.4"/><text x="0" y="3" text-anchor="middle" font-size="7" font-weight="900" fill="#7dffc0" font-family="Arial">BETA</text>'+
+  '<path d="M-6,-6 L-6,-26 L-9,-29 L9,-29 L6,-26 L6,-6 C14,-2 14,-2 0,-2 C-14,-2 -14,-2 -6,-6 Z" fill="rgba(255,255,255,.25)" stroke="#e8fff6" stroke-width="1.8" stroke-linejoin="round"/>'+
+  '<path d="M-5,-15 L5,-15 L5,-7 C11,-4 11,-3 0,-3 C-11,-3 -11,-4 -5,-7 Z" fill="url(#'+u+'bt)"/><circle cx="-2" cy="-10" r="1.6" fill="#fff"/><circle cx="2" cy="-21" r="1.4" fill="#b8ffdf"/><circle cx="-1" cy="-34" r="2.2" fill="#b8ffdf" opacity=".8"/><circle cx="4" cy="-40" r="1.4" fill="#b8ffdf" opacity=".6"/>'; }};
+function accKey(m,r){ return 'a_'+ACC_M[m].id+'_'+r; }
 // точки макушки для первых 15 видов
 var HD_OLD={rabbit:[100,62,0.9,0], hedgehog:[64,124,0.7,-18], duck:[78,56,0.8,-6], alpaca:[98,30,0.75,0], raccoon:[100,48,1,0], elephant:[70,46,1,-6], giraffe:[78,22,0.8,-6], lion:[100,40,1,0], zebra:[52,34,0.8,-10], hippo:[82,48,1,0], tiger:[100,42,1,0], panda:[100,46,1,0], macaw:[102,50,0.7,0], chameleon:[46,66,0.7,-10], sloth:[100,84,0.85,0]};
 function hatSVG(sp, hat, u){ var H=HATS[hat]; if (!H) return ''; var a=sp.hd||HD_OLD[sp.id]||[100,50,1,0];
@@ -1482,7 +1552,7 @@ function sClick(){ tone(900,0.04,'sine',0.04); }
 /* ---------- state ---------- */
 function fresh(){ return {coins:50000, xp:0, lvl:1, cs:'farm', n:1, fast:false, sound:true, inv:[], slots:3, pend:0, incAt:Date.now(),
   album:{}, st:{opened:0, upOk:0, upFail:0, sold:0, earned:0, tMax:0, golds:0, placed:0}, claimed:{}, giftAt:0, giftDay:0, uid:'', refUsed:false, filt:-1, sel:null, upMode:'one', ctier:0, csel:[],
-  ver:2, mk:1, zs:0, giftLog:[], tix:{}, wheelAt:0, wheelX:0, hats:{}, vipUntil:0, vipDay:'', starter:false, savedAt:0, season:0, rst:-1, streak:{d:0,last:''}}; }
+  ver:2, mk:1, zs:0, giftLog:[], tix:{}, wheelAt:0, wheelX:0, hats:{}, vipUntil:0, vipDay:'', starter:false, savedAt:0, season:0, rst:-1, streak:{d:0,last:''}, acc:{}, bpBase:null, beta:0}; }
 var S=fresh(), ui={tab:'cases', view:'', busy:false, modal:false, press:false};
 var $=function(id){return document.getElementById(id);};
 function rub(n){ n=Math.round(n); return n.toLocaleString('ru-RU').replace(/[ ,]/g,' '); }
@@ -1700,7 +1770,7 @@ function itemSheet(id){
     acts+='<button class="opt" data-act="goUp" data-id="'+id+'">Апгрейд до '+nx+'<small>Шанс '+upPctTxt(a.t)+'. Если не выйдет, животное сбежит</small><span>'+short(val({s:a.s,t:a.t+1,k:a.k,mu:a.mu}))+'</span></button>'; }
   if (reg(a)) acts+='<button class="opt lime" data-act="sellPick" data-id="'+id+'">🏪 Продать на рынке за ⭐<small>Другие игроки купят его за звёзды, тебе — 85% в 💫 зоо-звёздах</small><span>#'+a.serial+'</span></button>';
   else if (a.t>=5) acts+='<div class="sub" style="padding:4px 2px">'+(a.vet?'🏛 Ветеран: получен до запуска рынка. Его нельзя продать на рынке, зато он редкий по-своему.':'Без номера: получен без связи с сервером, на рынок не выставить.')+'</div>';
-  acts+='<button class="opt" data-act="hatPick" data-id="'+id+'">🎩 Скин<small>'+(a.hat?'Надето: '+HATS[a.hat].n:'Корона, цилиндр, нимб и другие')+'</small><span></span></button>';
+  acts+='<button class="opt" data-act="hatPick" data-id="'+id+'">🎩 Наряд<small>'+(a.hat&&HATS[a.hat]?'Надето: '+HATS[a.hat].n:'Аксессуары и скины')+'</small><span></span></button>';
   acts+='<button class="opt red" data-act="sell" data-id="'+id+'">Продать скупщику<small>Скупщик платит '+Math.round(DEALER*100)+'% цены</small><span>'+short(dealer(a))+' ₽</span></button>';
   acts+='<button class="opt" data-act="share" data-id="'+id+'">Похвастаться<span></span></button><button class="opt" data-act="close">Закрыть<span></span></button>';
   sheet('<div class="hero" style="--tc:'+tc(a.t)+'">'+aSVG(a)+'</div><div class="between"><div><h3>'+esc(aname(a))+'</h3><span class="tierpill" style="--tc:'+tc(a.t)+';margin-top:6px;font-size:11px">'+TIERS[a.t].n+'</span>'+mutPill(a)+(a.sick?' <span class="tierpill" style="--tc:#ff8a5c;font-size:11px">🤒 болеет</span>':'')+'</div><span class="price" style="font-size:20px"><span class="coin">₽</span>'+short(val(a))+'</span></div><div class="list">'+acts+'</div>');
@@ -2052,7 +2122,7 @@ var SHOP=[
   {id:'zs100', n:'100 зоо-звёзд', star:100, ic:'💫', zsp:100, d:'Валюта рынка: покупай номерных животных у игроков'}, {id:'zs500', n:'520 зоо-звёзд', star:500, ic:'💫', zsp:520, tag:'+4%'}, {id:'zs1000', n:'1 100 зоо-звёзд', star:1000, ic:'💫', zsp:1100, tag:'+10%'},
   {id:'elite5', n:'5 кейсов «Золотой сафари»', star:150, ic:'⭐'}, {id:'myth3', n:'3 Мифических кейса', star:200, ic:'🦄'}, {id:'spin3', n:'3 прокрутки колеса Палыча', star:30, ic:'🎡'}
 ];
-Object.keys(HATS).forEach(function(k){ SHOP.push({id:'hat_'+k, n:'Скин «'+HATS[k].n+'»', star:HATS[k].star, ic:'🎩', hat:k, d:'Навсегда. Надевай на любых животных'}); });
+Object.keys(HATS).forEach(function(k){ if (!HATS[k].star) return; SHOP.push({id:'hat_'+k, n:'Скин «'+HATS[k].n+'»', star:HATS[k].star, ic:'🎩', hat:k, d:'Навсегда. Надевай на любых животных'}); });
 var COINS={c1:25000,c2:120000,c3:350000,c4:800000,c5:2000000};
 function grant(item){
   if (COINS[item]){ S.coins+=COINS[item]; return rub(COINS[item])+' монет'; }
@@ -2200,7 +2270,7 @@ function checkStreak(){ if (!cloudReady||ui.modal||ui.busy) return; var now=Date
   st.d=st.last===dayKey(now-86400e3)&&st.d<7?st.d+1:1; st.last=today; S.streak=st; var got=STREAK[st.d-1].g(); save(true); sWin(st.d===7?5:2); hap('ok'); streakSheet(got); }
 /* ---------- сезоны: после вайпа сервер поднимает номер сезона, игра стирает прогресс у себя и в облаке ---------- */
 var SRV=null;
-function keepPaid(){ return {uid:S.uid, refUsed:S.refUsed, sound:S.sound, fast:S.fast, vipUntil:S.vipUntil, vipDay:S.vipDay, hats:S.hats, starter:S.starter, zs:S.zs, giftLog:S.giftLog, streak:S.streak}; }
+function keepPaid(){ return {uid:S.uid, refUsed:S.refUsed, sound:S.sound, fast:S.fast, vipUntil:S.vipUntil, vipDay:S.vipDay, hats:S.hats, starter:S.starter, zs:S.zs, giftLog:S.giftLog, streak:S.streak, acc:S.acc, beta:S.beta}; }
 function wipeLocal(){ var k=keepPaid(); S=Object.assign(fresh(), k); S.mk=1; ui.tab='cases'; ui.view=''; ui.sel=null; }
 function seasonCheck(){ if (!SRV) return false; var w=false, newbie=!S.st.opened&&!S.inv.length;
   if (newbie){ S.season=SRV.season; S.rst=SRV.reset; return false; }
@@ -2209,7 +2279,7 @@ function seasonCheck(){ if (!SRV) return false; var w=false, newbie=!S.st.opened
   if (w){ save(true); render(); var m=document.querySelector('.modal'); if (m) m.remove(); ui.modal=false;
     queue.unshift(w==='season'?{title:'🔄 Новый сезон '+SRV.season+'!',text:'Все зоопарки начинают с нуля — шансы у всех равные. Держи 50 000 монет на старт. VIP, скины и зоо-звёзды остались у тебя. Удачи в охоте за номером #1!'}:{title:'Прогресс обнулён',text:'Администратор обнулил твой прогресс. Начинаем заново: держи 50 000 монет. VIP, скины и зоо-звёзды остались у тебя.'}); flush(); }
   return w; }
-function loadSeason(cb){ if (!apiOn()){ cb&&cb(); return; } api('/api/season').then(function(d){ if (d&&d.season){ SRV={season:+d.season, reset:+d.reset||0}; seasonCheck(); } cb&&cb(); }).catch(function(){ cb&&cb(); }); }
+function loadSeason(cb){ if (!apiOn()){ cb&&cb(); return; } api('/api/season').then(function(d){ if (d&&d.beta&&!S.beta){ S.beta=1; S.hats=S.hats||{}; S.hats.beta=1; save(true); queue.push({title:'🧪 Ты бета-тестер ZooPark!',text:'Спасибо, что играешь с первых дней! Навсегда тебе: значок 🧪 в топе и эксклюзивный аксессуар «Бета» — его не будет больше ни у кого. А первый Zoo Pass уже открыт бесплатно: загляни в «Ещё» → «Zoo Pass».'}); flush(); } if (d&&d.season){ SRV={season:+d.season, reset:+d.reset||0}; seasonCheck(); } cb&&cb(); }).catch(function(){ cb&&cb(); }); }
 // VIP: бесплатный кейс каждый день
 function vipDaily(){ if (!isVip()) return; var d=new Date().toDateString(); if (S.vipDay===d) return; S.vipDay=d; var k=bestCase(); addTix(k,1); queue.push({title:'👑 VIP-подарок',text:'Бесплатный кейс «'+caseName(k)+'» уже ждёт во вкладке «Кейсы».'}); save(); }
 
@@ -2223,15 +2293,101 @@ function loadTop(){ if (!apiOn()){ topData={off:1}; render(); return; } topData=
 function sid(id){ for (var i=0;i<SPECIES.length;i++) if (SPECIES[i].id===id) return i; return 0; }
 
 /* ---------- скины ---------- */
+function accWorn(k){ var n=0; S.inv.forEach(function(a){ if (a.hat===k) n++; }); return n; }
+function hatOwn(k){ var H=HATS[k]; if (!H) return 0; if (H.acc) return (S.acc&&S.acc[k])||0; return S.hats&&S.hats[k]?Infinity:0; }
+function hatFree(k,a){ var n=hatOwn(k); if (n===Infinity) return Infinity; return n-accWorn(k)+(a&&a.hat===k?1:0); }
 function hatPick(id){ var a=find(id); if (!a) return;
-  sheet('<h3>Скин для: '+esc(SPECIES[a.s].n)+'</h3><p>Купленный скин твой навсегда: надевай его на любых животных сколько угодно раз.</p><div class="hats">'+Object.keys(HATS).map(function(k){ var own=S.hats&&S.hats[k], on=a.hat===k;
-    return '<button class="hatc'+(on?' on':'')+'" data-act="'+(own?'hatOn':'buy')+'" data-id="'+(own?id:'hat_'+k)+'" data-x="'+k+'">'+animalSVG(a.s,a.t,'',1,a.mu||'',k)+'<b>'+HATS[k].n+'</b><small>'+(on?'надето':own?'надеть':'⭐ '+HATS[k].star)+'</small></button>'; }).join('')+'</div>'+
-    '<div class="list">'+(a.hat?'<button class="opt" data-act="hatOff" data-id="'+id+'">Снять скин<span></span></button>':'')+'<button class="opt" data-act="close">Закрыть<span></span></button></div>'); }
+  function card(k,sub,act,dataId){ var on=a.hat===k; return '<button class="hatc'+(on?' on':'')+'" data-act="'+act+'" data-id="'+dataId+'" data-x="'+k+'">'+animalSVG(a.s,a.t,'',1,a.mu||'',k)+'<b>'+HATS[k].n+'</b><small>'+(on?'надето':sub)+'</small></button>'; }
+  var own=Object.keys(HATS).filter(function(k){ return HATS[k].acc&&hatOwn(k)>0; }).sort(function(x,y){ return HATS[y].r-HATS[x].r||HATS[x].m-HATS[y].m; });
+  var h='<h3>Наряд для: '+esc(SPECIES[a.s].n)+'</h3>';
+  if (S.hats&&S.hats.beta) h+='<p>🧪 Эксклюзив бета-тестера</p><div class="hats">'+card('beta','надеть','hatOn',id)+'</div>';
+  h+='<p>🎩 Аксессуары из кейса — штучные: одна вещь на одном животном. '+(own.length?'':'Пока пусто — открой «Кейс аксессуаров» в «Ещё».')+'</p>';
+  if (own.length) h+='<div class="hats">'+own.map(function(k){ var f=hatFree(k,a), C=ACC_R[HATS[k].r]; return card(k,'<span style="color:'+C.m+'">'+C.n+'</span> · ×'+hatOwn(k)+(f>0?'':' · все надеты'),f>0?'hatOn':'noop',id); }).join('')+'</div>';
+  h+='<p>⭐ Скины из магазина — навсегда, на любых животных.</p><div class="hats">'+Object.keys(HATS).filter(function(k){ return HATS[k].star; }).map(function(k){ var o=S.hats&&S.hats[k]; return card(k,o?'надеть':'⭐ '+HATS[k].star,o?'hatOn':'buy',o?id:'hat_'+k); }).join('')+'</div>';
+  sheet(h+'<div class="list">'+(a.hat?'<button class="opt" data-act="hatOff" data-id="'+id+'">Снять<span></span></button>':'')+'<button class="opt" data-act="close">Закрыть<span></span></button></div>'); }
+
+/* ---------- ZOO PASS ---------- */
+var BPK={opened:function(){ return S.st.opened||0; }, up:function(){ return (S.st.upOk||0)+(S.st.upFail||0); }, upOk:function(){ return S.st.upOk||0; }, contracts:function(){ return S.st.contracts||0; }, sold:function(){ return S.st.sold||0; },
+  exps:function(){ return S.st.exps||0; }, pets:function(){ return S.st.pets||0; }, placed:function(){ return S.st.placed||0; }, spins:function(){ return S.st.spins||0; }};
+function mskDay(){ return Math.floor((Date.now()+3*3600e3)/864e5); }
+function bpBaseCheck(){ var d=mskDay(); if (!S.bpBase||S.bpBase.day!==d){ var b={day:d}; Object.keys(BPK).forEach(function(k){ b[k]=BPK[k](); }); S.bpBase=b; save(); } }
+function bpProg(t){ bpBaseCheck(); return Math.max(0,BPK[t.k]?BPK[t.k]()-(S.bpBase[t.k]||0):0); }
+function loadBp(){ if (!apiOn()){ ui.bp={off:1}; render(); return; } api('/api/bp').then(function(d){ ui.bp=d; if (ui.bpPage==null) ui.bpPage=Math.floor(Math.max(0,d.lvl-1)/10); if (ui.view==='pass') render(); }).catch(function(){ ui.bp={err:1}; if (ui.view==='pass') render(); }); }
+function bpRewTxt(r){ if (!r) return ''; if (r.real) return 'Приз '+r.real+' ⭐'; if (r.acc) return HATS[accKey(r.acc.m,r.acc.r)].n+' · '+ACC_R[r.acc.r].n.toLowerCase(); if (r.zs) return r.zs+' 💫'; if (r.cf) return rub(Math.round(r.cf*5000*lvF()))+' ₽';
+  var k=Object.keys(r.tix||{})[0]; return k==='best'?'🎟 кейс «'+caseName(bestCase())+'»':k==='elite'?'⭐ Золотой сафари':k==='myth'?'🦄 Мифический':''; }
+function bpApply(r){ if (!r) return; if (r.acc){ var ak=accKey(r.acc.m,r.acc.r); S.acc=S.acc||{}; S.acc[ak]=(S.acc[ak]||0)+1; } if (r.cf) S.coins+=Math.round(r.cf*5000*lvF()); if (r.tix) Object.keys(r.tix).forEach(function(k){ addTix(k==='best'?bestCase():k, r.tix[k]); }); }
+function bpClaim(L,prem,quiet){ return api('/api/bp/claim',{L:L,prem:prem?1:0}).then(function(d){ if (d.error) throw d; bpApply(d.rew); if (d.zs!=null) S.zs=d.zs; ui.bp=d.bp; save(true);
+  if (!quiet){ sCoin(); sWin(d.rew.real||d.rew.acc?4:2); hap('ok'); bpGot(d.rew, L, prem); } render(); return d; }); }
+function bpIcon(r,big){ if (!r) return ''; if (r.acc) return '<span class="bpimg">'+animalIMG(sid('lion'),0,'',0,accKey(r.acc.m,r.acc.r))+'</span>';
+  var e=r.real?'🎁':r.zs?'💫':r.cf?'💰':(function(){ var k=Object.keys(r.tix||{})[0]; return k==='elite'?'⭐':k==='myth'?'🦄':'🎟'; })(); return '<span class="bpem">'+e+'</span>'; }
+function bpGot(r,L,prem){ var ex=r.acc?'<p class="sub">Эксклюзив Zoo Pass — его нельзя выбить в кейсах. Надень на животное: «🎩 Наряд».</p>':r.real?'<p class="sub">Бот прислал тебе сообщение: выбери, как получить приз — настоящий подарок Telegram или '+r.real+' звёзд на аккаунт.</p>':'';
+  sheet('<div class="bpgot'+(prem?' prem':'')+'"><div class="bpgi">'+bpIcon(r,1)+'</div><h3>🎉 Вы забрали приз!</h3><p><b>'+esc(bpRewTxt(r))+'</b><br><span class="sub">'+(prem?'Zoo Pass':'Бесплатная лента')+' · '+L+' уровень</span></p>'+ex+'</div><div class="list"><button class="opt lime" data-act="close">Отлично<span></span></button></div>'); }
+function bpCell(L,prem){ var B=ui.bp; if (!B||ui.busy) return; var r=B.rew[L-1][prem?1:0]; if (!r) return;
+  var got=(prem?B.cp:B.cf).indexOf(L)>=0; if (got){ toast('Этот приз уже забран ✓'); return; }
+  if (prem&&!B.paid){ sheet('<h3>🔒 Награда Zoo Pass</h3><p>«'+esc(bpRewTxt(r))+'» на '+L+' уровне — в премиум-ленте. Открой Zoo Pass, чтобы забирать все награды нижней ленты: эксклюзивные аксессуары, Золотые и Мифические кейсы, 💫 и призы 100 ⭐ и 200 ⭐.</p><div class="list"><button class="opt gold" data-act="bpBuy">Открыть Zoo Pass<span>⭐ '+B.price+'</span></button><button class="opt" data-act="close">Позже<span></span></button></div>'); return; }
+  if (L>B.lvl){ toast('Откроется на '+L+' уровне'); return; }
+  ui.busy=true; bpClaim(L,prem).then(function(){ ui.busy=false; }).catch(function(){ ui.busy=false; toast('Не получилось'); loadBp(); }); }
+function bpAfter(){ var sc=$('bpsc'); if (!sc) return; if (ui.bpScroll==null){ var c=sc.querySelector('.bpcol.cur'); ui.bpScroll=c?Math.max(0,c.offsetLeft-sc.clientWidth/2+c.offsetWidth/2):0; } sc.scrollLeft=ui.bpScroll; sc.onscroll=function(){ ui.bpScroll=sc.scrollLeft; }; }
+function bpClaimAll(){ var B=ui.bp; if (!B||ui.busy) return; var list=[]; for (var L=1;L<=B.lvl;L++){ if (B.rew[L-1][0]&&B.cf.indexOf(L)<0) list.push([L,0]); if (B.paid&&B.rew[L-1][1]&&B.cp.indexOf(L)<0) list.push([L,1]); }
+  if (!list.length){ toast('Пока нечего забирать'); return; } ui.busy=true; var real=0, i=0;
+  (function next(){ if (i>=list.length){ ui.busy=false; sCoin(); hap('ok'); toast('Забрано наград: '+list.length); if (real) info('🎁 Приз '+real+' ⭐!','Бот прислал тебе сообщение: выбери, как получить приз — настоящий подарок Telegram или звёзды на аккаунт.'); render(); return; }
+    var x=list[i++]; bpClaim(x[0],x[1],1).then(function(d){ if (d.rew.real) real=d.rew.real; next(); }).catch(function(){ next(); }); })(); }
+function bpTaskClaim(i){ if (ui.busy) return; ui.busy=true; api('/api/bp/task',{i:i}).then(function(d){ ui.busy=false; if (d.error) throw d; ui.bp=d; sCoin(); hap('ok'); toast('+'+d.tasks[i].xp+' опыта Zoo Pass'); render(); }).catch(function(){ ui.busy=false; toast('Не получилось, попробуй ещё раз'); loadBp(); }); }
+function bpBuy(kind,n){ if (!apiOn()){ toast('Покупка работает только в Telegram'); return; } ui.busy=true; toast('Открываю оплату…');
+  api('/api/bp/buy',{kind:kind,n:n}).then(function(d){ ui.busy=false; if (!d.link) throw d; tg.openInvoice(d.link,function(st){ if (st==='paid'){ toast(kind==='pass'?'🎫 Zoo Pass активирован!':'🎫 +'+n+' ур.!'); sWin(3); hap('ok'); [1200,3500,7000].forEach(function(ms){ setTimeout(loadBp,ms); }); } else if (st==='failed') toast('Оплата не прошла'); }); })
+  .catch(function(){ ui.busy=false; toast('Сервер не отвечает'); }); }
+function bpView(back){ var B=ui.bp;
+  if (!B) return back+'<div class="glass pad">Загружаю Zoo Pass…</div>';
+  if (B.off) return back+'<div class="glass pad"><h2>🎫 Zoo Pass</h2><p class="sub">Пасс работает только в Telegram.</p></div>';
+  if (B.err) return back+'<div class="glass pad"><h2>🎫 Zoo Pass</h2><p class="sub">Нет связи с сервером. Попробуй позже.</p></div>';
+  var left=B.end-Date.now(), lt=left>864e5?Math.floor(left/864e5)+' дн '+Math.floor(left%864e5/36e5)+' ч':hm(left), can=0;
+  for (var L=1;L<=B.lvl;L++){ if (B.rew[L-1][0]&&B.cf.indexOf(L)<0) can++; if (B.paid&&B.rew[L-1][1]&&B.cp.indexOf(L)<0) can++; }
+  var h=back+'<div class="glass pad bphead"><div class="between"><h2>🎫 Zoo Pass</h2><span class="sub">до конца '+lt+'</span></div>'+
+    '<div class="bplv"><b>'+B.lvl+'</b><div style="flex:1;min-width:0"><div class="sub">уровень из 100 · '+(B.lvl>=100?'максимум!':B.inLvl+'/100 опыта')+'</div><div class="prog"><i style="width:'+(B.lvl>=100?100:B.inLvl)+'%"></i></div></div></div>'+
+    '<div class="bpgoal"><span>50 ур. — <b>приз 100 ⭐</b></span><span>100 ур. — <b>приз 200 ⭐</b></span></div>'+
+    (B.paid?'<p class="sub" style="color:var(--lime)">✓ Премиум открыт</p>':'<button class="btn coinb" data-act="bpBuy" data-id="pass" style="width:100%;margin-top:8px">Открыть премиум · ⭐ '+B.price+'</button><p class="sub" style="margin-top:6px">Премиум-дорожка: награда на каждом уровне, Золотые и Мифические кейсы, 💫, а на 50 и 100 уровне — призы 100 ⭐ и 200 ⭐: настоящий подарок Telegram или звёзды на аккаунт.</p>')+
+    (B.lvl<100?'<div class="row" style="gap:6px;margin-top:8px;flex-wrap:wrap">'+[1,5,10].map(function(n){ return '<button class="btn" data-act="bpLv" data-id="'+n+'" style="flex:1">+'+n+' ур. · ⭐ '+B.prices[n]+'</button>'; }).join('')+'</div>':'')+
+    (can?'<button class="btn lime" data-act="bpAll" style="width:100%;margin-top:8px">Забрать все награды ('+can+')</button>':'')+'</div>';
+  h+='<div class="glass pad"><div class="between"><h3>Задания на сегодня</h3><span class="sub">обновятся в 00:00 МСК</span></div><p class="sub" style="margin:4px 0 6px">Опыт пасса дают только задания: 5 штук каждый день.</p>'+B.tasks.map(function(t,i){ var p=Math.min(t.n,bpProg(t)), ok=p>=t.n;
+    return '<div class="task" style="padding:8px 0"><div><b>'+esc(t.t)+'</b><div class="sub">+'+t.xp+' опыта</div></div><button class="btn'+(ok&&!t.done?' lime':'')+'" data-act="bpTask" data-id="'+i+'"'+(ok&&!t.done?'':' disabled')+'>'+(t.done?'✓':ok?'Забрать':p+'/'+t.n)+'</button><div class="prog"><i style="width:'+(t.done?100:p/t.n*100)+'%"></i></div></div>'; }).join('')+'</div>';
+  var cols='';
+  for (var L2=1;L2<=100;L2++){ var reach=L2<=B.lvl;
+    function cell(prem){ var r=B.rew[L2-1][prem], got=(prem?B.cp:B.cf).indexOf(L2)>=0, st=got?'got':prem&&!B.paid?'lock':reach?'ready':'';
+      return '<button class="bpcell'+(prem?' prem':' free')+(st?' '+st:'')+(r&&(r.real||r.acc)?' best':'')+'" data-act="bpCell" data-id="'+L2+'" data-x="'+prem+'">'+bpIcon(r)+'<small>'+esc(bpRewTxt(r))+'</small>'+(got?'<i class="bpok">✓</i>':st==='lock'?'<i class="bplk">🔒</i>':'')+'</button>'; }
+    cols+='<div class="bpcol'+(L2===Math.max(1,B.lvl)?' cur':'')+'">'+cell(0)+'<div class="bplvn'+(reach?' on':'')+'">'+L2+'</div>'+cell(1)+'</div>'; }
+  h+='<div class="glass pad"><div class="between"><h3>Награды</h3><span class="sub">листай вбок →</span></div><div class="bpwrap"><div class="bplab"><span>Бесплатно</span><span class="p">Zoo Pass</span></div><div class="bpsc" id="bpsc"><div class="bptrack">'+cols+'</div></div></div>'+
+    '<p class="sub" style="margin-top:6px">Светится — можно забрать. Нажми на приз, чтобы получить его.</p></div>';
+  setTimeout(bpAfter,0);
+  return h; }
+
+/* ---------- кейс аксессуаров ---------- */
+var ACC_PRICE=25;
+function accOpen(){ if (!apiOn()){ toast('Кейс работает только в Telegram'); return; } if (ui.busy) return; if ((S.zs||0)<ACC_PRICE){ zsLow(); return; }
+  ui.busy=true; hap('medium'); sClick();
+  api('/api/acc_open').then(function(d){ ui.busy=false; if (d.error) throw d; S.zs=d.zs; if (d.bp) ui.bp=d.bp; var x=d.drop, title, text, art='';
+    if (x.type==='acc'){ var k=accKey(x.m,x.r), C=ACC_R[x.r]; S.acc=S.acc||{}; S.acc[k]=(S.acc[k]||0)+1; title=HATS[k].n+' · '+C.n; text='Новый аксессуар! Всего таких: ×'+S.acc[k]+'. Надень его на животное: открой животное → «🎩 Наряд».'; art=animalSVG(sid('lion'),0,'',0,'',k); sWin(x.r+1); }
+    else if (x.type==='pass'){ title='🎫 ZOO PASS!'; text='Тебе выпал целый Zoo Pass на этот сезон! Премиум-дорожка открыта.'; sWin(5); }
+    else { title='+'+x.n+' опыта Zoo Pass'; text=(x.pass?'Пасс у тебя уже есть, поэтому вместо него — ':'')+'+'+x.n+' опыта в Zoo Pass ('+Math.floor(x.n/100)+' ур.).'; sWin(2); }
+    save(true); hap('ok'); sheet('<div class="accrev" style="--rc:'+(x.type==='acc'?ACC_R[x.r].m:'#ffd36a')+'">'+(art?'<div class="accart">'+art+'</div>':'<div class="accart big">'+(x.type==='pass'?'🎫':'⚡')+'</div>')+'<h3>'+esc(title)+'</h3><p>'+esc(text)+'</p></div><div class="list"><button class="opt lime" data-act="accOpen">Открыть ещё · 💫 '+ACC_PRICE+'<span></span></button><button class="opt" data-act="close">Закрыть<span></span></button></div>'); render(); })
+  .catch(function(e){ ui.busy=false; toast(e&&e.error==='zs'?'Не хватает 💫':e&&e.error==='rate'?'Слишком быстро, подожди минуту':'Сервер не отвечает'); }); }
+function zsLow(){ info('Не хватает 💫','Кейс стоит '+ACC_PRICE+' 💫. Зоо-звёзды можно купить в магазине или заработать, продавая номерных животных на рынке.'); }
+function accView(back){ var tot=0, kinds=0; Object.keys(S.acc||{}).forEach(function(k){ if (S.acc[k]>0){ tot+=S.acc[k]; kinds++; } });
+  var h=back+'<div class="glass pad"><div class="between"><h2>🎩 Кейс аксессуаров</h2><span class="zsb">💫 '+rub(S.zs||0)+'</span></div>'+
+    '<p class="sub" style="margin:6px 0">50 аксессуаров: 10 моделей в 5 редкостях. Каждый — штучный: выпали двое рубиновых рожек — надень на двух животных. Ещё внутри: опыт Zoo Pass и даже сам Zoo Pass!</p>'+
+    '<div class="row" style="gap:6px;flex-wrap:wrap;margin:6px 0">'+ACC_R.map(function(C,i){ return '<span class="chip" style="border-color:'+C.m+';color:'+C.m+'">'+C.n+' '+[51.6,21.5,8.6,3.4,0.9][i]+'%</span>'; }).join('')+'<span class="chip">⚡ опыт 13%</span><span class="chip">🎫 пасс 1%</span></div>'+
+    '<button class="btn coinb" data-act="accOpen" style="width:100%">Открыть · 💫 '+ACC_PRICE+'</button></div>';
+  h+='<div class="glass pad"><div class="between"><h3>Коллекция</h3><span class="sub">'+kinds+' из 50 · всего '+tot+'</span></div><div style="height:6px"></div><div class="accgrid">'+
+    ACC_M.map(function(M,mi){ return ACC_R.slice(0,5).map(function(C,ri){ var k=accKey(mi,ri), n=(S.acc&&S.acc[k])||0; return '<div class="accc'+(n?'':' sil')+'" style="--rc:'+C.m+'" title="'+M.n+' · '+C.n+'">'+animalIMG(sid('lion'),0,'',0,k)+(n?'<b>×'+n+'</b>':'')+'</div>'; }).join(''); }).join('')+'</div></div>';
+  var ex=ACC_M.map(function(M,mi){ var k=accKey(mi,5), n=(S.acc&&S.acc[k])||0; return n?'<div class="accc" style="--rc:#c79bff" title="'+M.n+' · Сезонный">'+animalIMG(sid('lion'),0,'',0,k)+'<b>×'+n+'</b></div>':''; }).join('');
+  h+='<div class="glass pad"><h3>🌈 Эксклюзивы Zoo Pass</h3><p class="sub" style="margin:4px 0 8px">Сезонные радужные аксессуары — только в премиум-ленте пасса, в кейсе их нет.</p>'+(ex?'<div class="accgrid">'+ex+'</div>':'<p class="sub">Пока нет. Загляни в «Zoo Pass».</p>')+'</div>';
+  return h; }
 
 function renderMore(){
   var v=ui.view, back='<button class="btn" data-view="" style="align-self:flex-start">← Назад</button>';
   if (v==='album') return back+'<div class="glass pad"><div class="between"><h2>Альбом</h2><span class="sub">'+albumCount()+' из '+albumTotal()+'</span></div><p class="sub" style="margin-top:6px">Каждое животное в каждой редкости — отдельная карточка. Собери у вида все 6 редкостей до золотой, и это <b style="color:var(--lime)">линейка: +5% к доходу зоопарка навсегда</b>. Собрано линеек: '+lines()+'.</p></div>'+
     SPECIES.map(function(sp,i){ var got=S.album[i]||{}, full=got[0]&&got[1]&&got[2]&&got[3]&&got[4]&&got[5]; return '<div class="glass pad'+(full?' lineok':'')+'" style="padding:10px"><div class="between" style="margin-bottom:8px"><b>'+esc(sp.n)+(full?' <span style="color:var(--lime)">✓ +5%</span>':'')+'</b><span class="sub">'+Object.keys(got).length+'/'+TIERS.length+' · '+ZONES[sp.zone].n+'</span></div><div class="alb">'+TIERS.map(function(T,t){ return '<div class="'+(got[t]?'on':'sil')+'" style="--tc:'+T.c+'" title="'+T.n+'">'+animalIMG(i,got[t]?t:0)+'</div>'; }).join('')+'</div></div>'; }).join('');
+  if (v==='pass') return bpView(back);
+  if (v==='acc') return accView(back);
   if (v==='tasks') return back+'<div class="glass pad"><div class="between"><h2>Задания</h2><span class="sub">'+TASKS.filter(function(t){return S.claimed[t.id];}).length+' из '+TASKS.length+'</span></div></div>'+
     TASKS.slice().sort(function(a,b){ function o(t){ return S.claimed[t.id]?2:t.val()>=t.goal?0:1; } return o(a)-o(b); }).map(function(t){ var x=Math.min(t.goal,t.val()), d=x>=t.goal, c=S.claimed[t.id];
       return '<div class="glass pad task"><div><b>'+esc(t.text)+'</b><div class="sub">Награда: '+rub(t.coins)+' монет</div></div><button class="btn'+(d&&!c?' lime':'')+'" data-act="claim" data-id="'+t.id+'"'+(d&&!c?'':' disabled')+'>'+(c?'Получено':d?'Забрать':short(x)+'/'+short(t.goal))+'</button><div class="prog"><i style="width:'+(x/t.goal*100)+'%"></i></div></div>'; }).join('');
@@ -2259,8 +2415,10 @@ function renderMore(){
     if (WK) wk='<div class="glass pad"><div class="between"><h3>🏆 Топ двух недель</h3><span class="sub">итоги через '+(WK.end-Date.now()>864e5?Math.floor((WK.end-Date.now())/864e5)+' дн '+Math.floor((WK.end-Date.now())%864e5/36e5)+' ч':hm(WK.end-Date.now()))+'</span></div><p class="sub" style="margin:6px 0">Итоги — '+new Date(WK.end).toLocaleDateString('ru-RU',{day:'numeric',month:'long'})+' в 00:00 по Москве, перед новым сезоном. <b style="color:var(--fg)">10 самых дорогих зоопарков</b> получают приз на выбор: <b style="color:var(--coin)">настоящий подарок Telegram</b> в профиль или <b style="color:var(--coin)">звёзды</b> на аккаунт. Бот пришлёт кнопки выбора.</p>'+(WK.prizes||[]).slice(0,4).map(function(p,i){ return '<div class="wk"><b>'+(i<3?['🥇','🥈','🥉'][i]+' '+(i+1)+' место':'4–10 место')+'</b><span class="sub" style="text-align:right">'+esc(p)+'</span></div>'; }).join('')+
       (WK.last&&WK.last.length?'<div style="height:8px"></div><b class="sub">Победители прошлой недели</b>'+WK.last.slice(0,3).map(function(r){ return '<div class="wk"><span>'+['🥇','🥈','🥉'][r.place-1]+' '+esc(r.name||'Игрок')+'</span><span class="sub">'+short(r.score)+' ₽</span></div>'; }).join(''):'')+'</div>';
     return back+'<div class="glass pad"><div class="between"><h2>Топ зоопарков</h2><span class="sub">по стоимости животных</span></div>'+(topData.me?'<p class="sub" style="margin-top:6px">Ты на <b style="color:var(--coin)">'+topData.me.rank+' месте</b> · '+short(topData.me.score)+' ₽</p>':'')+'</div>'+wk+
-      '<div class="glass pad toplist">'+(topData.top||[]).map(function(r,i){ var b=r.best; return '<div class="toprow'+(i<3?' t'+i:'')+'"><span class="rk">'+(i+1)+'</span>'+(b?'<span class="tav" style="--tc:'+tc(b.t||0)+'">'+animalIMG(sid(b.s),b.t||0,'',b.mu||'')+'</span>':'<span class="tav"></span>')+'<div><b>'+esc(r.name||'Игрок')+'</b><small>'+r.lvl+' ур.</small></div><span class="sc">'+short(r.score)+' ₽</span></div>'; }).join('')+'</div>'; }
+      '<div class="glass pad toplist">'+(topData.top||[]).map(function(r,i){ var b=r.best; return '<div class="toprow'+(i<3?' t'+i:'')+'"><span class="rk">'+(i+1)+'</span>'+(b?'<span class="tav" style="--tc:'+tc(b.t||0)+'">'+animalIMG(sid(b.s),b.t||0,'',b.mu||'')+'</span>':'<span class="tav"></span>')+'<div><b>'+esc(r.name||'Игрок')+(r.beta?' 🧪':'')+'</b><small>'+r.lvl+' ур.</small></div><span class="sc">'+short(r.score)+' ₽</span></div>'; }).join('')+'</div>'; }
   var tiles=[
+    ['pass','Zoo Pass', ui.bp&&ui.bp.lvl!=null?'🎫 '+ui.bp.lvl+' ур. · задания':'🎫 Призы 100 ⭐ и 200 ⭐', 'linear-gradient(180deg,#ffe98a,#ff6fd0)', false,'🎫'],
+    ['acc','Аксессуары','Кейс за 25 💫', 'linear-gradient(180deg,#d8b4ff,#ff4fd8)', false,'🎩'],
     ['market','Рынок', apiOn()?'💫 '+rub(S.zs||0)+' · номерные животные':'Номерные животные за ⭐', 'linear-gradient(180deg,#ffe27a,#ff9a3d)', false,'🏪'],
     ['wheel','Колесо Палыча', wheelReady()?'Можно крутить!':'через '+hm(WHEEL_CD-(Date.now()-(S.wheelAt||0))), 'linear-gradient(180deg,#ffe98a,#ff8a3d)', wheelReady(),'🎡'],
     ['streak','Серия входов', '🔥 день '+((S.streak&&S.streak.d)||0)+' из 7', 'linear-gradient(180deg,#ffd27a,#ff5a3d)', false,'🔥'],
@@ -2306,7 +2464,7 @@ document.addEventListener('click',function(e){
   if (ui.busy && !inRev) return;
   if (d.tab){ ui.tab=d.tab; ui.view=''; hap('light'); sClick(); render(); $('screen').scrollTop=0; return; }
   if (el.hasAttribute('data-view-go')){ ui.tab='more'; ui.view=d.viewGo; hap('light'); render(); $('screen').scrollTop=0; return; }
-  if (el.hasAttribute('data-view')){ ui.view=d.view; if (d.view==='top') loadTop(); if (d.view==='friends'&&apiOn()) api('/api/refs').then(function(r){ ui.refs=r; if (ui.view==='friends') render(); }).catch(function(){}); if (d.view==='market'){ loadMarket(); syncMine(); } hap('light'); render(); $('screen').scrollTop=0; return; }
+  if (el.hasAttribute('data-view')){ ui.view=d.view; if (d.view==='top') loadTop(); if (d.view==='pass') loadBp(); if (d.view==='acc'&&apiOn()) syncMine(); if (d.view==='friends'&&apiOn()) api('/api/refs').then(function(r){ ui.refs=r; if (ui.view==='friends') render(); }).catch(function(){}); if (d.view==='market'){ loadMarket(); syncMine(); } hap('light'); render(); $('screen').scrollTop=0; return; }
   if (d.case){ S.cs=d.case; hap('light'); sClick(); render(); el=document.querySelector('[data-case="'+d.case+'"]'); if (el&&el.scrollIntoView) el.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'}); return; }
   if (d.n){ S.n=+d.n; hap('light'); render(); return; }
   if (d.filt!==undefined){ S.filt=+d.filt; render(); return; }
@@ -2359,10 +2517,18 @@ document.addEventListener('click',function(e){
     case 'expBack': expBack(id); save(); render(); return;
     case 'expList': expList(); return;
     case 'hatPick': var m2=document.querySelector('.modal'); if (m2) m2.remove(); ui.modal=false; hatPick(id); return;
-    case 'hatOn': var ha=find(id); if (ha&&S.hats[d.x]){ ha.hat=d.x; hap('ok'); sClick(); toast('Надето: '+HATS[d.x].n); } save(); var m3=document.querySelector('.modal'); if (m3) m3.remove(); ui.modal=false; hatPick(id); return;
+    case 'hatOn': var ha=find(id); if (ha&&hatFree(d.x,ha)>0){ ha.hat=d.x; hap('ok'); sClick(); toast('Надето: '+HATS[d.x].n); } save(); var m3=document.querySelector('.modal'); if (m3) m3.remove(); ui.modal=false; hatPick(id); return;
     case 'hatOff': var hb=find(id); if (hb) delete hb.hat; return after();
     case 'buy': if (inSheet){ var m4=document.querySelector('.modal'); if (m4) m4.remove(); ui.modal=false; render(); } buy(id); return;
     case 'spin': spinWheel(); return;
+    case 'noop': toast('Все такие аксессуары уже надеты'); return;
+    case 'bpBuy': var m7=document.querySelector('.modal'); if (m7) m7.remove(); ui.modal=false; bpBuy('pass',1); return;
+    case 'bpLv': bpBuy('lv',+id); return;
+    case 'bpTask': bpTaskClaim(+id); return;
+    case 'bpClaim': if (ui.busy) return; ui.busy=true; bpClaim(+id,d.x==='1').then(function(){ ui.busy=false; }).catch(function(){ ui.busy=false; toast('Не получилось'); loadBp(); }); return;
+    case 'bpAll': bpClaimAll(); return;
+    case 'bpCell': bpCell(+id,+d.x); return;
+    case 'accOpen': var m6=document.querySelector('.modal'); if (m6) m6.remove(); ui.modal=false; accOpen(); return;
     case 'pg': ui.pg[id]=+d.x; hap('light'); if (inSheet&&ui.sheetFn){ closeModal(); ui.sheetFn(); } else { render(); var gr=document.querySelector('#screen .pager'); if (gr) gr.scrollIntoView({block:'start'}); } return;
     case 'lot': lotSheet(+id); return;
     case 'buyLot': buyLot(+id, d.x); return;
@@ -2411,7 +2577,7 @@ function start(data){
   vipDaily(); render(); flush();
   if (sp&&/^ref_/.test(sp)&&sp!=='ref_'+S.uid&&apiOn()) api('/api/ref',{ref:sp}).catch(function(){});
   cloudLoad(hadLocal, function(ok){ if (ok){ lastBody=bodyOf(); vipDaily(); render(); toast('Прогресс загружен из облака'); } else { lastBody=''; }
-    loadSeason(function(){ save(true); claimBuys(); loadGifts(); syncMine(); setTimeout(checkStreak,600); }); }, base0);
+    loadSeason(function(){ bpBaseCheck(); save(true); claimBuys(); loadGifts(); syncMine(); if (apiOn()) api('/api/bp').then(function(b){ ui.bp=b; render(); }).catch(function(){}); setTimeout(checkStreak,600); }); }, base0);
   setInterval(tick,1000); setInterval(save,8000); setInterval(moodTick,1500); setInterval(function(){ sickRoll(60e3); vipDaily(); checkStreak(); },60e3); setInterval(function(){ if (!document.hidden) loadSeason(); },300e3); setInterval(loadGifts,120e3); setInterval(function(){ if (!document.hidden) syncMine(); },60e3); setInterval(function(){ if (!document.hidden) cloudPull(); },30e3);
   setTimeout(function(){ pushScore(true); },6000); setInterval(function(){ pushScore(false); },300e3);
   document.addEventListener('visibilitychange',function(){ if (document.hidden) save(true); else { loadSeason(); cloudPull(); render(); checkStreak(); claimBuys(); loadGifts(); syncMine(); } });
