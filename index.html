@@ -38,7 +38,7 @@ button:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
 @keyframes fly{0%{transform:translate(0,0);opacity:0}20%{opacity:.9}50%{transform:translate(30px,-40px);opacity:.5}80%{opacity:.9}100%{transform:translate(-10px,-80px);opacity:0}}
 
 /* top bar */
-.top{display:flex;align-items:center;gap:8px;padding-block:10px 8px}
+.top{display:flex;align-items:center;gap:8px;padding-block:calc(10px + var(--tg-safe-area-inset-top,0px) + var(--tg-content-safe-area-inset-top,0px)) 8px}
 .lvl{display:flex;align-items:center;gap:8px;background:var(--glass);border:1px solid var(--edge);border-radius:999px;padding:4px 10px 4px 4px;}
 .lvl .badge{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-disp);font-size:13px;background:conic-gradient(var(--lime) var(--p,0%),rgba(255,255,255,.1) 0);position:relative}
 .lvl .badge::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--bg1)}
@@ -144,7 +144,7 @@ h3{font-family:var(--f-disp);font-weight:400;font-size:15px;margin:0;color:var(-
 .empty{text-align:center;padding:30px 12px;color:var(--muted);line-height:1.6}
 
 /* overlay: reel + reveal */
-.ov{position:absolute;inset:0;z-index:50;background:radial-gradient(100% 70% at 50% 40%,rgba(20,40,34,.96),rgba(3,8,6,.98));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:20px max(14px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px));animation:fadein .2s ease-out}
+.ov{position:absolute;inset:0;z-index:50;background:radial-gradient(100% 70% at 50% 40%,rgba(20,40,34,.96),rgba(3,8,6,.98));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:calc(20px + var(--tg-safe-area-inset-top,0px) + var(--tg-content-safe-area-inset-top,0px)) max(14px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px));animation:fadein .2s ease-out}
 @keyframes fadein{from{opacity:0}}
 .ov{overflow-y:auto}
 .ov.many{justify-content:flex-start;gap:10px}
@@ -289,7 +289,7 @@ nav .dot{top:4px;right:calc(50% - 18px);width:8px;height:8px}
 .sheet .opt:disabled{opacity:.4;cursor:default}
 .sheet .hero{position:relative;border-radius:22px;overflow:hidden;display:grid;place-items:center;padding:10px;background:radial-gradient(70% 70% at 50% 45%,color-mix(in srgb,var(--tc) 50%,transparent),transparent 75%)}
 .sheet .hero svg{width:min(230px,62vw);height:auto}
-.toast{position:absolute;left:50%;top:calc(64px + env(safe-area-inset-top,0px));transform:translateX(-50%);z-index:80;background:rgba(240,255,245,.96);color:#06210f;padding:10px 16px;border-radius:14px;font-weight:800;font-size:13px;max-width:92%;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,.45);animation:drop .25s cubic-bezier(.2,1.4,.4,1)}
+.toast{position:absolute;left:50%;top:calc(64px + var(--tg-safe-area-inset-top,0px) + var(--tg-content-safe-area-inset-top,0px));transform:translateX(-50%);z-index:80;background:rgba(240,255,245,.96);color:#06210f;padding:10px 16px;border-radius:14px;font-weight:800;font-size:13px;max-width:92%;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,.45);animation:drop .25s cubic-bezier(.2,1.4,.4,1)}
 @keyframes drop{from{transform:translate(-50%,-12px);opacity:0}}
 .flycoin{position:absolute;z-index:90;width:22px;height:22px;pointer-events:none;animation:flyc .9s cubic-bezier(.5,0,.6,1) forwards}
 @keyframes flyc{to{transform:translate(var(--dx),var(--dy)) scale(.6);opacity:.2}}
@@ -1533,7 +1533,9 @@ function rollAnimal(k){
 function wpick(ws){ var t=0,i; for(i=0;i<ws.length;i++) t+=ws[i]; var r=Math.random()*t; for(i=0;i<ws.length;i++){ r-=ws[i]; if(r<0) return i; } return ws.length-1; }
 
 var tg=(window.Telegram&&window.Telegram.WebApp&&window.Telegram.WebApp.initData!==undefined)?window.Telegram.WebApp:null;
-if (tg){ try{ tg.ready(); tg.expand(); tg.setHeaderColor&&tg.setHeaderColor('#0c1f1a'); tg.setBackgroundColor&&tg.setBackgroundColor('#06110e'); tg.disableVerticalSwipes&&tg.disableVerticalSwipes(); }catch(e){} }
+if (tg){ try{ tg.ready(); tg.expand(); tg.setHeaderColor&&tg.setHeaderColor('#0c1f1a'); tg.setBackgroundColor&&tg.setBackgroundColor('#06110e'); tg.disableVerticalSwipes&&tg.disableVerticalSwipes();
+  // на телефонах — во весь экран (кнопки Telegram сверху, панель игры опускается под них)
+  if ((tg.platform==='ios'||tg.platform==='android')&&tg.requestFullscreen&&tg.isVersionAtLeast&&tg.isVersionAtLeast('8.0')&&!tg.isFullscreen) tg.requestFullscreen(); }catch(e){} }
 function hap(k){ try{ if (!tg||!tg.HapticFeedback) return; if (k==='ok'||k==='error'||k==='warning') tg.HapticFeedback.notificationOccurred(k); else tg.HapticFeedback.impactOccurred(k||'light'); }catch(e){} }
 var BOT_USERNAME='zooparkcase_bot', APP_NAME='play', SAVE_KEY='zoo_v1';
 // адрес сервера (Cloudflare Worker). Пусто — магазин и таблица лидеров показывают «скоро»
