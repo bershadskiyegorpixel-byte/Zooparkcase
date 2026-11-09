@@ -1552,7 +1552,7 @@ function sClick(){ tone(900,0.04,'sine',0.04); }
 /* ---------- state ---------- */
 function fresh(){ return {coins:50000, xp:0, lvl:1, cs:'farm', n:1, fast:false, sound:true, inv:[], slots:3, pend:0, incAt:Date.now(),
   album:{}, st:{opened:0, upOk:0, upFail:0, sold:0, earned:0, tMax:0, golds:0, placed:0}, claimed:{}, giftAt:0, giftDay:0, uid:'', refUsed:false, filt:-1, sel:null, upMode:'one', ctier:0, csel:[],
-  ver:2, mk:1, zs:0, giftLog:[], tix:{}, wheelAt:0, wheelX:0, hats:{}, vipUntil:0, vipDay:'', starter:false, savedAt:0, season:0, rst:-1, streak:{d:0,last:''}, acc:{}, bpBase:null, beta:0}; }
+  ver:2, mk:1, zs:0, giftLog:[], tix:{}, wheelAt:0, wheelX:0, hats:{}, vipUntil:0, vipDay:'', starter:false, savedAt:0, season:0, rst:-1, streak:{d:0,last:''}, acc:{}, bpBase:null, beta:0, subOk:0}; }
 var S=fresh(), ui={tab:'cases', view:'', busy:false, modal:false, press:false};
 var $=function(id){return document.getElementById(id);};
 function rub(n){ n=Math.round(n); return n.toLocaleString('ru-RU').replace(/[ ,]/g,' '); }
@@ -1649,7 +1649,7 @@ function renderCases(){
     return '<button class="case" data-case="'+k+'" aria-pressed="'+(S.cs===k)+'"'+(lock?' disabled':'')+'>'+caseArt(k)+
       '<div class="lab"><div><b>'+caseName(k)+'</b><small>'+(c.sub||casePool(k).length+' животных внутри')+'</small></div><span class="price"><span class="coin">₽</span>'+short(c.cost)+'</span></div>'+
       (lock?'<div class="lock">Откроется на '+c.lvl+' уровне</div>':'')+'</button>'; }).join('')+'</div>';
-  if (!CASES[S.cs]) S.cs='farm';
+  if (!CASES[S.cs]||S.lvl<CASES[S.cs].lvl) S.cs=caseOk();
   var C=CASES[S.cs], D=caseDrop(S.cs), pool=casePool(S.cs);
   h+='<div class="glass pad"><div class="between"><h3>Шансы редкости</h3><span class="sub">'+(C.elite?'улучшенные шансы':'в каждом кейсе')+'</span></div><div style="height:10px"></div>'+
     '<div class="tierbar">'+D.map(function(p,i){ return p?'<i style="flex:'+Math.max(p,1.2)+';background:'+tc(i)+'"></i>':''; }).join('')+'</div>'+
@@ -1666,7 +1666,9 @@ function renderCases(){
 }
 
 /* ---------- opening ---------- */
+function caseOk(){ var L=Object.keys(CASES).filter(function(k){ return S.lvl>=CASES[k].lvl&&!CASES[k].elite&&k!=='myth'; }); return L[L.length-1]||'farm'; }
 function openCases(){
+  if (!CASES[S.cs]||S.lvl<CASES[S.cs].lvl){ S.cs=caseOk(); render(); return; } // тихая защита: закрытый по уровню кейс открыть нельзя
   if (ui.busy) return; var k=S.cs, C=CASES[k], n=S.n, cost=C.cost*n, tix=(S.tix&&S.tix[k])||0;
   if (tix>=n){ S.tix[k]-=n; }
   else { if (S.coins<cost){ toast('Не хватает монет'); hap('error'); return; } S.coins-=cost; }
@@ -2270,7 +2272,7 @@ function checkStreak(){ if (!cloudReady||ui.modal||ui.busy) return; var now=Date
   st.d=st.last===dayKey(now-86400e3)&&st.d<7?st.d+1:1; st.last=today; S.streak=st; var got=STREAK[st.d-1].g(); save(true); sWin(st.d===7?5:2); hap('ok'); streakSheet(got); }
 /* ---------- сезоны: после вайпа сервер поднимает номер сезона, игра стирает прогресс у себя и в облаке ---------- */
 var SRV=null;
-function keepPaid(){ return {uid:S.uid, refUsed:S.refUsed, sound:S.sound, fast:S.fast, vipUntil:S.vipUntil, vipDay:S.vipDay, hats:S.hats, starter:S.starter, zs:S.zs, giftLog:S.giftLog, streak:S.streak, acc:S.acc, beta:S.beta}; }
+function keepPaid(){ return {uid:S.uid, refUsed:S.refUsed, sound:S.sound, fast:S.fast, vipUntil:S.vipUntil, vipDay:S.vipDay, hats:S.hats, starter:S.starter, zs:S.zs, giftLog:S.giftLog, streak:S.streak, acc:S.acc, beta:S.beta, subOk:S.subOk}; }
 function wipeLocal(){ var k=keepPaid(); S=Object.assign(fresh(), k); S.mk=1; ui.tab='cases'; ui.view=''; ui.sel=null; }
 function seasonCheck(){ if (!SRV) return false; var w=false, newbie=!S.st.opened&&!S.inv.length;
   if (newbie){ S.season=SRV.season; S.rst=SRV.reset; return false; }
@@ -2279,7 +2281,7 @@ function seasonCheck(){ if (!SRV) return false; var w=false, newbie=!S.st.opened
   if (w){ save(true); render(); var m=document.querySelector('.modal'); if (m) m.remove(); ui.modal=false;
     queue.unshift(w==='season'?{title:'🔄 Новый сезон '+SRV.season+'!',text:'Все зоопарки начинают с нуля — шансы у всех равные. Держи 50 000 монет на старт. VIP, скины и зоо-звёзды остались у тебя. Удачи в охоте за номером #1!'}:{title:'Прогресс обнулён',text:'Администратор обнулил твой прогресс. Начинаем заново: держи 50 000 монет. VIP, скины и зоо-звёзды остались у тебя.'}); flush(); }
   return w; }
-function loadSeason(cb){ if (!apiOn()){ cb&&cb(); return; } api('/api/season').then(function(d){ if (d&&d.beta&&!S.beta){ S.beta=1; S.hats=S.hats||{}; S.hats.beta=1; save(true); queue.push({title:'🧪 Ты бета-тестер ZooPark!',text:'Спасибо, что играешь с первых дней! Навсегда тебе: значок 🧪 в топе и эксклюзивный аксессуар «Бета» — его не будет больше ни у кого. А первый Zoo Pass уже открыт бесплатно: загляни в «Ещё» → «Zoo Pass».'}); flush(); } if (d&&d.season){ SRV={season:+d.season, reset:+d.reset||0}; seasonCheck(); } cb&&cb(); }).catch(function(){ cb&&cb(); }); }
+function loadSeason(cb){ if (!apiOn()){ cb&&cb(); return; } api('/api/season').then(function(d){ if (d) ui.ch=d.ch||''; if (d&&d.beta&&!S.beta){ S.beta=1; S.hats=S.hats||{}; S.hats.beta=1; save(true); queue.push({title:'🧪 Ты бета-тестер ZooPark!',text:'Спасибо, что играешь с первых дней! Навсегда тебе: значок 🧪 в топе и эксклюзивный аксессуар «Бета» — его не будет больше ни у кого. А первый Zoo Pass уже открыт бесплатно: загляни в «Ещё» → «Zoo Pass».'}); flush(); } if (d&&d.season){ SRV={season:+d.season, reset:+d.reset||0}; seasonCheck(); } cb&&cb(); }).catch(function(){ cb&&cb(); }); }
 // VIP: бесплатный кейс каждый день
 function vipDaily(){ if (!isVip()) return; var d=new Date().toDateString(); if (S.vipDay===d) return; S.vipDay=d; var k=bestCase(); addTix(k,1); queue.push({title:'👑 VIP-подарок',text:'Бесплатный кейс «'+caseName(k)+'» уже ждёт во вкладке «Кейсы».'}); save(); }
 
@@ -2316,12 +2318,18 @@ function loadBp(){ if (!apiOn()){ ui.bp={off:1}; render(); return; } api('/api/b
 function bpRewTxt(r){ if (!r) return ''; if (r.real) return 'Приз '+r.real+' ⭐'; if (r.acc) return HATS[accKey(r.acc.m,r.acc.r)].n+' · '+ACC_R[r.acc.r].n.toLowerCase(); if (r.zs) return r.zs+' 💫'; if (r.cf) return rub(Math.round(r.cf*5000*lvF()))+' ₽';
   var k=Object.keys(r.tix||{})[0]; return k==='best'?'🎟 кейс «'+caseName(bestCase())+'»':k==='elite'?'⭐ Золотой сафари':k==='myth'?'🦄 Мифический':''; }
 function bpApply(r){ if (!r) return; if (r.acc){ var ak=accKey(r.acc.m,r.acc.r); S.acc=S.acc||{}; S.acc[ak]=(S.acc[ak]||0)+1; } if (r.cf) S.coins+=Math.round(r.cf*5000*lvF()); if (r.tix) Object.keys(r.tix).forEach(function(k){ addTix(k==='best'?bestCase():k, r.tix[k]); }); }
-function bpClaim(L,prem,quiet){ return api('/api/bp/claim',{L:L,prem:prem?1:0}).then(function(d){ if (d.error) throw d; bpApply(d.rew); if (d.zs!=null) S.zs=d.zs; ui.bp=d.bp; save(true);
+function bpClaim(L,prem,quiet){ return api('/api/bp/claim',{L:L,prem:prem?1:0}).then(function(d){ if (d.error==='sub'){ ui.ch=d.ch||ui.ch; chanSheet('prize'); throw d; } if (d.error) throw d; bpApply(d.rew); if (d.zs!=null) S.zs=d.zs; ui.bp=d.bp; save(true);
   if (!quiet){ sCoin(); sWin(d.rew.real||d.rew.acc?4:2); hap('ok'); bpGot(d.rew, L, prem); } render(); return d; }); }
 function bpIcon(r,big){ if (!r) return ''; if (r.acc) return '<span class="bpimg">'+animalIMG(sid('lion'),0,'',0,accKey(r.acc.m,r.acc.r))+'</span>';
   var e=r.real?'🎁':r.zs?'💫':r.cf?'💰':(function(){ var k=Object.keys(r.tix||{})[0]; return k==='elite'?'⭐':k==='myth'?'🦄':'🎟'; })(); return '<span class="bpem">'+e+'</span>'; }
 function bpGot(r,L,prem){ var ex=r.acc?'<p class="sub">Эксклюзив Zoo Pass — его нельзя выбить в кейсах. Надень на животное: «🎩 Наряд».</p>':r.real?'<p class="sub">Бот прислал тебе сообщение: выбери, как получить приз — настоящий подарок Telegram или '+r.real+' звёзд на аккаунт.</p>':'';
   sheet('<div class="bpgot'+(prem?' prem':'')+'"><div class="bpgi">'+bpIcon(r,1)+'</div><h3>🎉 Вы забрали приз!</h3><p><b>'+esc(bpRewTxt(r))+'</b><br><span class="sub">'+(prem?'Zoo Pass':'Бесплатная лента')+' · '+L+' уровень</span></p>'+ex+'</div><div class="list"><button class="opt lime" data-act="close">Отлично<span></span></button></div>'); }
+/* ---------- канал ---------- */
+function chanUrl(){ return 'https://t.me/'+String(ui.ch||'').replace(/^@/,''); }
+function chanOpen(){ if (!ui.ch) return; ui.chanWait=1; try{ tg.openTelegramLink(chanUrl()); }catch(e){ window.open(chanUrl(),'_blank'); } }
+function chanCheck(manual){ if (!apiOn()||!ui.ch) return; api('/api/sub_bonus').then(function(d){ ui.sub=!!d.sub; if (d.sub){ S.subOk=1; if (d.bonus){ addTix('elite',1); save(true); sWin(4); hap('ok'); info('📢 Спасибо за подписку!','Держи бонус: кейс «Золотой сафари» ⭐. Теперь ты будешь первым узнавать о розыгрышах, а настоящие призы за топ и Zoo Pass тебе доступны.'); } else if (manual) toast('✓ Подписка есть — можно забирать призы'); }
+    else if (manual) toast('Подписка пока не видна. Подпишись и нажми ещё раз'); render(); }).catch(function(){}); }
+function chanSheet(why){ sheet('<h3>📢 Канал ZooPark</h3><p>'+(why==='prize'?'Призы за звёзды (подарки Telegram и ⭐) получают <b>только подписчики канала</b> '+esc(ui.ch)+'. Подпишись и нажми «Я подписался».':'Новости, обновления и <b>розыгрыши</b> — всё в канале '+esc(ui.ch)+'. За подписку — кейс «Золотой сафари» ⭐, а настоящие призы за топ и Zoo Pass выдаются только подписчикам.')+'</p><div class="list"><button class="opt gold" data-act="chanGo">Открыть канал<span>📢</span></button><button class="opt lime" data-act="chanChk">Я подписался — проверить<span></span></button><button class="opt" data-act="close">Позже<span></span></button></div>'); }
 function bpCell(L,prem){ var B=ui.bp; if (!B||ui.busy) return; var r=B.rew[L-1][prem?1:0]; if (!r) return;
   var got=(prem?B.cp:B.cf).indexOf(L)>=0; if (got){ toast('Этот приз уже забран ✓'); return; }
   if (prem&&!B.paid){ sheet('<h3>🔒 Награда Zoo Pass</h3><p>«'+esc(bpRewTxt(r))+'» на '+L+' уровне — в премиум-ленте. Открой Zoo Pass, чтобы забирать все награды нижней ленты: эксклюзивные аксессуары, Золотые и Мифические кейсы, 💫 и призы 100 ⭐ и 200 ⭐.</p><div class="list"><button class="opt gold" data-act="bpBuy">Открыть Zoo Pass<span>⭐ '+B.price+'</span></button><button class="opt" data-act="close">Позже<span></span></button></div>'); return; }
@@ -2344,7 +2352,7 @@ function bpView(back){ var B=ui.bp;
   for (var L=1;L<=B.lvl;L++){ if (B.rew[L-1][0]&&B.cf.indexOf(L)<0) can++; if (B.paid&&B.rew[L-1][1]&&B.cp.indexOf(L)<0) can++; }
   var h=back+'<div class="glass pad bphead"><div class="between"><h2>🎫 Zoo Pass</h2><span class="sub">до конца '+lt+'</span></div>'+
     '<div class="bplv"><b>'+B.lvl+'</b><div style="flex:1;min-width:0"><div class="sub">уровень из 100 · '+(B.lvl>=100?'максимум!':B.inLvl+'/100 опыта')+'</div><div class="prog"><i style="width:'+(B.lvl>=100?100:B.inLvl)+'%"></i></div></div></div>'+
-    '<div class="bpgoal"><span>50 ур. — <b>приз 100 ⭐</b></span><span>100 ур. — <b>приз 200 ⭐</b></span></div>'+
+    '<div class="bpgoal"><span>50 ур. — <b>приз 100 ⭐</b></span><span>100 ур. — <b>приз 200 ⭐</b></span></div>'+(ui.ch?'<p class="sub" style="margin-top:4px">Призы за звёзды — только подписчикам канала '+esc(ui.ch)+'.</p>':'')+
     (B.paid?'<p class="sub" style="color:var(--lime)">✓ Премиум открыт</p>':'<button class="btn coinb" data-act="bpBuy" data-id="pass" style="width:100%;margin-top:8px">Открыть премиум · ⭐ '+B.price+'</button><p class="sub" style="margin-top:6px">Премиум-дорожка: награда на каждом уровне, Золотые и Мифические кейсы, 💫, а на 50 и 100 уровне — призы 100 ⭐ и 200 ⭐: настоящий подарок Telegram или звёзды на аккаунт.</p>')+
     (B.lvl<100?'<div class="row" style="gap:6px;margin-top:8px;flex-wrap:wrap">'+[1,5,10].map(function(n){ return '<button class="btn" data-act="bpLv" data-id="'+n+'" style="flex:1">+'+n+' ур. · ⭐ '+B.prices[n]+'</button>'; }).join('')+'</div>':'')+
     (can?'<button class="btn lime" data-act="bpAll" style="width:100%;margin-top:8px">Забрать все награды ('+can+')</button>':'')+'</div>';
@@ -2412,11 +2420,12 @@ function renderMore(){
   if (v==='top'){ if (topData===null) return back+'<div class="glass pad"><h2>Топ зоопарков</h2><p class="sub">Загружаю…</p></div>';
     if (topData.off||topData.err) return back+'<div class="glass pad"><h2>Топ зоопарков</h2><p class="sub" style="margin-top:6px">'+(topData.off?'Таблица лидеров появится, когда к игре подключат сервер. Твоя стоимость зоопарка сейчас: <b style="color:var(--coin)">'+short(worth())+' ₽</b>':'Сервер не отвечает, попробуй позже.')+'</p></div>';
     var WK=topData.week, wk='';
-    if (WK) wk='<div class="glass pad"><div class="between"><h3>🏆 Топ двух недель</h3><span class="sub">итоги через '+(WK.end-Date.now()>864e5?Math.floor((WK.end-Date.now())/864e5)+' дн '+Math.floor((WK.end-Date.now())%864e5/36e5)+' ч':hm(WK.end-Date.now()))+'</span></div><p class="sub" style="margin:6px 0">Итоги — '+new Date(WK.end).toLocaleDateString('ru-RU',{day:'numeric',month:'long'})+' в 00:00 по Москве, перед новым сезоном. <b style="color:var(--fg)">10 самых дорогих зоопарков</b> получают приз на выбор: <b style="color:var(--coin)">настоящий подарок Telegram</b> в профиль или <b style="color:var(--coin)">звёзды</b> на аккаунт. Бот пришлёт кнопки выбора.</p>'+(WK.prizes||[]).slice(0,4).map(function(p,i){ return '<div class="wk"><b>'+(i<3?['🥇','🥈','🥉'][i]+' '+(i+1)+' место':'4–10 место')+'</b><span class="sub" style="text-align:right">'+esc(p)+'</span></div>'; }).join('')+
+    if (WK) wk='<div class="glass pad"><div class="between"><h3>🏆 Топ двух недель</h3><span class="sub">итоги через '+(WK.end-Date.now()>864e5?Math.floor((WK.end-Date.now())/864e5)+' дн '+Math.floor((WK.end-Date.now())%864e5/36e5)+' ч':hm(WK.end-Date.now()))+'</span></div><p class="sub" style="margin:6px 0">Итоги — '+new Date(WK.end).toLocaleDateString('ru-RU',{day:'numeric',month:'long'})+' в 00:00 по Москве, перед новым сезоном. <b style="color:var(--fg)">10 самых дорогих зоопарков</b> получают приз на выбор: <b style="color:var(--coin)">настоящий подарок Telegram</b> в профиль или <b style="color:var(--coin)">звёзды</b> на аккаунт. Бот пришлёт кнопки выбора.'+(ui.ch?' <b style="color:var(--fg)">Призы получают только подписчики канала '+esc(ui.ch)+'.</b>':'')+'</p>'+(WK.prizes||[]).slice(0,4).map(function(p,i){ return '<div class="wk"><b>'+(i<3?['🥇','🥈','🥉'][i]+' '+(i+1)+' место':'4–10 место')+'</b><span class="sub" style="text-align:right">'+esc(p)+'</span></div>'; }).join('')+
       (WK.last&&WK.last.length?'<div style="height:8px"></div><b class="sub">Победители прошлой недели</b>'+WK.last.slice(0,3).map(function(r){ return '<div class="wk"><span>'+['🥇','🥈','🥉'][r.place-1]+' '+esc(r.name||'Игрок')+'</span><span class="sub">'+short(r.score)+' ₽</span></div>'; }).join(''):'')+'</div>';
     return back+'<div class="glass pad"><div class="between"><h2>Топ зоопарков</h2><span class="sub">по стоимости животных</span></div>'+(topData.me?'<p class="sub" style="margin-top:6px">Ты на <b style="color:var(--coin)">'+topData.me.rank+' месте</b> · '+short(topData.me.score)+' ₽</p>':'')+'</div>'+wk+
       '<div class="glass pad toplist">'+(topData.top||[]).map(function(r,i){ var b=r.best; return '<div class="toprow'+(i<3?' t'+i:'')+'"><span class="rk">'+(i+1)+'</span>'+(b?'<span class="tav" style="--tc:'+tc(b.t||0)+'">'+animalIMG(sid(b.s),b.t||0,'',b.mu||'')+'</span>':'<span class="tav"></span>')+'<div><b>'+esc(r.name||'Игрок')+(r.beta?' 🧪':'')+'</b><small>'+r.lvl+' ур.</small></div><span class="sc">'+short(r.score)+' ₽</span></div>'; }).join('')+'</div>'; }
   var tiles=[
+    ['chan','Канал', !ui.ch?'Скоро':(S.subOk||ui.sub)?'✓ Ты подписан · розыгрыши':'Подпишись — ⭐ Золотой сафари', 'linear-gradient(180deg,#9fd8ff,#2f7dff)', !!ui.ch&&!(S.subOk||ui.sub),'📢'],
     ['pass','Zoo Pass', ui.bp&&ui.bp.lvl!=null?'🎫 '+ui.bp.lvl+' ур. · задания':'🎫 Призы 100 ⭐ и 200 ⭐', 'linear-gradient(180deg,#ffe98a,#ff6fd0)', false,'🎫'],
     ['acc','Аксессуары','Кейс за 25 💫', 'linear-gradient(180deg,#d8b4ff,#ff4fd8)', false,'🎩'],
     ['market','Рынок', apiOn()?'💫 '+rub(S.zs||0)+' · номерные животные':'Номерные животные за ⭐', 'linear-gradient(180deg,#ffe27a,#ff9a3d)', false,'🏪'],
@@ -2431,7 +2440,7 @@ function renderMore(){
     ['friends','Друзья','⭐ Золотой сафари за друга','linear-gradient(180deg,#9fd8ff,#4c7dff)', false,'+'],
     ['stats','Статистика','Рекорды','linear-gradient(180deg,#ffb3e8,#ff4fd8)', false,'#']
   ];
-  return '<div class="tiles">'+tiles.map(function(t){ return '<button class="tile glass" '+(t[0]==='gift'?'data-act="gift"':t[0]==='streak'?'data-act="streak"':'data-view="'+t[0]+'"')+'>'+(t[4]?'<span class="dot"></span>':'')+'<span class="ic" style="background:'+t[3]+'">'+t[5]+'</span><b>'+t[1]+'</b><span>'+t[2]+'</span></button>'; }).join('')+'</div>'+
+  return '<div class="tiles">'+tiles.map(function(t){ return '<button class="tile glass" '+(t[0]==='gift'?'data-act="gift"':t[0]==='streak'?'data-act="streak"':t[0]==='chan'?'data-act="chan"':'data-view="'+t[0]+'"')+'>'+(t[4]?'<span class="dot"></span>':'')+'<span class="ic" style="background:'+t[3]+'">'+t[5]+'</span><b>'+t[1]+'</b><span>'+t[2]+'</span></button>'; }).join('')+'</div>'+
     (!S.starter?'<button class="glass pad promo" data-act="buy" data-id="starter"><span class="ic">🎁</span><div><b>Стартовый набор</b><small>50 000 монет + 3 золотых кейса + эпик</small></div><span class="star">⭐ 49</span></button>':'');
 }
 
@@ -2465,7 +2474,7 @@ document.addEventListener('click',function(e){
   if (d.tab){ ui.tab=d.tab; ui.view=''; hap('light'); sClick(); render(); $('screen').scrollTop=0; return; }
   if (el.hasAttribute('data-view-go')){ ui.tab='more'; ui.view=d.viewGo; hap('light'); render(); $('screen').scrollTop=0; return; }
   if (el.hasAttribute('data-view')){ ui.view=d.view; if (d.view==='top') loadTop(); if (d.view==='pass') loadBp(); if (d.view==='acc'&&apiOn()) syncMine(); if (d.view==='friends'&&apiOn()) api('/api/refs').then(function(r){ ui.refs=r; if (ui.view==='friends') render(); }).catch(function(){}); if (d.view==='market'){ loadMarket(); syncMine(); } hap('light'); render(); $('screen').scrollTop=0; return; }
-  if (d.case){ S.cs=d.case; hap('light'); sClick(); render(); el=document.querySelector('[data-case="'+d.case+'"]'); if (el&&el.scrollIntoView) el.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'}); return; }
+  if (d.case){ if (!CASES[d.case]||S.lvl<CASES[d.case].lvl) return; S.cs=d.case; hap('light'); sClick(); render(); el=document.querySelector('[data-case="'+d.case+'"]'); if (el&&el.scrollIntoView) el.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'}); return; }
   if (d.n){ S.n=+d.n; hap('light'); render(); return; }
   if (d.filt!==undefined){ S.filt=+d.filt; render(); return; }
   if (!act) return;
@@ -2528,6 +2537,9 @@ document.addEventListener('click',function(e){
     case 'bpClaim': if (ui.busy) return; ui.busy=true; bpClaim(+id,d.x==='1').then(function(){ ui.busy=false; }).catch(function(){ ui.busy=false; toast('Не получилось'); loadBp(); }); return;
     case 'bpAll': bpClaimAll(); return;
     case 'bpCell': bpCell(+id,+d.x); return;
+    case 'chan': if (S.subOk||ui.sub) { chanOpen(); } else chanSheet(); return;
+    case 'chanGo': chanOpen(); return;
+    case 'chanChk': var m8=document.querySelector('.modal'); if (m8) m8.remove(); ui.modal=false; chanCheck(1); return;
     case 'accOpen': var m6=document.querySelector('.modal'); if (m6) m6.remove(); ui.modal=false; accOpen(); return;
     case 'pg': ui.pg[id]=+d.x; hap('light'); if (inSheet&&ui.sheetFn){ closeModal(); ui.sheetFn(); } else { render(); var gr=document.querySelector('#screen .pager'); if (gr) gr.scrollIntoView({block:'start'}); } return;
     case 'lot': lotSheet(+id); return;
@@ -2577,10 +2589,10 @@ function start(data){
   vipDaily(); render(); flush();
   if (sp&&/^ref_/.test(sp)&&sp!=='ref_'+S.uid&&apiOn()) api('/api/ref',{ref:sp}).catch(function(){});
   cloudLoad(hadLocal, function(ok){ if (ok){ lastBody=bodyOf(); vipDaily(); render(); toast('Прогресс загружен из облака'); } else { lastBody=''; }
-    loadSeason(function(){ bpBaseCheck(); save(true); claimBuys(); loadGifts(); syncMine(); if (apiOn()) api('/api/bp').then(function(b){ ui.bp=b; render(); }).catch(function(){}); setTimeout(checkStreak,600); }); }, base0);
+    loadSeason(function(){ bpBaseCheck(); if (ui.ch&&!S.subOk) chanCheck(0); save(true); claimBuys(); loadGifts(); syncMine(); if (apiOn()) api('/api/bp').then(function(b){ ui.bp=b; render(); }).catch(function(){}); setTimeout(checkStreak,600); }); }, base0);
   setInterval(tick,1000); setInterval(save,8000); setInterval(moodTick,1500); setInterval(function(){ sickRoll(60e3); vipDaily(); checkStreak(); },60e3); setInterval(function(){ if (!document.hidden) loadSeason(); },300e3); setInterval(loadGifts,120e3); setInterval(function(){ if (!document.hidden) syncMine(); },60e3); setInterval(function(){ if (!document.hidden) cloudPull(); },30e3);
   setTimeout(function(){ pushScore(true); },6000); setInterval(function(){ pushScore(false); },300e3);
-  document.addEventListener('visibilitychange',function(){ if (document.hidden) save(true); else { loadSeason(); cloudPull(); render(); checkStreak(); claimBuys(); loadGifts(); syncMine(); } });
+  document.addEventListener('visibilitychange',function(){ if (document.hidden) save(true); else { if (ui.chanWait){ ui.chanWait=0; setTimeout(function(){ chanCheck(1); },800); } loadSeason(); cloudPull(); render(); checkStreak(); claimBuys(); loadGifts(); syncMine(); } });
   window.addEventListener('pagehide',function(){ save(true); });
 }
 var hot=window.claude&&window.claude.hot;
